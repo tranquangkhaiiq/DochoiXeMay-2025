@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewBag.Title = "ListSerialDaIn";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<div class="row">
+    <div class="Title_Notin" style="text-align:center">
+        <span class="">List Serial Đã In _ Chưa Active</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="row">
+            <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                @Session["ThongBaoSerialSPDaIn"]
+            </div>
+        </div>
+        <div class="panel panel-default" style="margin-top:10px">
+            <div class="panel-heading">
+                <div class="row">
+                    @*<div class="col-md-6">
+                        <a class="btn btn-danger" style="margin-left:20px" href="/Admin/Serial/DeleteSerialSP" onclick="return confirm('Bạn muốn Xóa tất cả S/N Sản Phẩm còn lại ??')">
+                            <i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp; Xóa S/N Sản Phẩm
+                        </a>
+                    </div>*@
+                    <div class="col-md-6">
+                        <h5>List Serial SP Đã In</h5>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="panel-body">
+                <img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />
+                <div class="listSerSPDaIn" style="max-height: 600px; overflow: auto">
+
+
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 col-12">
+                        <input type="text" style="width:30%" placeholder="Chọn serial để xóa." name="serialsp" id="serialsp" />
+                        <button id="Xoasp" class="btn btn-danger" style="margin-left:10px" href="/Admin/Serial/DeleteSerialSP" onclick="XoaSNSP()">
+                            <i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp; Xóa Serial Number cụ thể
+                        </button>
+                    </div>
+                    
+            
+            <script>
+                function XoaSNSP() {
+                    var serialsp = $('#serialsp').val();
+                    if (serialsp.length > 0) {
+                        if (!confirm("Bạn muốn xóa serial: " + serialsp + "  ??")) {
+                            return false;
+                        } else {
+                            $.ajax({
+                                url: "/Admin/Serial/XoaserialSP",
+                                data: { serialsp: serialsp },
+                                success: function (respone) {
+                                    location.reload();
+                                    //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+                                }
+                            });
+                        }
+                    } else {
+                        alert("Bạn chưa chọn Serial để xóa.")
+                    }
+                };
+            </script>
+        
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 col-12" style="text-align:right">
+                        @ViewBag.TotalSerialSPDaIn S/N
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                @Session["ThongBaoSerialBoxDaIn"]
+            </div>
+        </div>
+        <div class="panel panel-default" style="margin-top:10px">
+            <div class="panel-heading">
+                <div class="row">
+                    @*<div class="col-md-6">
+                        <a class="btn btn-danger" style="margin-left:20px" href="/Admin/Serial/DeleteSerialBox" onclick="return confirm('Bạn đã chọn số lượng và máy In ?')">
+                            <i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp; Xóa S/N Box
+                        </a>
+                    </div>*@
+                    <div class="col-md-6">
+                        <h5>Serial Box Đã In</h5>
+                    </div>
+                </div>
+
+            </div>
+            <div class="panel-body">
+                <img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />
+                <div class="listSerBoxDaIn" style="max-height: 600px; overflow: auto">
+
+
+                </div>
+            </div>
+            <div class="panel-footer">
+
+                <div class="row">
+                    @*<div class="col-md-10">
+                        <input type="number" style="width:100px" min="0" title="Chọn số lượng để In." name="SoSNBOX" id="SoSNBOX" required />
+                        <button id="InBox" class="btn btn-success" style="margin-left:20px" data-action="InSNmoitaoBox?bang=2&soluong=" onclick="InBox()">
+                            <i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp; In S/N Box
+                        </button>
+
+                        <script>
+                            function InBox() {
+                                var ma = $('#SoSNBOX').val();
+                                var mayin = $('#MayIn').val();
+                                if (ma > 0) {
+                                    if (!confirm("Bạn muốn In " + ma + " S/N box ??")) {
+                                        return false;
+                                    } else {
+                                        $.ajax({
+                                            url: "/Admin/Serial/InSNmoitaoBox",
+                                            data: { bang: 2, soluong: ma, mayin: mayin },
+                                            success: function (respone) {
+                                                location.reload();
+                                                //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+                                            }
+                                        });
+                                    }
+                                }
+                            };
+                        </script>
+                    </div>*@
+                    <div class="col-md-2" style="">
+                        @ViewBag.TotalSerialBoXDaIn S/N
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    LoadPage();
+    function LoadPage() {
+        $.ajax({
+            url: "/Admin/Serial/GetListSer_SPDaIn",
+            data: {},
+            success: function (respone) {
+                $(".listSerSPDaIn").html(respone);
+                //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+            }
+        });
+        $.ajax({
+            url: "/Admin/Serial/GetListSer_BoxDaIn",
+            data: {},
+            success: function (respone) {
+                $(".listSerBoxDaIn").html(respone);
+                //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+            }
+        });
+    };
+</script>

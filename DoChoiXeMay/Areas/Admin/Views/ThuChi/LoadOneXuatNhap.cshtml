@@ -1,0 +1,215 @@
+﻿@foreach (DoChoiXeMay.Models.KyXuatNhap Item in ViewBag.OneXN)
+{
+    <div class="modal-header">
+        <button type="button" class="close" onclick="closemodal()" style="border: 2px solid black !important;border-radius:12px;width:25px">&times;</button>
+        <h4 class="modal-title text-center" style="font-weight:bold;font-size:24px">@Item.TenKy</h4>
+    </div>
+    <div class="modal-body" style="box-shadow: 1px 0 3px #8ba6c5; overflow: auto; height: 650px">
+        <div style="padding:0 !important">
+
+
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" style="margin-bottom:0">
+                    <thead>
+                        <tr class="canhgiua" style="background-color: #00bcd4">
+
+                            <th class="canhgiua" style="width:100px">UserName</th>
+                            <th class="canhgiua" style="width:200px">Tên Kỳ</th>
+                            <th class="canhgiua" style="width:200px">Xuất Nhập/Số tiền </th>
+                            <th class="canhgiua" style="width: 15px">Hóa Đơn</th>
+                            <th class="canhgiua" style="width: 15px">File 2</th>
+                            <th class="canhgiua" style="width: 15px">File 3</th>
+
+                            <th class="canhgiua">Soluong/Tên Hàng/ThôngSố/Hãng</th>
+                            <th class="canhgiua">Giá Nhập</th>
+                            <th class="canhgiua" style="width: 15px">Hình 1</th>
+                            <th class="canhgiua" style="width: 15px">Hình 2</th>
+                            <th class="canhgiua" style="width: 15px">Hình 3</th>
+                            <th class="canhgiua" style="width:15px">STT</th>
+                        </tr>
+                    </thead>
+                    <tbody style="border: 2px solid black !important">
+
+                        <tr class="canhgiua" style="border: 2px solid black !important">
+
+
+                            <td>
+                                <p style="font-size: 20px; height: 65px">@Item.UserTek.UserName</p>
+                                <hr />
+                                <p>
+                                    @if (Item.VAT > 0)
+                                    {
+                                        <span>(VAT:&nbsp;@Item.VAT %)</span> <br />
+                                    }
+                                    @if (Item.CKphantram > 0)
+                                    {
+                                        <span>(ChietKhau%: &nbsp;@Item.CKphantram %)</span><br />
+                                    }
+                                    @if (Item.CKtienmat > 0)
+                                    {
+                                        <span>(ChietKhau tiền mặt:&nbsp;@Html.FormatValue(Item.CKtienmat, "{0:#,###,###}"))</span><br />
+                                    }
+                                    @if (Item.Shipper > 0)
+                                    {
+                                        <span>(Tiền Ship:&nbsp;@Html.FormatValue(Item.Shipper, "{0:#,###,###}"))</span><br />
+                                    }
+                                </p>
+                            </td>
+
+                            <td>
+                                <p style="font-size: 20px; color: red; height: 65px">@Item.TenKy</p>
+                                @if (Item.LuuKho != null)
+                                {
+                                    if (Item.LuuKho.Trim() != "")
+                                    {
+                                        <hr />
+                                        <p>Lưu: @Item.LuuKho</p>
+                                    }
+                                }
+                                <hr />
+
+                                <p>(Ngày: @Html.FormatValue(Item.NgayXuatNhap, "{0:dd/MM/yyyy}"))</p>
+                            </td>
+
+                            <td>
+                                <p style="font-size: 20px; height: 65px">
+                                    @if (Item.XuatNhap == true)
+                                    {
+                                        <span style="background-color:burlywood">Xuất Hàng</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Nhập Hàng</span>
+                                    }
+                                </p>
+                                <hr />
+                                <p style="font-size:20px">Tổng: @Html.FormatValue(Item.TongTienAuto, "{0:#,###,###}")</p>
+
+                            </td>
+                            <td>
+                                @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Item.HoaDon)))
+                                {
+                                    <a target="_blank" href="~/Content/imgxuatnhap/@Item.HoaDon">
+                                        <i class="glyphicon glyphicon-download-alt"></i>
+                                    </a>
+                                }
+                            </td>
+                            <td>
+                                @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Item.Filesave2)))
+                                {
+                                    <a target="_blank" href="~/Content/imgxuatnhap/@Item.Filesave2">
+                                        <i class="glyphicon glyphicon-download-alt"></i>
+                                    </a>
+                                }
+                            </td>
+                            <td style="border-right: 2px solid black !important">
+                                @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Item.Filesave3)))
+                                {
+                                    <a target="_blank" href="~/Content/imgxuatnhap/@Item.Filesave3">
+                                        <i class="glyphicon glyphicon-download-alt"></i>
+                                    </a>
+                                }
+                            </td>
+
+                            <td>
+                                @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in ViewBag.ListctxnbyOne)
+                                {
+                                    var tenHH = ct.Ten;
+                                    <p style="height:60px">
+
+                                        <span>@ct.SoLuong&nbsp;</span>
+                                        <span>@tenHH</span>
+                                        @if (ct.IDColor > 1)
+                                        {
+                                            <span> <span>-</span>@ct.Color.TenColor</span>
+                                        }
+                                        @if (ct.IDMF != 3)
+                                        {
+                                            <span> <span>-</span>@ct.Manufacturer.Name</span>
+                                        }
+                                        @if (ct.IDSize != 1)
+                                        {
+                                            <span> <span>-</span>size @ct.Size.TenSize</span>
+                                        }
+                                    </p>
+                                    <hr />
+                                }
+
+                            </td>
+                            <td>
+                                @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in ViewBag.ListctxnbyOne)
+                                {
+                                    <p style="height:60px">
+                                        @Html.FormatValue(ct.Gianhap, "{0:#,###,###}")
+                                    </p>
+                                    <hr />
+                                }
+                            </td>
+                            <td>
+                                @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in ViewBag.ListctxnbyOne)
+                                {
+                                    if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + ct.Hinh1)))
+                                    {
+                                        <p style="height:60px">
+                                            <a target="_blank" href="~/Content/imgxuatnhap/@ct.Hinh1">
+                                                <i class="glyphicon glyphicon-download-alt"></i>
+                                            </a>
+                                        </p>
+                                        <hr />
+                                    }
+                                }
+
+                            </td>
+                            <td>
+                                @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in ViewBag.ListctxnbyOne)
+                                {
+                                    if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + ct.Hinh2)))
+                                    {
+                                        <p style="height:60px">
+                                            <a target="_blank" href="~/Content/imgxuatnhap/@ct.Hinh2">
+                                                <i class="glyphicon glyphicon-download-alt"></i>
+                                            </a>
+                                        </p>
+                                        <hr />
+                                    }
+                                }
+
+                            </td>
+                            <td>
+                                @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in ViewBag.ListctxnbyOne)
+                                {
+                                    if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + ct.Hinh3)))
+                                    {
+                                        <p style="height:60px">
+                                            <a target="_blank" href="~/Content/imgxuatnhap/@ct.Hinh3">
+                                                <i class="glyphicon glyphicon-download-alt"></i>
+                                            </a>
+                                        </p>
+
+                                    }
+                                }
+
+                            </td>
+                            <td>
+                                @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in ViewBag.ListctxnbyOne)
+                                {
+                                    <p style="height:60px">
+                                        @ct.GhiChu
+                                    </p>
+                                    <hr />
+                                }
+                            </td>
+                        </tr>
+
+                        
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+}
+
+

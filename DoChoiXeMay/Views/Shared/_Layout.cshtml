@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Đồ Chơi Xe Máy</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link rel="shortcut icon" type="image/png" href="~/Content/imgTeK/favicon.jpg">
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="~/Content/css/reset.css" />
+    <link rel="stylesheet" href="~/Content/css/animate.min.css" />
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/css/style.css" />
+    <link rel="stylesheet" href="~/Content/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/Content/css/owl.carousel.css" />
+    <link rel="stylesheet" href="~/Content/css/responsive.css" />
+    <link rel="stylesheet" href="~/Content/css/player/YTPlayer.css" />
+    <link href="~/Content/css/pro-bars.css" rel="stylesheet" />
+    <!-- End CSS Files -->
+    @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+    <style>
+        .Title_TC{
+            font-size:30px
+        }
+        @@media screen and (max-width:700px) {
+            .Title_TC {
+                font-size: 20px
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <section id="navigation" class="dark-nav">
+        <!-- Navigation Inner -->
+        <div class="nav-inner">
+            <!-- Site Logo -->
+            <div class="site-logo">
+                @if (Session["UserName"] == null)
+                {
+                    <a href="" id="logo-text" class="scroll logo">
+                        <img src="~/Areas/Admin/Content/img/logo/Teklogoo.png" alt="" style="width:50px;margin-bottom:10px" />
+                        <span class="Title_TC">Trần Nguyễn TechZone</span>
+                    </a>
+                }
+                else
+                {
+                    <a href="/Active/IndexDL" id="logo-text" title="Click đến trang của NPP" class="scroll logo">
+                        <img src="~/Areas/Admin/Content/img/logo/Teklogoo.png" alt="" style="width:50px;margin-bottom:10px" />
+                        <span class="Title_TC">@Session["UserName"].ToString()</span>
+                    </a>
+                }
+
+            </div><!-- End Site Logo -->
+            <a class="mini-nav-button gray2"><i class="fa fa-bars"></i></a>
+            <!-- Navigation Menu -->
+            <div class="nav-menu">
+                <ul class="nav uppercase">
+                    <li style="display:inline-block !important"><a href="/Home/Index" class="scroll">Home</a></li>
+
+                    @if (Session["UserName"] != null && Session["idchinhanhAt"] !=null)
+                    {
+                        <li style="display:inline-block !important"><a href="/AccountWeb/_ChangeInFo/@int.Parse(Session["idchinhanhAt"].ToString())" class="scroll">ThongTinTaiKhoan</a></li>
+                        <li style="display:inline-block !important"><a href="/Home/LogOut" class="scroll">LogOut</a></li>
+                    }
+                    else
+                    {
+                        <li style="display:inline-block !important"><a href="/Active/Index" class="scroll">Warranty</a></li>
+                        <li style="display:inline-block !important"><a href="/LoginWeb" class="scroll">LoginWebTEK</a></li>
+                    }
+                </ul>
+            </div><!-- End Navigation Menu -->
+        </div><!-- End Navigation Inner -->
+    </section>
+    <!-- End Navigation Section -->
+
+
+    <div class="container body-content" style="min-height:750px">
+        @RenderBody()
+        <hr />
+    </div>
+    <!-- Footer -->
+    <footer id="footer" class="footer">
+        <div class="container">
+            <div style="margin-top:10px;padding-top:15px;padding-bottom:30px;color:white">
+                <div class="row text-center">
+                    <h5>
+                        MST: 3703251330
+                    </h5>
+                </div>
+                <div class="row text-center">
+                    <h5>
+                        CÔNG TY TNHH THƯƠNG MẠI-DỊCH VỤ-SẢN XUẤT TRẦN NGUYỄN TECHZONE
+                    </h5>
+                </div>
+                <div class="row text-center">
+                    <h5>
+                        311 Đường Phạm Ngọc Thạch, Tổ 88, Khu Phố 6, Phường Hiệp Thành, Thành Phố Thủ Dầu Một, Tỉnh Bình Dương.
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </footer><!-- End Footer -->
+    <!-- JS Files -->
+
+
+    <script type="text/javascript" src="~/Content/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery.appear.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery.prettyPhoto.js"></script>
+    <script type="text/javascript" src="~/Content/js/modernizr-latest.js"></script>
+    @*<script type="text/javascript" src="~/Content/js/SmoothScroll.js"></script>*@
+    <script type="text/javascript" src="~/Content/js/jquery.parallax-1.1.3.js"></script>
+    @*<script type="text/javascript" src="~/Content/js/jquery.easing.1.3.js"></script>*@
+    <script type="text/javascript" src="~/Content/js/jquery.superslides.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery.flexslider.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery.mb.YTPlayer.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="~/Content/js/jquery.slabtext.js"></script>
+    <script type="text/javascript" src="~/Content/js/plugins.js"></script>
+
+    <script>
+        $("a.about-icon").hover(function () {
+            $(this).children("i").addClass("fa-spin");
+        }, function () {
+            $(this).children("i").removeClass("fa-spin");
+        });
+    </script>
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

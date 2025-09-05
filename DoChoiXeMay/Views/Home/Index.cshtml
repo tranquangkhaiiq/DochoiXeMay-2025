@@ -1,0 +1,181 @@
+﻿﻿﻿@using DoChoiXeMay.Models;
+@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    /*// Tự thêm vào*/
+    .imgSP {
+        height: 500px;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Home Section -->
+<section id="home" class="relative">
+    <div id="slides">
+        <div class="slides-container relative">
+            <!-- Slider Images -->
+            @foreach (QCtrangchu QCN in ViewBag.GetPanelNgang)
+            {
+                <img src="~/Content/images/@QCN.Name" />
+            }
+            <!-- End Slider Images -->
+        </div>
+        <!-- Slider Controls -->
+        <nav class="slides-navigation">
+            <a href="#" class="next"></a>
+            <a href="#" class="prev"></a>
+        </nav>
+    </div><!-- End Home Slides -->
+    <div class="v2 absolute">
+        <!-- Auto Typocraphic Texts -->
+        <div class="typographic">
+            <!-- Your Logo -->
+            @*<h2 class="condensed uppercase no-padding no-margin bold gray1">Your Vision</h2>*@
+            @*<h2 class="condensed uppercase no-padding no-margin bold colored">Our Mission</h2>*@
+            @*<a href="#about" class="scroll"><i class="arrow-down fa fa-3x fa-angle-double-down"></i></a>*@
+        </div><!--End Auto Typocraphic Texts -->
+    </div><!-- End V2 area -->
+</section>
+<!-- End Home Section -->
+<!-- Fun Acts -->
+<section id="fun-acts" class="container">
+
+    <div class="inner fun-acts">
+        <div class="about-margin"></div>
+        <h5 class="h-desc">
+            Click logo Đặt Hàng
+        </h5>
+        @*<img src="~/Areas/Admin/Content/img/logo/Teklogoo.png" alt="" style="z-index:100;width:50px;margin-bottom:10px" />*@
+        <a class="about-icon" href="https://forms.gle/zBEaAtmrxebTeyfj6">
+            <i class="fa"><img src="~/Areas/Admin/Content/img/logo/Teklogoo.png" alt="" style="z-index:100;width:100px;margin-bottom:10px" /></i>
+        </a>
+        <br />
+
+        <!-- Header -->
+        <h1 class="header light gray1 animated" data-animation="fadeInLeft" data-animation-delay="400">
+            Chọn chất lượng,<span class="colored" data-animation="fadeInRight">chọn niềm tin.</span>
+        </h1>
+        <!-- Description -->
+        <h5 class="h-desc"><span class="colored">Chất lượng không chỉ là trách nhiệm, mà còn là niềm tự hào</span>.Đối với chúng tôi, sản phẩm mới đánh dấu sự nổ lực của cả tập thể.</h5>
+
+    </div><!-- End Fun Acts Inner -->
+</section>
+<!-- End Fun Acts Section -->
+<!-- Clients -->
+<section id="clients" class="container">
+    <div style="padding-bottom:0px !important" class="inner team">
+        @Html.Action("LoadVideo", "Home")
+    </div>
+</section>
+<section id="clients" class="container">
+
+    <!-- Team Inner -->
+    <div class="inner team">
+
+        <!-- Header -->
+        <h1 class="header light gray3"><span class="colored">Sản </span>Phẩm</h1>
+
+        <!-- Description -->
+        <p class="h-desc gray4">Click vào <span class="colored">icon socials</span> để đến trang đặt hàng. Hiện đã có thể đặt hàng trên Zalo, Facebook, Instagram hoặc gọi điện trực tiếp cho nhân viên sale:<span class="colored"> 0832 886163</span>.</p>
+
+        <!-- Members -->
+        <div class="team-members inner-details">
+
+            <!-- Member -->
+            @foreach (QCtrangchu QCD in ViewBag.GetPanelDoc)
+            {
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 col-12 member animated" data-animation="fadeInUp" data-animation-delay="0">
+                    <div class="member-inner">
+                        <!-- Team Member Image -->
+                        <a class="team-image">
+                            <!-- Img -->
+                            <img src="~/Content/images/clients/@QCD.Name" class="imgSP" alt="" />
+                        </a>
+                        <div class="member-details">
+                            <div class="member-details-inner">
+                                <!-- Name -->
+                                <h2 class="member-name light">@QCD.Ghichu</h2>
+                                <!-- Description -->
+                                <p class="member-description">CLick đến socials page đặt hàng.</p>
+                                <!-- Socials -->
+                                <div class="socials">
+                                    <!-- Link -->
+                                    @if (QCD.Idloai_socials == 5)
+                                    {
+                                        <a href="@QCD.Urlsocials" target="_blank" class="social">
+                                            <i class="fa fa-facebook"></i>
+                                        </a>
+                                    }
+                                    else if (QCD.Idloai_socials == 4)
+                                    {
+                                        <a href="@QCD.Urlsocials" target="_blank" class="">
+                                            <img src="~/Content/images/icons8-zalo-50.png" style="height: 30px; margin-left: 0px; margin-top: -5px" />
+                                        </a>
+                                    }
+                                    else if (QCD.Idloai_socials == 6)
+                                    {
+                                        <a href="@QCD.Urlsocials" target="_blank" class="social">
+                                            <i class="fa fa-google"></i>
+                                        </a>
+                                    }
+                                </div><!-- End Socials -->
+                            </div> <!-- End Detail Inner -->
+                        </div><!-- End Details -->
+                    </div> <!-- End Member Inner -->
+                </div>
+            }
+
+        </div><!-- End Members -->
+    </div><!-- End Team Inner -->
+</section><!-- End Team Section -->
+<!-- Site Socials and Address -->
+<section id="site-socials" class="no-padding white-bg">
+    <div class="site-socials inner no-padding">
+        <!-- Socials -->
+        <div class="socials animated" data-animation="fadeInLeft" data-animation-delay="400">
+            <!-- Facebook -->
+            <a href="https://www.facebook.com/Tekzone.trannguyen" title="Facebook" target="_blank" class="social">
+                <i class="fa fa-facebook"></i>
+            </a>
+            <!-- Tiktok -->
+            <a href="https://www.tiktok.com/%40sale.tek.official" title="Tiktok" target="_blank" class="social">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+                    <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z" />
+                </svg>
+            </a>
+            <a href="https://zalo.me/1497755278128810284" target="_blank" class="social">
+                <img src="~/Content/images/icons8-zalo-50.png" style="font-weight:bold;height:30px;margin-left:0px;margin-top:-5px" />
+            </a>
+            <!-- Telegram -->
+            <a href="" target="_blank" title="Telegram" class="social">
+                <i class="fa fa-telegram"></i>
+            </a>
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/tek_sale/#" title="Instagram" class="social">
+                <i class="fa fa-instagram"></i>
+            </a>
+            <!-- Linkedin -->
+            @*<a href="#" target="_blank" class="social">
+                    <i class="fa fa-linkedin"></i>
+                </a>*@
+            <!-- Vimeo -->
+            @*<a href="#" target="_blank" class="social">
+                    <i class="fa fa-vimeo-square"></i>
+                </a>*@
+            <!-- Youtube -->
+            <a href="https://www.youtube.com/%40Tek_Official_311" title="Youtube" target="_blank" class="social">
+                <i class="fa fa-youtube"></i>
+            </a>
+            <a href="https://forms.gle/zBEaAtmrxebTeyfj6" title="Instagram" class="social">
+                <i class="fa fa-google"></i>
+            </a>
+        </div>
+        <!-- Adress, Mail -->
+        <div class="address socials animated" data-animation="fadeInRight" data-animation-delay="500">
+            <!-- Phone Number, Mail -->
+            <p>Phone:<span class="colored"> 0832 886163 </span> Email : <a href="mailto:tek.sale.net@gmail.com" class="colored">tek.sale.net@gmail.com</a></p>
+            <!-- Top Button -->
+
+        </div><!-- End Adress, Mail -->
+    </div><!-- End Inner -->
+</section><!-- End Site Socials and Address -->

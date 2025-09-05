@@ -1,0 +1,129 @@
+﻿@model DoChoiXeMay.Models.Ser_sp
+
+@{
+    ViewBag.Title = "AddNewSerial";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<link href="~/Areas/Admin/Content/css/Info_Style.css" rel="stylesheet" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<div class="container">
+    @using (Html.BeginForm("Serial", "AddNewSerial", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <fieldset class="info_form" style="margin-top:0">
+            <div class="container">
+
+                <h1 class="info_header">
+                    <span style="color:black">@Session["UserName"]</span>  Tạo mới Serial Number
+                    <span class="pull-right label label-warning" style="color:white;font-family:monospace">
+                        @Html.ValidationSummary()
+                    </span>
+                </h1>
+
+                <div class="contentform">
+                    <div class="leftcontact">
+
+                        <div class="row form-group" style="border: 1px dashed #423333; padding: 5px;margin-bottom:15px">
+                            <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-sx-12 col-12">
+                                <p>Hãng SX</p>
+                                @Html.DropDownList("IDMF", null, new { @class = "form-control", style = "width: 75%; height: 40px" })
+                            </div>
+                            <div class="col-lg-3 col-xl-3 col-md-3 col-sm-3 col-sx-6 col-6" style="text-align:center">
+                                <p>Hàng Tặng</p>
+                                @Html.CheckBoxFor(m => m.HangTangKhongBan, new { @style = "height:20px;margin-left: 10%" })
+                            </div>
+                            <div disabled class="col-lg-3 col-xl-3 col-md-3 col-sm-3 col-sx-5 col-5 mobilekhai" style="text-align:center">
+                                <p>Sử Dụng</p>
+                                @Html.CheckBoxFor(m => m.Sudung, new { @style = "height:20px;margin-left: 10%", @disabled = true })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-sx-12 col-12">
+                                <p>Màu Sp</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-file"></i></span>
+                                @Html.DropDownList("IdColor", null, new { @class = "form-control", style = "width: 75%; height: 40px" })
+                            </div>
+                            <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-sx-12 col-12">
+                                <p>Size Sp</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-file"></i></span>
+                                @Html.DropDownList("IdSize", null, new { @class = "form-control", style = "width: 75%; height: 40px" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-sx-12 col-12">
+                                <p>Version</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-file"></i></span>
+                                @Html.DropDownList("Idver", null, new { @class = "form-control", style = "width: 75%; height: 40px" })
+                            </div>
+                            <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-sx-12 col-12">
+                                <p>Số Tháng BH</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                @Html.TextBoxFor(m => m.BaoHanh, new { @class = "form-control", @type = "number",@Value="0",@min="0", style = "width: 75%; height: 40px", @required = true })
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <p>Ngày Sản Xuất</p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-time"></i></span>
+                            @Html.TextBoxFor(kh => kh.NgayUpdate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date", style = "height: 40px" })
+                        </div>
+                    </div>
+                    <div class="rightcontact">
+                        <div class="form-group" style="border: 1px dashed #423333; padding: 5px; margin-bottom: 15px">
+                            @*<p>Số Lô sản xuất gồm 6 ký tự</p>*@
+                            <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-sx-12 col-12">
+                                <p>Loại Hàng</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                @Html.DropDownList("IdLoai", null, new { @class = "form-control", style = "width: 75%; height: 40px" })
+                            </div>
+                            <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-sx-12 col-12">
+                                <p>Stt lô sp (vd: 001)</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                <input type="text" name="soloSTT" id="soloSTT" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <p>Tên đầy đủ SP</p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                            @Html.TextBoxFor(m => m.Name_sp, new { @class = "form-control", style = "width: 75%; height: 40px", @required = true })
+
+                        </div>
+
+                        <div class="form-group">
+                            <p>Tổng Số Serial number</p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                            <input type="number" min="0" name="SoSerialN" id="SoSerialN" required />
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <div class="text-center btn-crud">
+                            <button id="btnLuu" class="btn btn-warning" data-action="AddNewSerial"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Save</button>
+                            <img id="loading" hidden src="~/Content/imgTeK/loading.gif"><span id="total_VTN"></span>
+                            <a class="btn btn-primary" href="/Admin/Serial/ListSerialChuaIn" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
+                        </div>
+                        <script>
+                            $(function () {
+                                $("button[data-action]").click(function () {
+                                    if (!confirm("Bạn Có Chắc Chắn Hành Động Của Mình?")) {
+                                        return false;
+                                    } else {
+                                        $("#loading").show();
+                                        var action = $(this).attr("data-action");
+                                        this.form.action = "/Admin/Serial/" + action;
+                                    }
+
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    }
+
+</div>
+
+

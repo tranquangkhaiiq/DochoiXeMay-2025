@@ -1,0 +1,351 @@
+﻿@using DoChoiXeMay.Areas.Admin.Data
+@using DoChoiXeMay.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<style>
+    .canhgiua {
+        text-align: center !important;
+    }
+
+    .btn-userdetail {
+        padding: 5px;
+    }
+
+    .colordangdienra {
+        background-color: blueviolet;
+        color: white !important;
+    }
+
+    .colorhoanthanh {
+        background-color: limegreen;
+        color: white !important;
+    }
+
+    .colorquahan {
+        background-color: red;
+        color: white !important;
+    }
+
+    .colortamdung {
+        background-color: cadetblue;
+        color: white !important;
+    }
+    .avatar-xs {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 0.75rem;
+    }
+    .avatar {
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        border-radius: 0.75rem;
+        height: 48px;
+        width: 48px;
+        transition: all 0.2sease-in-out;
+    }
+    .mt-2 {
+        margin-top: 0.5rem !important;
+    }
+    .avatar-group .avatar + .avatar {
+        margin-left: -1rem;
+    }
+    .avatar-group .avatar {
+        position: relative;
+        z-index: 2;
+        border: 2px solid #fff;
+    }
+    .rounded-circle, .avatar.rounded-circle img {
+        border-radius: 50% !important;
+    }
+    a:hover {
+        --bs-link-color-rgb: var(--bs-link-hover-color-rgb);
+        text-decoration: none;
+    }
+    .avatar-group .avatar:hover {
+        z-index: 3;
+    }
+</style>
+<div class="row" style="padding:20px;width:100%;margin:0 auto">
+    <h2 class="canhgiua">Danh sách Dự Án TeK</h2>
+    <div class="row" style="margin-bottom:10px">
+        <div class="col-md-4">
+            <a class="btn btn-warning" href="/Admin/ProjectTeK/InsertProJectTeK" onclick="return confirm('Bạn muốn Thêm Mới Dự Án TeK ??')">
+                <i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Thêm mới "Dự Án TeK"
+            </a>
+        </div>
+        <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+            @Session["ThongBaoProject"]
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped" style="margin-bottom: 0">
+            <thead style="max-width: 300px">
+                <tr class="canhgiua" style="background-color: #00bcd4">
+                    <th class="canhgiua" style="padding:10px 0 10px 0">STT</th>
+                    <th class="canhgiua" style="padding:10px 0 10px 0">Người tạo</th>
+                    <th class="canhgiua" style="padding:10px 0 10px 0">Tên Dự Án</th>
+
+                    <th class="canhgiua" style="padding: 10px 0 10px 0">Chú Thích</th>
+                    <th class="canhgiua" style="padding: 10px 0 10px 0">Ưu Tiên</th>
+                    <th class="canhgiua" style="width: 100px; padding: 10px 0 10px 0">Trạng thái</th>
+                    <th class="canhgiua" style="padding: 10px 0 10px 0">Ngày bắt đầu</th>
+                    <th class="canhgiua" style="padding: 10px 0 10px 0">Ngày kết thúc</th>
+                    <th class="canhgiua" style="width: 120px; padding: 10px 0 10px 0">User thamgia</th>
+                    <th class="canhgiua" style="width: 200px; padding: 10px 0 10px 0">% hoàn thành</th>
+                    <th class="canhgiua" style="width: 120px; padding: 10px 0 10px 0">Sửa/Xóa</th>
+
+                </tr>
+            </thead>
+            <tbody style="border: 2px solid black !important">
+                @foreach (DoChoiXeMay.Models.ProjectTeK Item in ViewBag.ListProJect)
+                {
+                    var ut = Item.Uutien == true ? "Quan trọng" : "Bình thường";
+                    var ht = Item.PhantramHoanThanh + "%";
+                    var ProjectDetail = new ProjectTeKData().getlistProjectDetail(Item.Id);
+                    var Pname = "22" + Item.Id;
+                    var Cname = "11" + Item.Id;
+                    <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                        <td>
+                            @Item.GhiChu
+                        </td>
+                        <td>@Item.UserTek.UserName</td>
+                        <td>
+                            @Item.NameProject
+                            @*<a href="" onclick="chose_view(this.id);return false" id="@str"></a>*@
+                        </td>
+
+                        <td>@Item.Giaithich</td>
+
+                        <td>@ut</td>
+                        @if (Item.TrangthaiId == 2)
+                        {
+                            <td class="colordangdienra">@Item.TrangThaiDuAn.Name</td>
+                        }
+                        @if (Item.TrangthaiId == 1)
+                        {
+                            <td>@Item.TrangThaiDuAn.Name</td>
+                        }
+                        @if (Item.TrangthaiId == 3)
+                        {
+                            <td class="colorquahan">@Item.TrangThaiDuAn.Name</td>
+                        }
+                        @if (Item.TrangthaiId == 4)
+                        {
+                            <td class="colortamdung">@Item.TrangThaiDuAn.Name</td>
+                        }
+                        @if (Item.TrangthaiId == 5)
+                        {
+                            <td class="colorhoanthanh">@Item.TrangThaiDuAn.Name</td>
+                        }
+                        <td>@Html.FormatValue(Item.DateBegin, "{0:dd/MM/yyyy}")</td>
+                        <td>@Html.FormatValue(Item.DateEnd, "{0:dd/MM/yyyy}")</td>
+                        <td>
+
+                            <div class="avatar-group mt-2">
+                                @if (ProjectDetail.Count() > 0)
+                                {
+                                    foreach (ProjectDetail Pj in ProjectDetail)
+                                    {
+                                        if (Pj.UserTek.Avatar != null && Pj.UserTek.Avatar.Trim() != "")
+                                        {
+                                            <a class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Pj.UserTek.UserName">
+                                                <img src="~/Content/imgTeK/@Pj.UserTek.Avatar" style="width: 20px; height: 20px;" alt="team1">
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Pj.UserTek.UserName">
+                                                <img src="~/Content/imgTeK/Namn.png" alt="team1">
+                                            </a>
+                                        }
+                                    }
+                                    <a style="background-color:black;cursor:pointer" onclick="showdetail(@Cname,@Pname)" class="avatar avatar-xs rounded-circle @Cname khai" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Xem Chi Tiết">
+                                        <span class="icon-case"><i class="glyphicon glyphicon-arrow-down"></i></span>
+                                    </a>
+                                }
+
+
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="progress mt-2" style="background-color: #e3cece">
+                                <div class="progress-bar wow fadeInLeft" data-progress="@ht" style="width: @ht;" data-wow-duration="1.5s" data-wow-delay="1.2s">
+                                    <span>@ht</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            @if (Session["UserId"].ToString() == Item.UserId.ToString())
+                            {
+                                <a class="btn btn-danger" href="/Admin/ProjectTeK/UpdateProjectTeK/@Item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a @*style="display:none"*@ class="btn btn-warning" onclick="return confirm('Bạn muốn xóa Dự Án: @Item.NameProject ??')" href="/Admin/ProjectTeK/DeleteProject/@Item.Id"><span class="glyphicon glyphicon-trash"></span></a>
+                            }
+                        </td>
+                    </tr>
+                    if (ProjectDetail.Count() > 0)
+                    {
+                        foreach (ProjectDetail Pj in ProjectDetail)
+                        {
+                            var ProjectUserDetail = new ProjectTeKData().getlistProjectUserDetail(Pj.Id.ToString());
+                            var leader = Pj.Leader ? "(**Leader**)" : "(Member)";
+                            <tr class="@Pname canhgiua" hidden style="border-bottom: 2px solid black !important;background-color:aquamarine">
+                                <td style="background-color: antiquewhite !important">
+                                    <a id="Delete" style="display:none" class="btn btn-danger btn-userdetail" href="/Admin/ProjectTeK/AdminDeleteProjectDetail/@Pj.Id.ToString()" onclick="return confirm('Bạn muốn xóa (cưỡng bức) user này ???')">Xóa User</a>
+                                </td>
+                                <td>@Pj.UserTek.UserName@leader</td>
+                                <td>Tham gia:@Html.FormatValue(Pj.NgayBatDau, "{0:dd/MM/yyyy}")</td>
+
+                                <td colspan="2">Ngày Update:@Html.FormatValue(Pj.NgayUpdate, "{0:dd/MM/yyyy}")</td>
+                                @if (Pj.TrangthaiId == 2)
+                                {
+                                    <td class="colordangdienra">@Pj.TrangThaiDuAn.Name</td>
+                                }
+                                @if (Pj.TrangthaiId == 1)
+                                {
+                                    <td>@Pj.TrangThaiDuAn.Name</td>
+                                }
+                                @if (Pj.TrangthaiId == 3)
+                                {
+                                    <td class="colorquahan">@Pj.TrangThaiDuAn.Name</td>
+                                }
+                                @if (Pj.TrangthaiId == 4)
+                                {
+                                    <td class="colortamdung">@Pj.TrangThaiDuAn.Name</td>
+                                }
+                                @if (Pj.TrangthaiId == 5)
+                                {
+                                    <td class="colorhoanthanh">@Pj.TrangThaiDuAn.Name</td>
+                                }
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    @if (Item.UserId == int.Parse(Session["UserId"].ToString()) || Pj.UserId == int.Parse(Session["UserId"].ToString()))
+                                    {
+                                        <a id="update" class="btn btn-primary" href="/Admin/ProjectTeK/InsertProjectUserDetail/@Pj.Id" onclick="return confirm('Bạn muốn thêm công việc cho @Pj.UserTek.UserName ???')">Thêm CV @Pj.UserTek.UserName</a>
+                                    }
+                                </td>
+                                <td>
+                                    @if (Item.UserId == int.Parse(Session["UserId"].ToString()) || Pj.UserId == int.Parse(Session["UserId"].ToString()))
+                                    {
+                                        if (Pj.TrangthaiId == 2 || Pj.TrangthaiId == 3)
+                                        {
+                                            <a id="tamdung" class="btn btn-warning" href="/Admin/ProjectTeK/UpdateProjectDetail/@Pj.Id.ToString()" onclick="return confirm('Bạn muốn tạm dừng tất cả công việc của @Pj.UserTek.UserName ??')">Tạm Dừng CV</a>
+                                        }
+                                        if (Pj.TrangthaiId == 4)
+                                        {
+                                            <a id="tieptuc" class="btn btn-warning" href="/Admin/ProjectTeK/UpdateProjectDetail/@Pj.Id.ToString()" onclick="return confirm('Bạn muốn @Pj.UserTek.UserName quay lại với công việc !!!')">Tiếp Tục CV</a>
+                                        }
+                                    }
+                                </td>
+                                <td style="background-color: antiquewhite !important"></td>
+                            </tr>
+
+                            if (ProjectUserDetail.Count() > 0)
+                            {
+                                foreach (ProjectUserDetail PUD in ProjectUserDetail)
+                                {
+                                    var PUDId = PUD.Id.ToString();
+                                    <tr class="@Pname canhgiua" hidden style="border-bottom: 2px solid black !important;background-color:darkorange">
+                                        <td colspan="2" style="padding: 2px; background-color: antiquewhite !important">
+                                            <a id="Delete" style="display:none" class="btn btn-danger btn-userdetail" href="/Admin/ProjectTeK/AdminDeleteProjectUserDetail/@PUD.Id.ToString()" onclick="return confirm('Bạn muốn xóa (cưỡng bức) công việc này ???')">Xóa CV</a>
+                                            @if (Item.UserId == int.Parse(Session["UserId"].ToString()) || Pj.UserId == int.Parse(Session["UserId"].ToString()))
+                                            {
+                                                if (PUD.TrangthaiId != 5)
+                                                {
+                                                    <a id="Delete" class="btn btn-primary btn-userdetail" href="/Admin/ProjectTeK/DeleteProjectUserDetail/@PUD.Id.ToString()" onclick="return confirm('Bạn muốn xóa công việc này ???')">Xóa CV</a>
+                                                }
+                                                else
+                                                {
+                                                    <a id="Delete" disabled class="btn btn-primary btn-userdetail" onclick="return confirm('Bạn không thể xóa Công việc đã hoàn thành ???')">Xóa CV</a>
+                                                }
+                                            }
+                                        </td>
+                                        <td colspan="3" style="padding:5px">@PUD.CongViec</td>
+                                        @if (PUD.TrangthaiId == 2)
+                                        {
+                                            <td colspan="2" class="colordangdienra" style="padding:5px;text-align:left">@PUD.TrangThaiDuAn.Name</td>
+                                        }
+                                        @if (PUD.TrangthaiId == 5)
+                                        {
+                                            <td colspan="2" class="colorhoanthanh" style="padding:5px;text-align:left">@PUD.TrangThaiDuAn.Name</td>
+                                        }
+                                        @if (PUD.TrangthaiId == 4)
+                                        {
+                                            <td colspan="2" class="colortamdung" style="padding:5px;text-align:left">@PUD.TrangThaiDuAn.Name</td>
+                                        }
+                                        @if (PUD.TrangthaiId == 1)
+                                        {
+                                            <td colspan="2" style="padding:5px;text-align:left">@PUD.TrangThaiDuAn.Name</td>
+                                        }
+                                        <td style="padding:2px">@Html.FormatValue(PUD.NgayUpdate, "{0:dd/MM/yyyy}")</td>
+                                        <td style="padding:2px">
+                                            @if (Item.UserId == int.Parse(Session["UserId"].ToString()) || Pj.UserId == int.Parse(Session["UserId"].ToString()))
+                                            {
+                                                if (PUD.TrangthaiId == 2)
+                                                {
+                                                    <a id="hoanthanh" style="border: 2px solid black !important" class="btn btn-success btn-userdetail" href="/Admin/ProjectTeK/UpdateProjectUserDetail?Id=@PUDId&TrangthaiId=2&hoanthanh=5" onclick="return confirm('Bạn muốn thông báo Hoàn Thành CV ??')">Hoàn Thành CV</a>
+                                                }
+                                                else
+                                                {
+                                                    <a id="hoanthanh" disabled style="border: 2px solid black !important" class="btn btn-success btn-userdetail" onclick="return confirm('Công việc hiện không thể Hoàn Thành !!!')">Hoàn Thành CV</a>
+                                                }
+                                            }
+                                        </td>
+                                        <td style="padding:2px">
+                                            @if (Item.UserId == int.Parse(Session["UserId"].ToString()) || Pj.UserId == int.Parse(Session["UserId"].ToString()))
+                                            {
+                                                if (PUD.TrangthaiId == 1)
+                                                {
+                                                    <a id="batdau" style="border: 2px solid black !important" class="btn btn-warning btn-userdetail" href="/Admin/ProjectTeK/UpdateProjectUserDetail?Id=@PUDId&TrangthaiId=2&hoanthanh=100" onclick="return confirm('Bạn muốn bắt đầu công việc ??')">Bắt Đầu</a>
+                                                }
+                                                if (PUD.TrangthaiId == 2)
+                                                {
+                                                    <a id="batdau" style="border: 2px solid black !important" class="btn btn-toolbar btn-danger" href="/Admin/ProjectTeK/UpdateProjectUserDetail?Id=@PUDId&TrangthaiId=4&hoanthanh=100" onclick="return confirm('Công việc đang diễn ra, Bạn muốn stop công việc ??')">Tạm dừng CV</a>
+                                                }
+                                                if (PUD.TrangthaiId == 4)
+                                                {
+                                                    <a id="batdau" style="border: 2px solid black !important" class="btn btn-warning btn-userdetail" href="/Admin/ProjectTeK/UpdateProjectUserDetail?Id=@PUDId&TrangthaiId=2&hoanthanh=100" onclick="return confirm('Bạn muốn tiếp tục công việc ??')">Tiếp tục CV</a>
+                                                }
+                                                if (PUD.TrangthaiId == 5 || PUD.TrangthaiId == 3)
+                                                {
+                                                    <a id="batdau" disabled style="border: 2px solid black !important" class="btn btn-warning btn-userdetail" onclick="return confirm('Công việc Không thể tiếp !!!')">Tiếp tục CV</a>
+                                                }
+                                            }
+                                        </td>
+                                        <td style="background-color: antiquewhite !important"></td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    }
+
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+    <p style="margin-top:10px">***Công việc(CV) "đang diễn ra", thì có thể "hoàn thành"</p>
+    <p style="margin-top:10px">***Công việc(CV) Chưa hoàn thành, thì có thể xóa</p>
+    <p style="margin-top:10px">***Trạng thái của thành viên là "Tạm Dừng", thì công việc(CV) không thể tiếp tục</p>
+</div>
+<script>
+    function showdetail(Cname,Pname) {
+        if ($("." + Cname).hasClass('khai')) {
+            $("." + Pname).show("fast");
+            $("." + Cname).removeClass('khai');
+        } else {
+            $('.' + Pname).hide("fast", function () {
+                $("." + Cname).addClass('khai');
+            });
+        }
+    };
+</script>

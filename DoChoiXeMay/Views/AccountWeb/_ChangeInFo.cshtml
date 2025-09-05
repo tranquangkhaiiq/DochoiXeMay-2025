@@ -1,0 +1,169 @@
+﻿@model DoChoiXeMay.Models.Ser_ChiNhanh
+@{
+    ViewBag.Title = "_ChangeInFo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<link href="~/Content/Login_Style.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<div class="container" style="width:100%;background-color: white; margin-top: 150px; border-radius: 4px 4px; box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.32);">
+    <div class="omb_login">
+        <div class="row" style="text-align:center">
+            <span style="font-size:15px" class="pull-right label label-warning">@Session["ThongbaoUthanhcong"]</span>
+        </div>
+    </div>
+    @if (Model != null)
+    {
+        <div class="omb_login" style="text-align:center">
+            <h3><a style="text-decoration: none">Xem và Update thông tin Chi Nhánh: @Model.TenChiNhanh</a></h3>
+        </div>
+    }
+    @using (Html.BeginForm("AccountWeb", "_ChangeInFo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="row omb_row-sm-offset-3">
+            <div class="col-xs-12 col-sm-6" style="padding-bottom:10px">
+                <form class="omb_loginForm" action="" autocomplete="off" method="post">
+
+                    @Html.HiddenFor(kh => kh.Id)
+                    <h4 class="info_header">
+                        <span class="pull-right label label-warning" style="color:white;font-family:monospace">
+                            @Html.ValidationSummary()
+                        </span>
+                    </h4>
+                    <div class="contentform">
+                        <div class="form-group">
+                            <div class="row" style="width:95%;padding-left:15px">
+                                <p>Thông tin ngân hàng</p>
+                                @Html.TextBoxFor(m => m.TaiKhoanNH, new { @class = "form-control", style = "height: 40px", @disabled = true })
+
+                            </div>
+                            <div class="row" style="width:95%;padding-left:15px">
+                                <p>Địa Chỉ</p>
+                                @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control", style = "height: 40px", @required = true })
+
+                            </div>
+                            <div class="row" style="width:95%;padding-left:15px">
+                                <p>Tên Người Đại Diện</p>
+                                @Html.TextBoxFor(m => m.DaiDien, new { @class = "form-control", style = "height: 40px", @required = true })
+
+                            </div>
+                            <div class="row" style="width:95%;padding-left:15px">
+                                <p>SDT liên lạc</p>
+                                @Html.TextBoxFor(m => m.SDT, new { @class = "form-control", style = "height: 40px", @required = true })
+
+                            </div>
+                            <div class="row" style="width:95%;padding-left:15px">
+                                <p>Email chi nhánh</p>
+                                @Html.TextBoxFor(m => m.Gmail, new { @class = "form-control", style = "height: 40px", @required = true })
+
+                            </div>
+
+                            <div class="input-group" style="width:100%;margin-bottom:15px;margin-top:15px">
+                                <div style="width: 49%; border: 1px dashed #423333; float: left">
+                                    <label class="checkbox text-danger" style="margin-left:5px">
+                                        <input type="checkbox" id="ND" dirname="" value="" name="Check" />
+                                        <span>Thay đổi pass word</span>
+                                    </label>
+                                </div>
+
+                            </div>
+                            <div class="row" id="pwc" style="width:95%;padding-left:15px;display:none">
+                                <p>PassWord củ</p>
+                                <input type="text" id="PW" value="" name="PW" required />
+                                <span class="label label-warning" id="thongbaopwc"></span>
+                            </div>
+                            <div class="row" id="pwm" style="width: 95%; padding-left: 15px; display: none">
+                                <p>PassWord mới</p>
+                                <input type="text" id="PWM" name="PWM" required />
+                                <span class="label label-warning" id="thongbaopwm"></span>
+                            </div>
+                            <div class="row" id="lpwm" style="width: 95%; padding-left: 15px; display: none">
+                                <p>Lặp lại PassWord mới</p>
+                                <input type="text" id="PWMM" name="PWMM" required />
+                                <span class="label label-warning" id="thongbaolpwm"></span>
+                            </div>
+
+                            <div class="row" style="margin-top:20px">
+                                <div class="form-group col-sm-12">
+                                    <div class="btn-crud">
+                                        <a id="btnLuu" class="btn btn-warning" onclick="UpdateThongtin()"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Update User</a>
+                                        <a class="btn btn-primary" href="/warranty" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    }
+</div>
+<script>
+    $("input:checkbox").on('click', function () {
+        var $box = $(this);
+        if ($box.is(":checked")) {
+            $("#pwc").css('display', 'block')
+            $("#pwm").css('display', 'block')
+            $("#lpwm").css('display', 'block')
+        } else {
+            $("#pwc").css('display', 'none')
+            $("#pwm").css('display', 'none')
+            $("#lpwm").css('display', 'none')
+        }
+    });
+    function UpdateThongtin() {
+        var check = $("#ND");
+        var ischeck = "false";
+        var id = $("#Id").val();
+        var daidien = $("#DaiDien").val();
+        var diachi = $("#DiaChi").val();
+        var sdt = $("#SDT").val();
+        var gmail = $("#Gmail").val();
+        var pw = $("#PW").val();
+        var pwm = $("#PWM").val();
+        var pwmm = $("#PWMM").val();
+        
+        if (check.is(":checked")) {
+            if (!confirm("Bạn muốn thay đổi thông tin của Chi Nhánh và PassWord ??")) {
+                return false;
+            } else {
+                if (pw == null || pw.trim() == "") {
+                    $("#thongbaopwc").html("Pass word của bạn là gì ??")
+                } else if (pwm == null || pwm.trim() == "") {
+                    $("#thongbaopwm").html("Pass word mới không để trống !!!")
+                } else if (pwmm == null || pwmm.trim() == "" || pwmm.trim() != pwm) {
+                    $("#thongbaolpwm").html("Lặp lại Pass word không đúng !!!")
+                } else {
+                    var postData = JSON.stringify({
+                        Id: id, DaiDien: daidien, SDT: sdt, DiaChi: diachi, Gmail: gmail
+                        , PW: pw, PWM: pwm, PWMM: pwmm
+                    });
+                    $.ajax({
+                        contentType: "application/json; charset=utf-8",
+                        url: "/AccountWeb/ChangeInFoJson",
+                        dataType: 'json',
+                        type: 'POST',
+                        data: postData,
+                        success: function (response) {
+                            location.reload();
+                        }
+                    });
+                }
+                    
+            }
+        } else {
+            if (!confirm("Bạn muốn thay đổi thông tin của Chi Nhánh ??")) {
+                return false;
+            } else {
+
+            }
+        }
+        
+            
+    }
+</script>
+

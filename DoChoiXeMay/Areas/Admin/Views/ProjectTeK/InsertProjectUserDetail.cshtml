@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "InsertProjectUserDetail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<link href="~/Areas/Admin/Content/css/Info_Style.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<div class="container" style="text-align:center">
+    <h2>Thêm Công Việc cho @ViewBag.UserName</h2>
+    @using (Html.BeginForm("InsertProjectUserDetail", "ProjectTeK", FormMethod.Post, new { enctype = "multipart/form-data", id = "NTV_form" }))
+    {
+        <fieldset class="info_form" style="margin-top:0">
+            <div class="row form-group" style="padding:15px; margin:0px;font-size:larger">
+                <div class="row">
+                    <div class="col-md-2" style="text-align:right">
+                        <span>Công việc 1:</span>
+                    </div>
+                    <div class="col-md-10">
+                        <input id="CV1" placeholder="Giao công việc 1..." name="CV1" style="margin-right:10px;width:100%" required />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="text-align:right">
+                        <span>Công việc 2:</span>
+                    </div>
+                    <div class="col-md-10">
+                        <input id="CV2" placeholder="Giao công việc 2 ..." name="CV2" style="margin-right:10px;width:100%" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="text-align:right">
+                        <span>Công việc 3:</span>
+                    </div>
+                    <div class="col-md-10">
+                        <input id="CV3" placeholder="Giao công việc 3 ..." name="CV3" style="margin-right:10px;width:100%" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <div class="text-center btn-crud">
+                            <button id="btnLuu" class="btn btn-warning" data-action="InsertProjectUserDetail"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Lưu Công Việc </button>
+                            <a class="btn btn-primary" href="/Admin/ProjectTeK/Index" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
+                        </div>
+                        <script>
+                            $(function () {
+                                $("button[data-action]").click(function () {
+                                    if (!confirm("Bạn Có Chắc Chắn Hành Động Của Mình?")) {
+                                        return false;
+                                    } else {
+                                        var action = $(this).attr("data-action");
+                                        this.form.action = "/Admin/ProjectTeK/" + action;
+                                    }
+
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+                  }
+
+    </div>

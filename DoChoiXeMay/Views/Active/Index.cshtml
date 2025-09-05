@@ -1,0 +1,357 @@
+﻿@using DoChoiXeMay.Models
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<link href="~/Content/Login_Style.css" rel="stylesheet" />
+
+<div class="container" style="width:100%;background-color: white; margin-top: 80px; border-radius: 4px 4px; box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.32);">
+
+    <div class="omb_login">
+        <h3 class="omb_authTitle "><a>Kiểm tra hoặc kích hoạt bảo hành điện tử cho sản phẩm.</a></h3>
+
+        <div class="row" style="text-align:center">
+            <span style="font-size:15px" class="pull-right label label-warning">@Session["ThongbaoActive"]</span>
+        </div>
+
+        @using (Html.BeginForm("Index", "Active", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            var ND = ViewBag.ND;
+            var NPP = ViewBag.NPP;
+            <div class="row omb_row-sm-offset-3">
+                <div class="col-xs-12 col-sm-6" style="padding-bottom:10px">
+                    <form class="omb_loginForm" action="" autocomplete="off" method="post">
+
+                        <div class="input-group" style="margin-bottom:5px">
+                            <span class="text-center text-primary-emphasis">_Để Kích hoạt bảo hành cần điền 2 số serial:</span>
+                            <span class="text-primary-emphasis"> * Một trên hộp(Box) và một trên sản phẩm(SP) *</span>
+                        </div>
+                        <div class="input-group" style="margin-bottom:5px">
+                            <span class="text-primary-emphasis">_Để kiểm tra thời gian bảo hành sản phẩm:</span>
+                            <span class="text-primary-emphasis"> * Chỉ cần 1 số serial trên sản phẩm(SP)*</span>
+                        </div>
+                        <div class="input-group" style="width:100%;margin-bottom:15px">
+                            <div style="width: 49%; border: 1px dashed #423333; float: left">
+                                <label class="checkbox text-danger" style="">
+                                    <input type="radio" id="ND" dirname="" value="@ND" name="Check" />
+                                    <span>Người Dùng Cá Nhân (ND)</span>
+                                    @*@Html.RadioButton("remember", ND) Bạn là Người Dùng*@
+                                </label>
+                            </div>
+                            <div style="width: 49%; border: 1px dashed #423333;float:right">
+                                <label class="checkbox text-danger" style="">
+                                    <input type="radio" id="NPP" value="@NPP" name="Check" />
+                                    <span>Nhà phân phối/đại lý (NPP)</span>
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div class="input-group" id="nhaphanphoi" style="display: none;width:100%;height:50px">
+                            <label style="font-size:15px">Bạn là nhà phân phối nào?</label>
+                            @*@Html.DropDownList("IdChiNhanh", null, new { @class = "form-control", style = "width: 100%; height: 40px" })*@
+                            <input id="IdChiNhanh" style="font-size:20px" onchange="LoadChiNhanh()" list="ChiNhanh" name="ChiNhanh" />
+                            <datalist id="ChiNhanh">
+                                @foreach (Ser_ChiNhanh item in ViewBag.ChiNhanh)
+                                {
+                                    <option value="@item.TenChiNhanh"></option>
+                                }
+
+                            </datalist>
+                        </div>
+                        <div class="input-group" id="GGmail" style="display: none">
+                            <input value="" disabled type="email" class="form-control" id="Gmail" name="Gmail" placeholder="Gmail NPP" required>
+                        </div>
+                        <div class="input-group" id="GSDT" style="display: none; margin-bottom: 110px">
+                            <input value="" disabled type="text" class="form-control" id="SDT" name="SDT" placeholder="Số điện thoại NPP" required>
+                        </div>
+
+                        <div class="input-group" id="Tenkhachhang" style="display: none; height: 85px ">
+                            <label style="font-size:15px">Họ và tên người dùng:</label>
+                            <input value="" type="text" class="form-control" id="Tenkh" name="Tenkh" placeholder="Họ và Tên">
+                        </div>
+                        <p class="pull-right label label-warning" id="thongbaoSP"></p>
+                        <div class="input-group" style="margin-bottom:5px">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-qrcode"></i></span>
+                            <input value="" type="text" class="form-control" id="SerialSP" name="SerialSP" placeholder="S/N trên sản phẩm">
+                        </div>
+                        <p class="pull-right label label-warning" id="thongbaoBox"></p>
+                        <div class="input-group" style="margin-bottom:5px">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-qrcode"></i></span>
+                            <input value="" type="text" class="form-control" id="SerialBox" name="SerialBox" placeholder="S/N trên hộp">
+                        </div>
+                        <div class="input-group" style="margin-bottom:5px">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-comment"></i></span>
+                            <input value="" type="email" class="form-control" id="GmailND" name="GmailND" placeholder="Gmail Người Dùng" required>
+                        </div>
+                        <div class="input-group" style="margin-bottom:10px">
+                            <span class="input-group-addon" style="margin-bottom:5px"><i class="glyphicon glyphicon-phone"></i></span>
+                            <input value="" type="text" class="form-control" id="SDTND" name="SDTND" placeholder="Số điện thoại Người Dùng" required>
+                        </div>
+                        <div class="input-group" style="margin-bottom:10px">
+                            <span class="input-group-addon" style="">Khu Vực Người Dùng</span>
+                            @Html.DropDownList("KhuVuc", null, new { @class = "form-control", style = "width: 75%; height: 40px" })
+                        </div>
+                        <div class="input-group" style="margin-bottom:5px">
+                            <p class="pull-right label label-warning" style="font-size:15px" id="thongbaoActive"></p>
+                            <p class="pull-right label label-success" style="font-size:15px" id="thongbaoAcTC"></p>
+                        </div>
+                        <div id="ThongtinBH">
+                            <label class="col-md-12" id="tt1">@Session["thongtin1"]</label>
+                            <label class="col-md-12" id="tt2">@Session["thongtin2"]</label>
+                            <label class="col-md-12" id="tt3">@Session["thongtin3"]</label>
+                            <label class="col-md-12" id="tt4">@Session["thongtin4"]</label>
+                        </div>
+                        <span class="help-block">@Html.ValidationSummary(false, "", new { @class = "text-danger" })</span>
+                        <div class="col-md-6">
+                            <a class="btn btn-lg btn-primary btn-block" onclick="Kichhoatbh()"><span id="nameBH">Kíck hoạt BH</span> </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn btn-lg btn-primary btn-block" onclick="kiemtrabh()"><span id="nameKT">Kiểm tra BH</span></a>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        }
+    </div>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    onLoad();
+    function onLoad() {
+
+        var ll = $("#ND").val();
+        if (ll == "ND") {
+            $("#ND").prop("checked", true);
+            $("#ThongtinBH").css('display', 'block');
+            $("#Tenkhachhang").css('display', 'block');
+            $("#nameBH").html("Kíck hoạt BH ND");
+            $("#nameKT").html("Kiểm tra BH ND");
+        } else {
+            $("#NPP").prop("checked", true);
+            $("#ThongtinBH").css('display', 'mome');
+            $("#nhaphanphoi").css('display', 'block');
+            $("#Tenkhachhang").css('display', 'none');
+            $("#nameBH").html("Kíck hoạt BH NPP");
+            $("#nameKT").html("Kiểm tra BH NPP");
+        }
+    }
+    function kiemtrabh() {
+        if ($("#ND").is(":checked")) {
+            if (!confirm("Bạn là người dùng? Bạn muốn kiểm tra BH điện tử?")) {
+                return false;
+            } else {
+                var serialSP = $("#SerialSP").val()
+                if (serialSP.length == 0) {
+                    alert("Cần điền số serial trên sản phẩm để kiểm tra !!!")
+                } else {
+                    //alert(serialSP);
+                    var postData = JSON.stringify({ SerialSP: serialSP });
+                    $.ajax({
+                        contentType: "application/json; charset=utf-8",
+                        url: "/Active/IndexCheckBHND",
+                        dataType: 'json',
+                        type: 'POST',
+                        data: postData,
+                        success: function (response) {
+                            location.reload();
+                        }
+                    });
+                }
+            }
+        } else if ($("#NPP").is(":checked")) {
+            if ($("#IdChiNhanh").val() == 1) {
+                alert("Bạn muốn kiểm tra BH điện tử? Bạn Chưa Chọn Đại Lý !!!")
+            } else {
+                if (!confirm("Bạn là đại Lý? Bạn cần đăng nhập web để kiểm tra BH điện tử. Nếu chưa có thông tin đăng nhập, hãy liên hệ Admin TeK.")) {
+                    return false;
+                } else {
+                    window.location.href = "/Home/LoginWebGuest"
+                    @*//@Url.Action("LoginWebGuest", "Home")*@
+                }
+            }
+
+        }
+    }
+    function Kichhoatbh() {
+        var serialBox = $("#SerialBox").val()
+        var serialSP = $("#SerialSP").val()
+
+        var tenkh = $("#Tenkh").val()
+        var gmailND = $("#GmailND").val()
+        var SDTND = $("#SDTND").val()
+        var idChiNhanh = $("#IdChiNhanh").val()
+        var tenkhu = $("#KhuVuc option:selected").text()
+        if ($("#ND").is(":checked")) {
+            if (!confirm("Bạn là người dùng? Bạn muốn kích hoạt BH điện tử?")) {
+                return false;
+            } else {
+                $("#ThongtinBH").css('display', 'none')
+                idChiNhanh = "1"
+                if (serialBox.length == 0) {
+                    alert("Bạn chưa điền số serial trên hộp !!!")
+                } else if (serialSP.length == 0) {
+                    alert("Bạn chưa điền số serial trên sản phẩm !!!")
+                } else if (tenkh.length == 0) {
+                    alert("Bạn chưa điền Tên của mình !!!")
+                } else if (gmailND.length == 0) {
+                    alert("Bạn chưa điền gmail của mình !!!")
+                } else if (SDTND.length == 0) {
+                    alert("Bạn chưa điền sdt của mình !!!")
+                } else {
+                    var postData = JSON.stringify({
+                        ND: true, NPP: false, Tenkh: tenkh, sBOX: serialBox
+                        , sSP: serialSP, ChiNhanh: idChiNhanh, gmail: gmailND, sdt: SDTND, khuvuc: tenkhu
+                    });
+                    $.ajax({
+                        contentType: "application/json; charset=utf-8",
+                        url: "/Active/KichHoatBaoHanh",
+                        dataType: 'json',
+                        type: 'POST',
+                        data: postData,
+                        success: function (response) {
+                            $("#thongbaoBox").html("")
+                            $("#thongbaoSP").html("")
+                            $("#thongbaoActive").html("")
+                            $("#thongbaoAcTC").html("")
+                            if (response == "111") {
+                                $("#thongbaoBox").html("S/N không đúng, hoặc đã kích hoạt !!!")
+                            } else if (response == "222") {
+                                $("#thongbaoSP").html("S/N không đúng, hoặc đã kích hoạt !!!")
+                            } else if (response == "333") {
+                                $("#thongbaoActive").html("Có Lỗi Hệ Thống, Kích Hoạt không thành công !!!")
+                                $("#thongbaoBox").html("")
+                                $("#thongbaoSP").html("")
+                            } else if (parseInt(response) > -1) {
+                                $("#thongbaoAcTC").html("Bạn đã kích hoạt bảo hành thành công S/N: " + serialSP + ", hạn bảo hành " + response + " tháng.")
+                                
+                                $("#thongbaoBox").html("")
+                                $("#thongbaoSP").html("")
+                            }
+                        }
+                    });
+                }
+            }
+        } else if ($("#NPP").is(":checked")) {
+            if (!confirm("Bạn là Nhà phân phối/đại lý? Bạn muốn kích hoạt BH điện tử cho người dùng khu vực: " + tenkhu+" ???")) {
+                return false;
+            } else {
+                if ($("#IdChiNhanh").val() == "") {
+                    alert("Bạn Chưa Chọn Đại Lý !!!")
+                } else {
+                    $("#ThongtinBH").css('display', 'none')
+                    if (serialBox.length == 0) {
+                        alert("Bạn chưa điền số serial trên hộp !!!")
+                    } else if (serialSP.length == 0) {
+                        alert("Bạn chưa điền số serial trên sản phẩm !!!")
+                    } else if (tenkh.length == 0) {
+                        alert("Bạn chưa điền Tên người dùng !!!")
+                    } else if (gmailND.length == 0) {
+                        alert("Bạn chưa điền gmail người dùng !!!")
+                    } else if (SDTND.length == 0) {
+                        alert("Bạn chưa điền sdt của người dùng !!!")
+                    } 
+                    else {
+                        var postData = JSON.stringify({
+                            ND: false, NPP: true, Tenkh: tenkh, sBOX: serialBox
+                            , sSP: serialSP, ChiNhanh: idChiNhanh, gmail: gmailND, sdt: SDTND, khuvuc: tenkhu
+                        });
+                        $.ajax({
+                            contentType: "application/json; charset=utf-8",
+                            url: "/Active/KichHoatBaoHanh",
+                            dataType: 'json',
+                            type: 'POST',
+                            data: postData,
+                            success: function (response) {
+                                $("#thongbaoBox").html("")
+                                $("#thongbaoSP").html("")
+                                $("#thongbaoActive").html("")
+                                $("#thongbaoAcTC").html("")
+                                if (response == "111") {
+                                    $("#thongbaoBox").html("S/N không đúng, hoặc đã kích hoạt !!!")
+                                } else if (response == "222") {
+                                    $("#thongbaoSP").html("S/N không đúng, hoặc đã kích hoạt !!!")
+                                } else if (response == "333") {
+                                    $("#thongbaoActive").html("Có Lỗi Hệ Thống, Kích Hoạt không thành công !!!")
+                                    
+                                } else if (response == "444") {
+                                    $("#thongbaoActive").html("Tên của đại lý/NPP không đúng, không thể kích hoạt !!!")
+                                }
+                                else if (parseInt(response) >-1) {
+                                    $("#thongbaoAcTC").html("Bạn đã kích hoạt bảo hành thành công S/N: " + serialSP + ", hạn bảo hành " + response + " tháng.")
+                                    
+                                    $("#SerialBox").val('')
+                                    $("#SerialSP").val('')
+                                    $("#SerialSP").focus()
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    }
+    $("input:radio").on('click', function () {
+        var $box = $(this);
+        if ($box.is(":checked")) {
+            tk = $box.attr("id");
+            if (tk == "NPP") {
+                $("#ThongtinBH").css('display', 'none');
+                $("#nhaphanphoi").css('display', 'block');
+                $("#Tenkhachhang").css('display', 'block');
+                $("#nameBH").html("Kíck hoạt BH NPP");
+                $("#nameKT").html("Kiểm tra BH NPP");
+                LoadChiNhanh();
+            } else {
+                $("#ThongtinBH").css('display', 'block');
+                $("#nhaphanphoi").css('display', 'none');
+                $("#Tenkhachhang").css('display', 'block');
+                $("#nameBH").html("Kíck hoạt BH ND");
+                $("#nameKT").html("Kiểm tra BH ND");
+                //$("#GGmail").css('display', 'none');
+                //$("#GSDT").css('display', 'none');
+            }
+
+        }
+    });
+
+    function LoadChiNhanh() {
+        var idChiNhanh = $('#IdChiNhanh').val();
+        if (idChiNhanh.trim() != "") {
+            $.ajax({
+                //url: "/Active/GetChitietNPP", // we are calling json method
+                url:'@Url.Action("GetChitietNPP", "Active")',
+                dataType: 'json',
+                type: 'GET',
+                data: { NPP: idChiNhanh },
+                success: function (data) {
+                    if (data != "No") {
+                        //const myArray = data.split('/');
+                        //$("#GGmail").css('display', 'block');
+                        //$("#GSDT").css('display', 'block');
+                        //$("#Gmail").val(myArray[1])
+                        //$("#SDT").val(myArray[0])
+                    } else {
+                        //$("#Gmail").val('')
+                        //$("#SDT").val('')
+                        //$("#GGmail").css('display', 'none');
+                        //$("#GSDT").css('display', 'none');
+                        alert("Tên đại lý / NPP không đúng !!!.")
+                    }
+                },
+                error: function (ex) {
+                    alert('Lỗi load Chi Nhánh: ' + ex);
+                }
+            });
+        }
+
+    }
+</script>

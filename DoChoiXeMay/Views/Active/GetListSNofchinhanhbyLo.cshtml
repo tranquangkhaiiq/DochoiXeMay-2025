@@ -1,0 +1,37 @@
+﻿@using DoChoiXeMay.Models;
+@model IEnumerable<Ser_XuatSN_CN>
+<div class="table-responsive">
+    <table class="table table-hover table-striped" style="margin-bottom:0">
+        <thead>
+            <tr class="canhgiua" style="background-color: #00bcd4">
+                <th class="canhgiua">Id Lô hàng</th>
+                <th class="canhgiua">Chi Nhánh</th>
+                <th class="canhgiua">SoLuong</th>
+                <th class="canhgiua">Đã Add</th>
+                <th class="canhgiua">Ghi Chú</th>
+                <th class="canhgiua">Serial</th>
+            </tr>
+        </thead>
+            <tbody style="border: 2px solid black !important">
+                @foreach (DoChoiXeMay.Models.Ser_XuatSN_CN Item in ViewBag.GetListSNchinhanhbyLo)
+                {
+                    <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                        <td>@Item.Id</td>
+                        <td>
+                            @Item.Ser_ChiNhanh.TenChiNhanh
+                        </td>
+                        <td>@Item.SoLuong</td>
+                        <td>@Item.DaAdd</td>
+                        <td>
+                            @Item.Ghichu
+                        </td>
+                        <td>
+                            <a style="cursor:pointer" href="/Active/GetListSNobyLo/@Item.Id">Xem S/N</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+    </table>
+
+</div>

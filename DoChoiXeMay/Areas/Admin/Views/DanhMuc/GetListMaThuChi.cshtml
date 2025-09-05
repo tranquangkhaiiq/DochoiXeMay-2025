@@ -1,0 +1,40 @@
+﻿<div class="table-responsive">
+    <table class="table table-hover table-striped" style="margin-bottom:0">
+        <thead>
+            <tr class="canhgiua" style="background-color: #00bcd4">
+
+                <th class="canhgiua">Mã</th>
+                <th class="canhgiua">Giải thích</th>
+                <th class="canhgiua">Sử dụng</th>
+                <th class="canhgiua">Ngày</th>
+                <th class="canhgiua">Update</th>
+
+            </tr>
+        </thead>
+        <tbody style="border: 2px solid black !important">
+            @foreach (DoChoiXeMay.Models.MaTC Item in ViewBag.GetListMaThuChi)
+            {
+                <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                    <td>@Item.TenMa</td>
+                    <td>@Item.GhiChu</td>
+                    <td>
+                        @Item.SuDung
+                    </td>
+                    <td>
+                        @Item.NgayAuto
+                    </td>
+                    <td>
+                        @if (int.Parse(Session["quyen"].ToString()) < 5)
+                        {
+                            <a class="btn btn-danger" href="/Admin/DanhMuc/UpdateMaThuChi/@Item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                        }
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+
+</div>
+

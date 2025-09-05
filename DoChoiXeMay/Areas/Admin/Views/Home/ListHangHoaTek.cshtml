@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "ListHangHoaTek";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<style>
+    .canhgiua {
+        text-align: center !important;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="Title_Notin" style="text-align:center">
+            <span class="">Danh Sách Hàng Hóa Tek</span>
+        </div>
+    </div>
+    <div class="panel panel-default" style="margin-top:10px">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                    @Session["ThongBaoHangHoaTEK"]
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12">
+                        <input type="text" class="form-control input-sm pull-right" style="margin-top: 5px;font-size: medium; height: 40px; width: 95%" name="KeywordsTT" id="KeywordsTT" onchange="TimKiemsp()" placeholder="Enter Tìm Theo Tên SP." />
+                    </div>
+                    <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12" style="text-align:center">
+                        @Html.DropDownList("IDMF", null, new { style = "width: 70%; height: 40px" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />
+            <div class="listHH">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    LoadPage();
+    function LoadPage() {
+        $('#IDMF').empty();
+        $.ajax({
+            url: "/Admin/Home/HangSanXuat", // we are calling json method
+            data: { },
+            success: function (response) {
+                $("#IDMF").append(
+                    $('<option/>')
+                        .attr('value', 0)
+                        .text("Chọn Hãng")
+                );
+                $(response).each(function (i, e) {
+                    
+                    $("#IDMF").append(
+                        $('<option/>')
+                            .attr('value', e.Id)
+                            .text(e.ten)
+                    );
+                    // here we are adding option for Hãng
+                });
+            },
+            error: function (ex) {
+                alert('Lỗi load Hãng Sản Xuất: ' + ex);
+            }
+        });
+        GetListHH(0,"");
+    };
+    $("#IDMF").change(function () {
+        var IDMF = $('#IDMF').val();
+        var KeywordsTTT = $('#KeywordsTT').val();
+        GetListHH(IDMF, KeywordsTTT);
+    });
+    function GetListHH(id, Keyword) {
+        $.ajax({
+            url: "/Admin/Home/GetListHHTEK",
+            data: { id: id, Key: Keyword },
+            success: function (respone) {
+                $(".listHH").html(respone);
+                //var pagesp = pageNo + 1;
+                //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+            }
+        });
+    }
+    function TimKiemsp() {
+        var KeywordsTTT = $('#KeywordsTT').val();
+        var IDMF = $('#IDMF').val();
+        GetListHH(IDMF, KeywordsTTT);
+        //$(".list").css('display', 'none');
+
+    };
+</script>
+

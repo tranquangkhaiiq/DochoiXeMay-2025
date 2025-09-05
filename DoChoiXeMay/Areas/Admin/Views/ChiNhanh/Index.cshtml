@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<style>
+    .canhgiua {
+        text-align: center !important;
+    }
+</style>
+<div>
+    <div class="row">
+        <div class="Title_Notin" style="text-align:center">
+            <span class="">List Xuất S/N cho Chi Nhánh</span>
+        </div>
+    </div>
+    <div class="panel panel-default" style="margin-top:10px">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="pull-right label label-primary" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                    @Session["ThongBaoXuatSN_ChiNhanh"]
+                </div>
+            </div>
+            <div class="row">
+                <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                    @Session["ThongBaoLoiSN_ChiNhanh"]
+                </div>
+            </div>
+            <div class="row" style="margin-top:5px">
+
+                <div class="col-md-4">
+                    <a class="btn btn-warning" style="margin-left:20px" href="/Admin/ChiNhanh/InsertAutoSNChiNhanh" onclick="return confirm('Bạn muốn Thêm Mới S/N cho Chi Nhánh ??')">
+                        <i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Xuất SN cho Chi Nhánh (tạo lô hàng cho chi nhánh)
+                    </a>
+                </div>
+                <div class="col-md-8">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-6 pull-right">
+                        <input type="text" class="form-control input-sm" style="font-size: medium; height: 40px; width: 95%" name="KeywordsTT" id="KeywordsTT" placeholder="Tìm Số Serial box đang ở lô hàng nào ??." />
+
+                    </div>
+                    <div class="col-md-2" style="text-align:right">
+                        <a onclick="TimKiemsp()" class="btn btn-warning" style="text-align:right">Kiểm tra số S/N</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="panel-body">
+            @*<img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />*@
+            <div class="listSNCN">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    LoadPage();
+    function LoadPage() {
+        $.ajax({
+            url: "/Admin/ChiNhanh/GetListSNchinhanh",
+            data: {  },
+            success: function (respone) {
+                $(".listSNCN").html(respone);
+            }
+        });
+    };
+    function TimKiemsp() {
+        var KeywordsTT = $("#KeywordsTT").val();
+        if (KeywordsTT.trim().length > 0) {
+            $.ajax({
+                url: "/Admin/ChiNhanh/TimSNLoHang",
+                data: { Serial: KeywordsTT },
+                success: function (respone) {
+                    location.reload();
+                }
+            });
+        } else {
+            alert("Bạn Chưa Điền Số S/N trên hộp để tìm !!!")
+        }
+    }
+</script>
+

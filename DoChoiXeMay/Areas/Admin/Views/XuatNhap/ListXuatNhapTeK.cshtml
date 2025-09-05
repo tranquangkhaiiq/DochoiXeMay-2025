@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "ListXuatNhapTeK";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<div class="row">
+    <div class="Title_Notin" style="text-align:center">
+        <span class="">Bảng Xuất Nhập TeK</span>
+    </div>
+</div>
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<style>
+    .canhgiua {
+        text-align: center !important;
+    }
+
+    .marginbutonkh {
+        margin-top: 50%;
+    }
+</style>
+<div class="panel panel-default" style="margin-top:10px">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                @Session["ThongBaoXuatNhapTeK"]
+            </div>
+            <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                @Session["ThongBaoXuatNhapTeKct"]
+            </div>
+            <div class="row">
+                @*<div class="col-lg-6 col-xl-6 col-md-6 col-sm-12">
+                <input type="text" class="form-control input-sm pull-right" style="margin-top: 5px;font-size: medium; height: 40px; width: 95%" name="KeywordsTT" id="KeywordsTT" onchange="TimKiemsp()" placeholder="Enter Tìm Theo Tên SP." />
+            </div>*@
+                <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12" style="text-align:center">
+                    @Html.DropDownList("UserId", null, new { style = "width: 70%; height: 40px" })
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="panel-body">
+        <img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />
+        <div class="listXNT">
+
+
+        </div>
+    </div>
+    <div class="panel-footer">
+
+        <div class="row">
+            <div class="col-md-8">
+                <span class="TongSanPham"></span>
+            </div>
+            <div class="col-md-4" style="text-align: right">
+                <span class="TongSanPham"></span>
+            </div>
+        </div>
+
+
+        <ul class="pager">
+                <li><a href="#"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+            </ul>
+
+    </div>
+</div>
+<h5>***Nếu Chưa đẩy lên Tek thì cho "update", đẩy rồi thì phải "yêu cầu Thu Hồi"</h5>
+<h5>**Tổng tiền: Soluong*gianhap + shipper + VAT - ChietKhau% - ChietKhautienmat</h5>
+<script>
+    $(function () {
+        pageNo = 0;
+        pageSize = 5;
+        TongSP = 0;
+        LoadUserName()
+        var UserId = $('#UserId').val();
+        getTongSanPham(pageSize, pageNo, UserId)
+        $(".pager a:eq(0)").click(function () {
+            if (pageNo > 0) {
+                pageNo = 0;
+                LoadPage(pageNo, pageSize, UserId);
+            }
+            return false;
+        });
+        $(".pager a:eq(1)").click(function () {
+            if (pageNo > 0) {
+                pageNo--;
+                LoadPage(pageNo, pageSize, UserId);
+            }
+            return false;
+        });
+        $(".pager a:eq(2)").click(function () {
+            if (pageNo < pageCount - 1) {
+                pageNo++;
+                LoadPage(pageNo, pageSize, UserId);
+            }
+            return false;
+        });
+
+        $(".pager a:eq(3)").click(function () {
+            if (pageNo < pageCount - 1) {
+                pageNo = pageCount - 1;
+                LoadPage(pageNo, pageSize, UserId);
+            }
+            return false
+        });
+    });
+    $("#UserId").change(function () {
+        pageNo = 0;
+        pageSize = 5;
+        var UserId = $('#UserId').val();
+        getTongSanPham(pageSize, pageNo, UserId)
+    });
+    function LoadPage(pageNo, pageSize,UserId) {
+        $.ajax({
+            url: "/Admin/XuatNhap/GetListKyXNTeK",
+            data: { PageNo: pageNo, PageSize: pageSize, UserId: UserId },
+            success: function (respone) {
+                $(".listXNT").html(respone);
+                var pagesp = pageNo + 1;
+                $('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+            }
+        });
+    };
+    function getTongSanPham(pageSize, pageNo, UserId) {
+        $.ajax({
+            url: "/Admin/XuatNhap/GetPageCountXNTek",
+            data: { PageSize: pageSize, UserId: UserId },
+            success: function (respone) {
+                pageCount = respone;
+                TongSP = respone;
+                LoadPage(pageNo, pageSize, UserId);
+            }
+        });
+    };
+    function LoadUserName() {
+        $('#UserId').empty();
+        $.ajax({
+            url: "/Admin/XuatNhap/LocUserName", // we are calling json method
+            data: {},
+            success: function (response) {
+                $("#UserId").append(
+                    $('<option/>')
+                        .attr('value', 0)
+                        .text("Chọn User")
+                );
+                $(response).each(function (i, e) {
+                    $("#UserId").append(
+                        $('<option/>')
+                            .attr('value', e.id)
+                            .text(e.ten)
+                    );
+                    // here we are adding option for Hãng
+                });
+            },
+            error: function (ex) {
+                alert('Lỗi load User: ' + ex);
+            }
+        });
+        
+    }
+</script>

@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "NhatKy";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<style>
+    .canhgiua {
+        text-align: center !important;
+    }
+</style>
+<div class="container">
+    <h2>List Nhật Ký</h2>
+    <div class="panel panel-default" style="margin-top:10px">
+        <div class="panel-heading">
+        </div>
+        <div class="panel-body">
+            @*<img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />*@
+            <div class="listnhatky">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    LoadPage();
+    function LoadPage() {
+        $.ajax({
+            url: "/Admin/DanhMuc/GetNhatKy",
+            data: {  },
+            success: function (respone) {
+                $(".listnhatky").html(respone);
+                //var pagesp = pageNo + 1;
+                //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+            }
+        });
+    };
+</script>
+

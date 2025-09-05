@@ -1,0 +1,116 @@
+﻿@using DoChoiXeMay.Models
+@model IEnumerable<Ser_kichhoat>
+<style>
+    .DaXoa {
+        color: red;
+    }
+
+    .NPP {
+        color: blue;
+    }
+</style>
+<div class="table-responsive">
+    <table class="table table-hover table-striped" style="margin-bottom:0">
+        <thead>
+            <tr class="canhgiua" style="background-color: #00bcd4">
+                <th class="canhgiua">Ngày Active</th>
+                <th class="canhgiua">Serial Box</th>
+                <th class="canhgiua">Serial SP</th>
+                <th class="canhgiua">Email ND</th>
+                <th class="canhgiua">KhuVực ND</th>
+                <th class="canhgiua">Tên ND</th>
+                <th class="canhgiua">SDT ND</th>
+                <th class="canhgiua">Chi Nhánh</th>
+                <th class="canhgiua">SDT ChiNhanh</th>
+                <th class="canhgiua">Trạng Thái</th>
+                <th class="canhgiua">Lô sx</th>
+                <th class="canhgiua">Tặng</th>
+                <th class="canhgiua">Hết hạn</th>
+                <th class="canhgiua">Update</th>
+            </tr>
+        </thead>
+        <tbody style="border: 2px solid black !important">
+            @if (Model != null)
+            {
+                var dmdata = new DoChoiXeMay.Areas.Admin.Data.ChiNhanhData();
+                foreach (DoChoiXeMay.Models.Ser_kichhoat Item in ViewBag.ListSerialKH)
+                {
+                    var chinhanh = dmdata.GetChiNhanhbyID(Item.IdChiNhanh);
+                    var hh = DateTime.Parse(Item.Ghichu);
+                    var tang = Item.Ser_sp.HangTangKhongBan;
+                    <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                        <td>@Item.NgayKichHoat</td>
+                        <td>@Item.Ser_box.Serial</td>
+                        <td>@Item.Ser_sp.SerialSP</td>
+                        <td>
+                            @Item.EmailKichHoat
+                        </td>
+                        <td>
+                            <span class="">@Item.DiaChiKhach</span>
+                        </td>
+                        <td>
+                            @Item.TenKhachHang
+                        </td>
+                        <td>
+                            @Item.SDT
+                        </td>
+                        <td>
+                            @if (chinhanh == null)
+                            {
+                                <span class="DaXoa">Đã Xóa</span>
+                            }
+                            else if (chinhanh.Id == 1)
+                            {
+                                <span style="background-color:lightblue">Cá Nhân</span>
+                            }
+                            else
+                            {
+                                <span class="NPP">@chinhanh.TenChiNhanh</span>
+                            }
+                        </td>
+                        <td>
+                            @chinhanh.SDT
+                        </td>
+                        <td>
+                            @Item.Ser_trangthai.Name
+                        </td>
+                        <td>
+                            @Item.Ser_sp.LoSanXuat
+                        </td>
+                        @if (tang)
+                        {
+                            <td style="background-color:yellow">
+                                @tang
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @tang
+                            </td>
+                        }
+                        <td>
+                            @if (DateTime.Now > hh)
+                            {
+                                <span class="DaXoa">@hh.ToShortDateString()</span>
+                            }
+                            else
+                            {
+                                <span>@hh.ToShortDateString()</span>
+                            }
+                        </td>
+                        <td>
+                            @if (Session["quyen"].ToString() != "Guest")
+                            {
+                                <a class="btn btn-danger" href="/Admin/Active/UpdateSNActive/@Item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                            }
+                        </td>
+                    </tr>
+
+                }
+            }
+        </tbody>
+
+    </table>
+
+</div>

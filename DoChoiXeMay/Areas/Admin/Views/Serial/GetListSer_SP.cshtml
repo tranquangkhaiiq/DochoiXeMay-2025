@@ -1,0 +1,58 @@
+﻿<div class="table-responsive">
+    <table class="table table-hover table-striped" style="margin-bottom:0">
+        <thead>
+            <tr class="canhgiua" style="background-color: #00bcd4">
+                <th class="canhgiua" style="max-width: 15px">STT</th>
+                <th class="canhgiua">Lô Sản Xuất</th>
+                <th class="canhgiua">Serial Number</th>
+                @*<th class="canhgiua">QRcode</th>*@
+                <th class="canhgiua">Hãng</th>
+                <th class="canhgiua">Màu</th>
+                <th class="canhgiua">Size</th>
+                <th class="canhgiua">Version</th>
+                <th class="canhgiua">Tặng</th>
+            </tr>
+        </thead>
+        <tbody style="border: 2px solid black !important">
+            @foreach (DoChoiXeMay.Models.Ser_sp Item in ViewBag.SerSPchuaIn)
+            {
+                <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                    <td>@Item.Stt</td>
+                    <td>
+                        @Item.LoSanXuat
+                    </td>
+                    <td>
+                        @Item.SerialSP
+                    </td>
+                    @*<td style="padding:0">
+                        <img src="@Item.QRcode" alt="" style="height:60px;width:240px" />
+                    </td>*@
+                    <td>@Item.Manufacturer.Name</td>
+                    <td>@Item.Color.TenColor</td>
+
+                    <td>
+                        @Item.Size.TenSize
+                    </td>
+                    <td>
+                        @Item.Idver
+                    </td>
+                    <td>
+                        @Item.HangTangKhongBan
+                    </td>
+
+                </tr>
+
+            }
+        </tbody>
+        <tfoot>
+            <tr class="canhgiua">
+                @*<td style="color:chocolate">TeK hiện có:</td>
+                <td style="color:chocolate">@ViewBag.TongLoai Loại</td>
+                <td style="color:chocolate">Gồm @ViewBag.Tongsp sản phẩm</td>
+                <td style="color:chocolate">Tổng Vốn: @Html.FormatValue(ViewBag.TongTien, "{0:#,###,###}") (vnd)</td>*@
+
+            </tr>
+        </tfoot>
+    </table>
+
+</div>

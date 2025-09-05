@@ -1,0 +1,224 @@
+﻿@model DoChoiXeMay.Models.KyXuatNhap
+@{
+    ViewBag.Title = "UpdateXNUser";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<link href="~/Areas/Admin/Content/css/Info_Style.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<div class="container">
+    @using (Html.BeginForm("XuatNhap", "UpdateKyXNUser", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <fieldset class="info_form" style="margin-top:0">
+            <div class="container">
+
+                @Html.HiddenFor(kh => kh.Id)
+                @Html.HiddenFor(kh => kh.UserId)
+                @Html.HiddenFor(kh => kh.UPush)
+                @Html.HiddenFor(kh => kh.AdminXNPUSH)
+                @Html.HiddenFor(kh => kh.UYeuCauThuHoi)
+                @Html.HiddenFor(kh => kh.NgayAuto)
+                @Html.HiddenFor(kh => kh.TongTienAuto)
+                <h1 class="info_header">
+                    <span style="color:black">@Session["UserName"]</span>  Update Kỳ Xuất Nhập ngày @Model.NgayXuatNhap.ToString("dd/MM/yyyy")
+                    <span class="pull-right label label-warning" style="color:white;font-family:monospace">
+                        @Html.ValidationSummary()
+                    </span>
+                </h1>
+
+                <div class="contentform">
+                    <div class="leftcontact">
+                        <div class="row" style="border: 1px dashed #423333; padding: 5px;margin-bottom:15px">
+                            <div class="col-sm-6">
+                                <p>Tên Kỳ</p>
+                                @Html.TextBoxFor(m => m.TenKy, new { @class = "form-control", style = "width: 75%; height: 40px", @required = true })
+                            </div>
+                            <div class="col-sm-6" style="text-align:center">
+                                <p>Xuất Hàng</p>
+                                @Html.CheckBoxFor(m => m.XuatNhap, new { @style = "height:20px;margin-left: 10%" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <p>Chiết Khấu %</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-credit-card"></i></span>
+                                @Html.TextBoxFor(m => m.CKphantram, new { @class = "form-control", @type = "number", style = "width: 75%; height: 40px", @required = true })
+                                <span style="line-height:40px;font-size:20px">%</span>
+                            </div>
+                            <div class="col-sm-6" style="text-align:center">
+                                <p>Tiền Ship</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-credit-card"></i></span>
+                                @Html.TextBoxFor(m => m.Shipper, new { @class = "form-control", @type = "number", style = "width: 75%; height: 40px", @required = true })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <p>Chiết Khấu tiền mặt</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-credit-card"></i></span>
+                                @Html.TextBoxFor(m => m.CKtienmat, new { @class = "form-control", @type = "number", style = "width: 75%; height: 40px", @required = true })
+
+                            </div>
+                            <div class="col-sm-6" style="text-align:center">
+                                <p>% VAT</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-credit-card"></i></span>
+                                @Html.TextBoxFor(m => m.VAT, new { @class = "form-control", @type = "number", style = "width: 75%; height: 40px", @required = true })
+                                <span style="line-height:40px;font-size:20px">%</span>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <p>Lưu Kho</p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-saved"></i></span>
+                            @Html.TextBoxFor(m => m.LuuKho, new { @class = "form-control", style = "width: 75%; height: 40px"})
+                        </div>
+                        <div class="form-group">
+                            <p>Loại Hàng Xuất/Nhập</p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-subtitles"></i></span>
+                            @Html.DropDownList("IdMaTC", null, new { style = "width: 100%; height: 40px" })
+                        </div>
+                    </div>
+                    <div class="rightcontact">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="form-group">
+                                    <p>Đính kèm <span style="color:blueviolet"> Hóa Đơn </span> (giới hạn 7MB) <span></span></p>
+                                    <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                    <input type="file" name="Dinhkem1" id="Dinhkem1" />
+                                    <p id="thongbaosite1" style="color:red; display:none">File quá lớn !!!</p>
+                                    @Html.HiddenFor(kh => kh.HoaDon)
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Model.HoaDon)))
+                                {
+                                    <img class="img-responsive img-thumbnail" src="~/Content/imgxuatnhap/@Model.HoaDon" style="max-width:100%;max-height:200px" />
+                                }
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="form-group">
+                                    <p>Đính kèm File 2 (giới hạn 7MB) <span></span></p>
+                                    <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                    <input type="file" name="Dinhkem2" id="Dinhkem2" />
+                                    <p id="thongbaosite2" style="color:red; display:none">File quá lớn !!!</p>
+                                    @Html.HiddenFor(kh => kh.Filesave2)
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Model.Filesave2)))
+                                {
+                                    <img class="img-responsive img-thumbnail" src="~/Content/imgxuatnhap/@Model.Filesave2" style="max-width:100%;max-height:200px" />
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="form-group">
+                                    <p>Đính kèm File 3 (giới hạn 7MB) <span></span></p>
+                                    <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                    <input type="file" name="Dinhkem3" id="Dinhkem3" />
+                                    <p id="thongbaosite3" style="color:red; display:none">File quá lớn !!!</p>
+                                    @Html.HiddenFor(kh => kh.HoaDon)
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Model.Filesave3)))
+                                {
+                                    <img class="img-responsive img-thumbnail" src="~/Content/imgxuatnhap/@Model.Filesave3" style="max-width:100%;max-height:200px" />
+                                }
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <p>Ngày Tạo Kỳ</p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-time"></i></span>
+                            @Html.TextBoxFor(kh => kh.NgayXuatNhap, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", style = "height: 40px" })
+                        </div>
+                        <script>
+                            var kt1 = true;
+                            var kt2 = true;
+                            var kt3 = true;
+                            $('#Dinhkem1').bind('change', function () {
+                                //this.files[0].size gets the size of your file.
+                                var size = this.files[0].size;
+                                const file = Math.round((size / 1024));
+                                if (file >= 7200) {
+                                    $("#thongbaosite1").css('display', 'block');
+                                    kt1 = false;
+                                    KtLuu();
+                                } else {
+                                    $("#thongbaosite1").css('display', 'none')
+                                    kt1 = true;
+                                    KtLuu();
+                                }
+                            });
+                            $('#Dinhkem2').bind('change', function () {
+                                //this.files[0].size gets the size of your file.
+                                var size = this.files[0].size;
+                                const file = Math.round((size / 1024));
+                                if (file >= 7200) {
+                                    $("#thongbaosite2").css('display', 'block');
+                                    kt2 = false;
+                                    KtLuu();
+                                } else {
+                                    $("#thongbaosite2").css('display', 'none')
+                                    kt2 = true;
+                                    KtLuu();
+                                }
+                            });
+                            $('#Dinhkem3').bind('change', function () {
+                                //this.files[0].size gets the size of your file.
+                                var size = this.files[0].size;
+                                const file = Math.round((size / 1024));
+                                if (file >= 7200) {
+                                    $("#thongbaosite3").css('display', 'block');
+                                    kt3 = false;
+                                    KtLuu();
+                                } else {
+                                    $("#thongbaosite3").css('display', 'none')
+                                    kt3 = true;
+                                    KtLuu();
+                                }
+                            });
+                            function KtLuu() {
+                                if (kt1 == true && kt2 == true && kt3 == true) {
+                                    document.getElementById('btnLuu').disabled = false;
+                                } else {
+                                    document.getElementById('btnLuu').disabled = true;
+                                }
+                            }
+
+                        </script>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <div class="text-center btn-crud">
+                            <button id="btnLuu" class="btn btn-warning" data-action="UpdateKyXNUser"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Update Kỳ</button>
+                            <a class="btn btn-primary" href="/Admin/XuatNhap/ListXuatNhapUser" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
+                        </div>
+                        <script>
+                            $(function () {
+                                $("button[data-action]").click(function () {
+                                    if (!confirm("Bạn Có Chắc Chắn Hành Động Của Mình?")) {
+                                        return false;
+                                    } else {
+                                        var action = $(this).attr("data-action");
+                                        this.form.action = "/Admin/XuatNhap/" + action;
+                                    }
+
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    }
+
+</div>
+

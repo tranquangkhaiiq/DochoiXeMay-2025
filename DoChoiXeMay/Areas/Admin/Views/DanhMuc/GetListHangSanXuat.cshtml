@@ -1,0 +1,37 @@
+﻿<div class="table-responsive">
+    <table class="table table-hover table-striped" style="margin-bottom:0">
+        <thead>
+            <tr class="canhgiua" style="background-color: #00bcd4">
+
+                <th class="canhgiua">Ten Hãng</th>
+                <th class="canhgiua">SuDung</th>
+                <th class="canhgiua">LoGo</th>
+                <th class="canhgiua">Update</th>
+            </tr>
+        </thead>
+        <tbody style="border: 2px solid black !important">
+            @foreach (DoChoiXeMay.Models.Manufacturer Item in ViewBag.GetListHangsx)
+            {
+                <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                    <td>@Item.Name</td>
+                    <td>@Item.Sudung</td>
+                    <td>
+                        @if (File.Exists(Request.MapPath("~/Content/imgTeK/" + Item.Logo)))
+                        {
+                            <img class="img-responsive img-thumbnail" src="~/Content/imgTeK/@Item.Logo" style="max-width:100%;max-height:50px" />
+                        }
+                    </td>
+                    <td>
+                        @if (int.Parse(Session["quyen"].ToString()) < 5)
+                        {
+                            <a class="btn btn-danger" href="/Admin/DanhMuc/UpdatetHangSX/@Item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                        }
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+
+</div>

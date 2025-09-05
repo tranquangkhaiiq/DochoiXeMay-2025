@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "ListMaThuChi";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<style>
+    .canhgiua {
+        text-align: center !important;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="Title_Notin" style="text-align:center">
+            <span class="">List Mã Thu Chi</span>
+        </div>
+    </div>
+    <div class="panel panel-default" style="margin-top:10px">
+        <div class="panel-heading">
+            <div class="row">
+                @if (Session["quyen"].ToString() == "1")
+                {
+                    <div class="col-md-6">
+                        <a class="btn btn-warning" style="margin-left:20px" href="/Admin/DanhMuc/InsertMaThuChi" onclick="return confirm('Bạn muốn Thêm Mới Mã Thu Chi ??')">
+                            <i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Thêm mới "Mã Thu Chi"
+                        </a>
+                    </div>
+                }
+                <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                    @Session["ThongBaoMaThuChi"]
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />
+            <div class="listMaTC">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    LoadPage();
+    function LoadPage() {
+        $.ajax({
+            url: "/Admin/DanhMuc/GetListMaThuChi",
+            data: {  },
+            success: function (respone) {
+                $(".listMaTC").html(respone);
+                //var pagesp = pageNo + 1;
+                //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+            }
+        });
+    };
+</script>
+

@@ -1,0 +1,776 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Tek-Lightning | TechZone Admin</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <!-- favicon
+    ============================================ -->
+
+    <link rel="shortcut icon" type="image/x-icon" href="~/Areas/Admin/Content/img/favicon.ico">
+    <!-- Google Fonts
+        ============================================ -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+    <!-- Bootstrap CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/bootstrap.min.css">
+    <!-- Bootstrap CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/font-awesome.min.css">
+    <!-- owl.carousel CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/owl.carousel.css">
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/owl.theme.css">
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/owl.transitions.css">
+    <!-- meanmenu CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/meanmenu/meanmenu.min.css">
+    <!-- animate CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/animate.css">
+    <!-- normalize CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/normalize.css">
+    <!-- mCustomScrollbar CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/scrollbar/jquery.mCustomScrollbar.min.css">
+    <!-- jvectormap CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/jvectormap/jquery-jvectormap-2.0.3.css">
+    <!-- notika icon CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/notika-custom-icon.css">
+    <!-- wave CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/wave/waves.min.css">
+    <!-- main CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/main.css">
+    <!-- style CSS
+    <!-- responsive CSS
+        ============================================ -->
+    <link href="~/Areas/Admin/Content/style.css" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="~/Areas/Admin/Content/css/responsive.css">
+    <!-- modernizr JS
+        ============================================ -->
+    <script src="~/Areas/Admin/Content/js/vendor/modernizr-2.8.3.min.js"></script>
+    @*@Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+    <style>
+        .logo-Tek {
+            padding: 14px 14px 0 0;
+            color: white;
+            font-weight: bold;
+        }
+
+        .color-tile-tek {
+            color: mediumblue !important;
+        }
+
+        .Topmn {
+            margin-right: 10%;
+        }
+
+        .titlemobile {
+            margin-left: 25%;
+        }
+
+        .avatartek {
+            width: 34px;
+            height: 34px;
+            border-radius: 50% !important;
+        }
+        .colordark{
+            color:darkblue;
+            font-size:25px;
+        }
+        .colordarkChil {
+            color: darkblue;
+            font-size: 20px;
+        }
+        li:active > a{
+           text-decoration:underline
+        }
+        .Title_Notin {
+            font-size: 40px;
+            font-weight:bold;
+            margin-bottom:20px;
+        }
+        @@media screen and (max-width:767px) {
+            .Topmn {
+                /*margin-right: -11%;*/
+            }
+            .Title_Notin{
+                font-size:20px;
+                text-align:right;
+            }
+        }
+
+        @@media (min-width: 768px) and (max-width: 991px) {
+            .header-top-menu {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Start Header Top Area -->
+    <div class="header-top-area">
+        <div style="width:95%">
+            <div class="row" style="margin-right:0 !important">
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-8 col-8" style="text-align:center">
+                    <div class="logo-Tek">
+                        <p>
+                            <img src="~/Areas/Admin/Content/img/logo/Teklogoo.png" alt="" class="avatartek" />
+                            @if (Session["UserName"] != null && Session["avatar"] != null)
+                            {
+                                if (Session["avatar"].ToString().Trim() != "")
+                                {
+                                    var tt = Session["avatar"].ToString();
+                                    <img src="~/Content/imgTeK/@tt" alt="" class="avatartek" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/imgTeK/Namn.png" alt="" style="width:34px" />
+                                }
+                                <span>@Session["UserName"].ToString().ToUpper()</span>
+                            }
+                        </p>
+
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-3 col-xs-4 col-4">
+                    <div class="header-top-menu Topmn">
+                        <ul class="nav navbar-nav notika-top-nav">
+                            <li class="nav-item nc-al">
+                                @if (CountMsg() > 0)
+                                {
+                                    <a title="Thông báo hệ thống." onclick="daxemMsg()" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><span><i class="notika-icon notika-alarm"></i></span><div class="spinner4 spinner-4"></div><div class="ntd-ctn"><span id="countsms">@CountMsg()</span></div></a>
+                                }
+                                else
+                                {
+                                    <a title="Thông báo hệ thống." data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><span><i class="notika-icon notika-alarm"></i></span><div class=""></div><div class="ntd-ctn"><span id="countsms">@CountMsg()</span></div></a>
+                                }
+
+                                <div role="menu" class="dropdown-menu message-dd notification-dd animated zoomIn">
+                                    <div class="hd-mg-tt">
+                                        <h2>Thông Báo Hệ Thống</h2>
+                                    </div>
+                                    <div class="hd-message-info" style="height:500px;overflow:auto">
+                                        @for (int i = 0; i < liststringMsg().Count(); i++)
+                                        {
+                                            <a>
+                                                <div class="hd-message-sn">
+                                                    <div class="hd-message-img" style="line-height: 50px">
+                                                        <img style="width:40px" src="~/Areas/Admin/Content/img/logo/Teklogo.png" alt="" />
+                                                    </div>
+                                                    <div class="hd-mg-ctn">
+                                                        <span style="font-size:medium">@liststringMsg()[i]</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        }
+
+
+                                    </div>
+                                    <div class="hd-mg-va">
+                                        <a>...</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item" title="Dự án TeK">
+                                <a data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><span><i class="notika-icon notika-menus"></i></span><div class="spinner4 spinner-4"></div><div class="ntd-ctn"><span>@CountProject()</span></div></a>
+                                <div role="menu" class="dropdown-menu message-dd task-dd animated zoomIn">
+                                    <div class="hd-mg-tt">
+                                        <h2>Dự Án Đã và Đang Làm</h2>
+                                    </div>
+                                    <div class="hd-message-info hd-task-info" style="height:200px;overflow:auto">
+                                        <div class="skill">
+                                            @for (int i = 0; i < ListProject().Count(); i++)
+                                            {
+                                                var pt = ListProject()[i].PhantramHoanThanh;
+                                                var ptht = ListProject()[i].PhantramHoanThanh + "%";
+                                                <div class="progress">
+                                                    <div class="lead-content">
+                                                        <p>@ListProject()[i].NameProject</p>
+                                                    </div>
+                                                    <div class="progress-bar wow fadeInLeft" data-progress="@pt" style="width: @ptht" data-wow-duration="1.5s" data-wow-delay="1.2s">
+                                                        <span>@pt</span>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="hd-mg-va">
+                                        <a href="/Admin/ProjectTeK/Index">View All</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12 col-12">
+
+                        <div class="header-top-menu Topmn">
+                            <ul class="nav navbar-nav notika-top-nav">
+                                <li>
+                                    @if (Session["quyen"] != null)
+                                    {
+                                        if (Session["quyen"].ToString() == "1")
+                                        {
+                                            <a href="/Admin/Home/ListUserTeK" class="title_user">UserManager</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/Admin/Home/EditUser/@int.Parse(Session["UserId"].ToString())" class="title_user">Update User</a>
+                                        }
+                                    }
+                                </li>
+                                <li><a href="/Admin/Home/LogOut" class="title_user">LogOut</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    
+    <!-- End Header Top Area -->
+    <!-- Mobile Menu start -->
+    <div class="mobile-menu-area" style="background:#0094ff;margin-bottom:20px">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="mobile-menu">
+                        <nav id="dropdown">
+                            <input id="SecssMB" value="@Session["ActiveMB"]" hidden/>
+                            <ul class="mobile-menu-nav">
+                                <li>
+                                    <a onclick="mobile('ul-Charts')" id="ul-Charts" class="colordark" data-toggle="collapse" data-target="#Charts" href="#"><i class="notika-icon notika-bar-chart"></i> Thu Chi Tek</a>
+                                    <ul id="Charts" class="collapse dropdown-header-top titlemobile">
+                                        <li><a id="li1-Charts" onclick="mobile('li1-Charts')" href="/Admin/ThuChi/ListThuChiTeK" class="colordarkChil">**Bảng Thu Chi TeK**</a></li>
+                                        <li><a id="li2-Charts" onclick="mobile('li2-Charts')" href="/Admin/DanhMuc/ListMaThuChi" class="colordarkChil">Mã Thu Chi</a></li>
+
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a onclick="mobile('ul-demoevent')" id="ul-demoevent" class="colordark" data-toggle="collapse" data-target="#demoevent" href="#"><i class="notika-icon notika-form"></i> (2)Xuất Nhập Tek</a>
+                                    <ul id="demoevent" class="collapse dropdown-header-top titlemobile">
+                                        <li>
+                                            <a id="li1-demoevent" onclick="mobile('li1-demoevent')" href="/Admin/XuatNhap/ListXuatNhapTeK" class="colordarkChil">**Bảng Xuất Nhập TeK**</a>
+                                        </li>
+                                        <li>
+                                            <a id="li2-demoevent" onclick="mobile('li2-demoevent')" href="/Admin/Home/ListHangHoaTek" class="colordarkChil" target="_blank"> Hàng Hóa TeK</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a onclick="mobile('ul-Duan')" id="ul-Duan" data-toggle="collapse" data-target="#Duan" class="colordark"><i class="notika-icon notika-alarm"></i> Dự Án Tek</a>
+                                    <ul id="Duan" class="collapse dropdown-header-top titlemobile">
+                                        <li>
+                                            <a id="li1-Duan" onclick="mobile('li1-Duan')" href="/Admin/ProjectTeK/Index" class="colordarkChil">**Theo dõi dự án**</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a onclick="mobile('ul-Serial')" id="ul-Serial" class="colordark" data-toggle="collapse" data-target="#Serial" href="#"><i class="notika-icon notika-print"></i> Serial TeK</a>
+                                    <ul id="Serial" class="collapse dropdown-header-top titlemobile">
+                                        <li>
+                                            <a id="li1-Serial" onclick="mobile('li1-Serial')" href="/Admin/Serial/ListSerialChuaIn" class="colordarkChil">Tạo mới Serial</a>
+                                        </li>
+                                        <li>
+                                            <a id="li2-Serial" onclick="mobile('li2-Serial')" href="/Admin/Serial/ListSerialDaIn" class="colordarkChil">*List Serial đã in*</a>
+                                        </li>
+
+                                        <li>
+                                            <a id="li3-Serial" onclick="mobile('li3-Serial')" href="/Admin/Active/Index" class="colordarkChil">**List Serial đã kích hoạt**</a>
+                                        </li>
+                                        <li>
+                                            <a id="li4-Serial" onclick="mobile('li4-Serial')" href="/Admin/ChiNhanh/Index" class="colordarkChil">***Xuất Serial_ChiNhanh***</a>
+                                        </li>
+                                        <li>
+                                            <a id="li5-Serial" onclick="mobile('li5-Serial')" href="/Admin/DanhMuc/Listchinhanh" class="colordarkChil">List Chi Nhánh</a>
+                                        </li>
+
+                                        <li>
+                                            <a id="li6-Serial" onclick="mobile('li6-Serial')" href="/Admin/DanhMuc/Levelchinhanh" class="colordarkChil">LevelChiNhanh</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a onclick="mobile('ul-democrou')" id="ul-democrou" class="colordark" data-toggle="collapse" data-target="#democrou" href="#"><i class="notika-icon notika-edit"></i> Note Tek</a>
+                                    <ul id="democrou" class="collapse dropdown-header-top titlemobile">
+                                        <li>
+                                            <a href="/Admin/NoteKyThuat/Index" class="colordarkChil">Video hướng dẫn</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Admin/NoteKyThuat/VDTEK" class="colordarkChil">Video TeK</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Admin/NoteKyThuat/HinhTrangChu" class="colordarkChil">Hình Trang Chủ</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+                                <li>
+                                    @if (Session["UserName"] != null)
+                                    {
+                                        <a onclick="mobile('ul-demolibra')" id="ul-demolibra" data-toggle="collapse" data-target="#demolibra" class="colordark" href="#"><i class="notika-icon notika-form"></i> (1)Xuất Nhập @Session["UserName"].ToString().ToUpper()</a>
+                                        <ul id="demolibra" class="collapse dropdown-header-top titlemobile">
+                                            <li>
+                                                @if (Session["quyen"] != null)
+                                                {
+                                                    <a id="li1-demolibra" onclick="mobile('li1-demolibra')" href="/Admin/XuatNhap/ListXuatNhapUser" class="colordarkChil"> **Bảng Xuất Nhập @Session["UserName"].ToString().ToUpper()**</a>
+                                                }
+                                            </li>
+                                            <li>
+                                                <a id="li2-demolibra" onclick="mobile('li2-demolibra')" href="/Admin/DanhMuc/ListHangSanXuat" class="colordarkChil"> Hãng Sản Xuất</a>
+                                            </li>
+                                            <li>
+                                                <a id="li3-demolibra" onclick="mobile('li3-demolibra')" href="/Admin/DanhMuc/ListMauSanPham" class="colordarkChil"> Màu sản phẩm</a>
+                                            </li>
+                                            <li>
+                                                <a id="li4-demolibra" onclick="mobile('li4-demolibra')" href="/Admin/DanhMuc/NhatKy" class="colordarkChil"> Nhật Ký</a>
+                                            </li>
+                                        </ul>
+                                    }
+
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Menu end -->
+    <!-- Main Menu area start-->
+    <div class="main-menu-area mg-tb-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <input id="SecssI" value="@Session["ActiveS"]" hidden/>
+                    <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
+                        <li id="li-Home" onclick="kkk('li-Home')">
+                            <a data-toggle="tab" href="#Home" class="color-tile-tek"><i class="notika-icon notika-bar-chart"></i> Thu Chi Tek</a>
+                        </li>
+                        <li id="li-mailbox" onclick="kkk('li-mailbox')">
+                            <a data-toggle="tab" href="#mailbox" class="color-tile-tek"><i class="notika-icon notika-form"></i>(2)Xuất Nhập Tek</a>
+                        </li>
+                        <li id="li-Pagemob" onclick="kkk('li-Pagemob')">
+                            <a data-toggle="tab" href="#Pagemob" class="color-tile-tek"><i class="notika-icon notika-alarm"></i>Dự Án Tek</a>
+                        </li>
+                        <li id="li-Forms" onclick="kkk('li-Forms')">
+                            <a data-toggle="tab" href="#Forms" class="color-tile-tek"><i class="notika-icon notika-print"></i>Serial TeK</a>
+                        </li>
+                        <li id="li-Interface" onclick="kkk('li-Interface')">
+                            <a data-toggle="tab" href="#Interface" class="color-tile-tek"><i class="notika-icon notika-edit"></i> Note Tek</a>
+                        </li>
+
+                        <li id="li-Tables" onclick="kkk('li-Tables')">
+                            @if (Session["quyen"]!=null && int.Parse(Session["quyen"].ToString()) < 5)
+                            {
+                                <a data-toggle="tab" href="#Tables"><i class="notika-icon notika-form"></i>(1) Xuất Nhập @Session["UserName"].ToString().ToUpper()</a>
+                            }
+
+                        </li>
+
+                    </ul>
+                    <div class="tab-content custom-menu-content">
+                        <div id="Home" class="tab-pane notika-tab-menu-bg animated flipInX">
+                            <ul class="notika-main-menu-dropdown color-tile-tek">
+                                <li id="ul1-Home" onclick="kkk('ul1-Home')">
+                                    <a href="/Admin/ThuChi/ListThuChiTeK"> **Bảng Thu Chi TeK**</a>
+                                </li>
+                                <li id="ul2-Home" onclick="kkk('ul2-Home')">
+                                    <a href="/Admin/DanhMuc/ListMaThuChi"> Mã Thu Chi</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div id="mailbox" class="tab-pane notika-tab-menu-bg animated flipInX">
+                            <ul class="notika-main-menu-dropdown">
+                                <li id="ul1-mailbox" onclick="kkk('ul1-mailbox')">
+                                    <a href="/Admin/XuatNhap/ListXuatNhapTeK"> **Bảng Xuất Nhập TeK**</a>
+                                </li>
+                                <li id="ul2-mailbox" onclick="kkk('ul2-mailbox')">
+                                    <a href="/Admin/Home/ListHangHoaTek" target="_blank">Hàng Hóa TeK</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="Pagemob" class="tab-pane notika-tab-menu-bg animated flipInX">
+                            <ul class="notika-main-menu-dropdown">
+                                <li id="ul1-Pagemob" onclick="kkk('ul1-Pagemob')">
+                                    <a href="/Admin/ProjectTeK/Index">**Theo dõi dự án**</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="Forms" class="tab-pane notika-tab-menu-bg animated flipInX">
+                            <ul class="notika-main-menu-dropdown">
+                                <li id="ul1-Forms" onclick="kkk('ul1-Forms')">
+                                    <a href="/Admin/Serial/ListSerialChuaIn">Tạo mới Serial</a>
+                                </li>
+                                <li id="ul2-Forms" onclick="kkk('ul2-Forms')">
+                                    <a href="/Admin/Serial/ListSerialDaIn">*List Serial đã in*</a>
+                                </li>
+
+                                <li id="ul3-Forms" onclick="kkk('ul3-Forms')">
+                                    <a href="/Admin/Active/Index">**List Serial đã kích hoạt**</a>
+                                </li>
+                                <li id="ul4-Forms" onclick="kkk('ul4-Forms')">
+                                    <a href="/Admin/ChiNhanh/Index">***Xuất Serial_ChiNhanh***</a>
+                                </li>
+                                <li id="ul5-Forms" onclick="kkk('ul5-Forms')">
+                                    <a href="/Admin/DanhMuc/Listchinhanh">List Chi Nhánh</a>
+                                </li>
+
+                                <li id="ul6-Forms" onclick="kkk('ul6-Forms')">
+                                    <a href="/Admin/DanhMuc/Levelchinhanh">LevelChiNhanh</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="Interface" class="tab-pane notika-tab-menu-bg animated flipInX">
+                            <ul class="notika-main-menu-dropdown">
+                                <li id="ul1-Interface">
+                                    <a href="/Admin/NoteKyThuat/Index">Video hướng dẫn</a>
+                                </li>
+                                <li id="ul2-Interface">
+                                    <a href="/Admin/NoteKyThuat/VDTEK">Video TeK</a>
+                                </li>
+                                <li id="ul3-Interface">
+                                    <a href="/Admin/NoteKyThuat/HinhTrangChu">Hình Trang Chủ</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div id="Tables" class="tab-pane notika-tab-menu-bg animated flipInX">
+                            <ul class="notika-main-menu-dropdown">
+                                <li id="ul1-Tables" onclick="kkk('ul1-Tables')">
+                                    @if (Session["quyen"] != null)
+                                    {
+                                        <a href="/Admin/XuatNhap/ListXuatNhapUser"> **Bảng Xuất Nhập @Session["UserName"].ToString().ToUpper()**</a>
+                                    }
+                                </li>
+                                <li id="ul2-Tables" onclick="kkk('ul2-Tables')">
+                                    <a href="/Admin/DanhMuc/ListHangSanXuat"> Hãng Sản Xuất</a>
+                                </li>
+                                <li id="ul3-Tables" onclick="kkk('ul3-Tables')">
+                                    <a href="/Admin/DanhMuc/ListMauSanPham"> Màu sản phẩm</a>
+                                </li>
+                                <li id="ul4-Tables" onclick="kkk('ul4-Tables')">
+                                    <a href="/Admin/DanhMuc/NhatKy" target="_blank"> Nhật Ký</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="Forms" class="tab-pane notika-tab-menu-bg animated flipInX">
+                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="body-content" style="width:98%; min-height:650px;margin:0 auto">
+        @RenderBody()
+
+    </div>
+    <!-- Start Footer area-->
+    <div class="container" style="margin-bottom:-35px">
+        <hr />
+    </div>
+
+    <div class="footer-copyright-area">
+        <div style="width:95%">
+            <div style="margin-top:10px;padding-top:15px">
+                <div class="row text-center">
+                    <h5>
+                        MST: 3703251330
+                    </h5>
+                </div>
+                <div class="row text-center">
+                    <h5>
+                        CÔNG TY TNHH THƯƠNG MẠI-DỊCH VỤ-SẢN XUẤT TRẦN NGUYỄN TECHZONE
+                    </h5>
+                </div>
+                <div class="row text-center">
+                    <h5>
+                        311 Đường Phạm Ngọc Thạch, Tổ 88, Khu Phố 6, Phường Hiệp Thành, Thành Phố Thủ Dầu Một, Tỉnh Bình Dương.
+                    </h5>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="footer-copy-right">
+                            <p style="text-decoration:underline">
+                                Tổng số lượt: <a>@AppState["Visitors"]</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="footer-copy-right">
+                            <p style="text-decoration:underline">
+                                Đang online: <a>@AppState["TotalOnlineUsers"]</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="footer-copy-right">
+                            <p style="text-decoration:underline">
+                                Designed by TQK-2025
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+        <!-- End Footer area-->
+        <!-- End Footer area-->
+        <!-- jquery============================================ -->
+        <script>
+            function daxemMsg() {
+                var countsms = $('#countsms').html();
+                if (countsms != "0") {
+                    $.ajax({
+                        url: "/Admin/ThuChi/updatedaxemMsg",
+                        data: {},
+                        success: function (respone) {
+                            $('#countsms').html("0");
+                        }
+                    });
+                }
+
+            }
+            onload()
+            function onload() {
+                const secc = document.getElementById('SecssI').value;
+                
+                if (secc != "") {
+                    var se = secc.split('-');
+                    document.getElementById('li-' + se[1]).classList.add("active");
+                    document.getElementById(se[1]).classList.add("active");
+                    //alert('aaaaa:'+se[1])
+                    if (se[1] != "Interface" || se[1] != "democrou") {
+                        $("ul>#" + secc + ">a").css("text-decoration", "underline overline");
+                    }
+                }
+            }
+            function kkk(tt) {
+                var sess = tt;
+                $.ajax({
+                    url: "/Admin/Home/SetSession",
+                    data: { Sec: sess },
+                    success: function (respone) {
+                        document.getElementById('SecssI').value = sess
+                    }
+                });
+            }
+            onloadmobile()
+            function onloadmobile() {
+                const mb = document.getElementById('SecssMB').value;
+                if (mb != "") {
+                    var see = mb.split('-');
+                    document.getElementById('ul-' + see[1]).classList.add("in");
+                    document.getElementById('ul-' + see[1]).setAttribute("aria-expanded", "true");
+                    document.getElementById(see[1]).classList.add("in");
+                    document.getElementById(see[1]).setAttribute("aria-expanded", "true");
+                    //document.getElementById(se[1]).classList.add("active");
+                    
+                    if (see[1] != "democrou" || see[1] != "Interface") {
+                        $("ul>li>#"+mb).css("text-decoration", "underline overline");
+                    }
+                }
+            }
+            function mobile(tt) {
+                var sess = tt;
+                $.ajax({
+                    url: "/Admin/Home/SetSessionMB",
+                    data: { Sec: sess },
+                    success: function (respone) {
+                        document.getElementById('SecssMB').value = sess
+                    }
+                });
+            }
+            
+        </script>
+        <script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+        <script src="~/Areas/Admin/Content/js/vendor/jquery-1.12.4.min.js"></script>
+        <!-- bootstrap JS
+        ============================================ -->
+        <script src="~/Areas/Admin/Content/js/bootstrap.min.js"></script>
+        <!--wow JS
+    ============================================ -->
+        <script src="~/Areas/Admin/Content/js/wow.min.js"></script>
+        <!--price - slider JS
+    ============================================ -->
+        <script src="~/Areas/Admin/Content/js/jquery-price-slider.js"></script>
+        <!--owl.carousel JS
+    ============================================ -->
+        <script src="~/Areas/Admin/Content/js/owl.carousel.min.js"></script>
+        <!--scrollUp JS
+    ============================================ -->
+        <script src="~/Areas/Admin/Content/js/jquery.scrollUp.min.js"></script>
+        <!--meanmenu JS
+    ============================================ -->
+        <script src="~/Areas/Admin/Content/js/meanmenu/jquery.meanmenu.js"></script>
+        <!--counterup JS
+    ============================================ -->
+        <script src="~/Areas/Admin/Content/js/counterup/jquery.counterup.min.js"></script>
+        <script src="~/Areas/Admin/Content/js/counterup/waypoints.min.js"></script>
+        <script src="~/Areas/Admin/Content/js/counterup/counterup-active.js"></script>
+        <!--mCustomScrollbar JS
+    ============================================ -->
+        <script src="~/Areas/Admin/Content/js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+        <!--jvectormap JS
+    ============================================ -->
+        @*<script src="~/Areas/Admin/Content/js/jvectormap/jquery-jvectormap-2.0.2.min.js"></script>*@
+        @*<script src="~/Areas/Admin/Content/js/jvectormap/jquery-jvectormap-world-mill-en.js"></script>*@
+        @*<script src="~/Areas/Admin/Content/js/jvectormap/jvectormap-active.js"></script>*@
+        <!-- sparkline JS
+        ============================================ -->
+        <script src="~/Areas/Admin/Content/js/sparkline/jquery.sparkline.min.js"></script>
+        <script src="~/Areas/Admin/Content/js/sparkline/sparkline-active.js"></script>
+        <!-- sparkline JS
+        ============================================ -->
+        <script src="~/Areas/Admin/Content/js/flot/jquery.flot.js"></script>
+        <script src="~/Areas/Admin/Content/js/flot/jquery.flot.resize.js"></script>
+        <script src="~/Areas/Admin/Content/js/flot/curvedLines.js"></script>
+        <script src="~/Areas/Admin/Content/js/flot/flot-active.js"></script>
+        <!-- knob JS
+        ============================================ -->
+        <script src="~/Areas/Admin/Content/js/knob/jquery.knob.js"></script>
+        <script src="~/Areas/Admin/Content/js/knob/jquery.appear.js"></script>
+        <script src="~/Areas/Admin/Content/js/knob/knob-active.js"></script>
+        <!--wave JS
+    ============================================ -->
+        <script src="~/Areas/Admin/Content/js/wave/waves.min.js"></script>
+        <script src="~/Areas/Admin/Content/js/wave/wave-active.js"></script>
+        <!--  todo JS
+        ============================================ -->
+        <script src="~/Areas/Admin/Content/js/todo/jquery.todo.js"></script>
+        <!--plugins JS
+    ============================================ -->
+        <script src="~/Areas/Admin/Content/js/plugins.js"></script>
+        <!--Chat JS
+    ============================================ -->
+        <script src="~/Areas/Admin/Content/js/chat/moment.min.js"></script>
+        <script src="~/Areas/Admin/Content/js/chat/jquery.chat.js"></script>
+        <!-- main JS
+        ============================================ -->
+        <!-- tawk chat JS
+        ============================================ -->
+        @*<script src="~/Areas/Admin/Content/js/tawk-chat.js"></script>*@
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+
+        @RenderSection("scripts", required: false)
+    
+</body>
+</html>
+@functions{
+    DoChoiXeMay.Models.Model1 db = new DoChoiXeMay.Models.Model1();
+    public int CountProject()
+    {
+        int kqp = db.ProjectTeKs.OrderByDescending(kh => kh.Id)
+                    .Skip(0)
+                    .Take(7)
+                    .Count();
+        return kqp;
+    }
+    public List<DoChoiXeMay.Models.ProjectTeK> ListProject()
+    {
+        return db.ProjectTeKs
+            .OrderByDescending(kh => kh.Id)
+            .Skip(0)
+            .Take(8)
+            .ToList();
+    }
+    public int CountMsg()
+    {
+        if(Session["UserId"] != null)
+        {
+            var uid = int.Parse(Session["UserId"].ToString());
+            if (uid == 1)
+            {
+                return db.MsgAotus.Where(kh => kh.AdminDaxem == false).Count();
+            }
+            if (uid == 2)
+            {
+                return db.MsgAotus.Where(kh => kh.Sub2Daxem == false).Count();
+            }
+            if (uid == 4)
+            {
+                return db.MsgAotus.Where(kh => kh.Sub4Daxem == false).Count();
+            }
+            if (uid == 5)
+            {
+                return db.MsgAotus.Where(kh => kh.Sub5Daxem == false).Count();
+            }
+            return 0;
+        }
+        return 0;
+    }
+    public List<DoChoiXeMay.Models.MsgAotu> ListMsg()
+    {
+        return db.MsgAotus
+            .OrderByDescending(kh => kh.NgayTao)
+            .Skip(0)
+            .Take(30)
+            .ToList();
+    }
+    public List<string> liststringMsg()
+    {
+        if (Session["UserId"] != null)
+        {
+            var uid = int.Parse(Session["UserId"].ToString());
+            var lists = ListMsg();
+            string[] ListOr = new string[lists.Count()];
+            if (lists.Count() > 0)
+            {
+                for (int i = 0; i < lists.Count(); i++)
+                {
+                    if (uid == 1 && lists[i].AdminDaxem == false)
+                    {
+                        ListOr[i] = lists[i].MsgHeThong + "***";
+                    }
+                    else if (uid == 2 && lists[i].Sub2Daxem == false)
+                    {
+                        ListOr[i] = lists[i].MsgHeThong + "***";
+                    }
+                    else if (uid == 4 && lists[i].Sub4Daxem == false)
+                    {
+                        ListOr[i] = lists[i].MsgHeThong + "***";
+                    }
+                    else if (uid == 5 && lists[i].Sub5Daxem == false)
+                    {
+                        ListOr[i] = lists[i].MsgHeThong + "***";
+                    }
+                    else
+                    {
+                        ListOr[i] = lists[i].MsgHeThong;
+                    }
+
+                }
+                return ListOr.ToList();
+            }
+            return ListOr.ToList();
+        }
+        else
+        {
+            var lists = ListMsg();
+            string[] ListOr = new string[lists.Count()];
+            return ListOr.ToList();
+        }
+    }
+}

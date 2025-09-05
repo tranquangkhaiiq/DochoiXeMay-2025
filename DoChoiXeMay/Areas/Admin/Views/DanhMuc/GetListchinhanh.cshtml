@@ -1,0 +1,95 @@
+﻿@using DoChoiXeMay.Models;
+@model IEnumerable<Ser_ChiNhanh>
+<div class="table-responsive">
+    <table class="table table-hover table-striped" style="margin-bottom:0">
+        <thead>
+            <tr class="canhgiua" style="background-color: #00bcd4">
+                <th class="canhgiua">Id</th>
+                <th class="canhgiua">Tên CN</th>
+                <th class="canhgiua">Đại Diện</th>
+                <th class="canhgiua">Số ĐT</th>
+                <th class="canhgiua">Gmail</th>
+                <th class="canhgiua">Địa Chỉ</th>
+                <th class="canhgiua">Tài Khoản NH</th>
+                <th class="canhgiua">Sử Dụng</th>
+                <th class="canhgiua">Level</th>
+                <th class="canhgiua">UserWeb</th>
+                <th class="canhgiua">PassWord</th>
+                <th class="canhgiua">Update</th>
+            </tr>
+        </thead>
+        @if (Model != null)
+        {
+            Model1 dbc = new Model1();
+            <tbody style="border: 2px solid black !important">
+                @foreach (DoChoiXeMay.Models.Ser_ChiNhanh Item in ViewBag.GetListchinhanh)
+                {
+                    UserTek User = new UserTek();
+                    var PassCk = "";
+                    if (Item.IdUser != 0)
+                    {
+                        var Udata = new DoChoiXeMay.Areas.Admin.Data.UserData();
+                        User = Udata.GetUserbyID(Item.IdUser);
+                        PassCk = Udata.PassbyPass(User.Id);
+                    }
+                    <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                        <td>@Item.Id</td>
+                        <td>@Item.TenChiNhanh</td>
+                        <td>@Item.DaiDien</td>
+                        <td>
+                            @Item.SDT
+                        </td>
+                        <td>
+                            @Item.Gmail
+                        </td>
+                        <td>
+                            @Item.DiaChi
+                        </td>
+                        <td>
+                            @Item.TaiKhoanNH
+                        </td>
+                        <td>
+                            @Item.Sudung
+                        </td>
+                        <td>
+                            @Item.Ser_Levelchinhanh.Level_Name
+                        </td>
+                        @if (Item.IdUser != 0)
+                        {
+                            <td>
+                                @User.UserName
+                            </td>
+                            <td>
+                                @PassCk
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <span>Đã Xóa</span>
+                            </td>
+                            <td>
+                                <span>...</span>
+                            </td>
+                        }
+
+                        <td>
+                            @if (int.Parse(Session["quyen"].ToString()) < 5)
+                            {
+                                if(Item.Id > 1)
+                                {
+                                    <a style="display:none" class="btn btn-warning" onclick="return confirm('Bạn muốn xóa LV Chi Nhánh: @Item.TenChiNhanh ??')" href="/Admin/DanhMuc/DeleteChiNhanh/@Item.Id"><span class="glyphicon glyphicon-trash"></span></a>
+                                }
+                                <a class="btn btn-danger" href="/Admin/DanhMuc/UpdateChiNhanhvaUser/@Item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                             }
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        }
+
+
+    </table>
+
+</div>

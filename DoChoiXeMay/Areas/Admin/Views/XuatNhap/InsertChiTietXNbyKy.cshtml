@@ -1,0 +1,304 @@
+﻿@model DoChoiXeMay.Models.ChitietXuatNhap
+@{
+    ViewBag.Title = "InsertChiTietXNbyKy";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+
+<link href="~/Areas/Admin/Content/css/Info_Style.css" rel="stylesheet" />
+@*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<div class="container">
+    @using (Html.BeginForm("XuatNhap", "InsertChiTietXNbyKy", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <fieldset class="info_form" style="margin-top:0">
+            <div class="container">
+
+
+                <h1 class="info_header">
+                    <span style="color:black">@Session["UserName"]</span>  Thêm mới hàng hóa cho kỳ <span style="color:black;text-decoration:underline double black ">@Session["xuatnhap"].ToString()</span>: @Session["TenKy"]
+                    <span class="pull-right label label-warning" style="color:white;font-family:monospace">
+                        @Html.ValidationSummary()
+                    </span>
+                </h1>
+
+                <div class="contentform">
+                    <div class="leftcontact">
+                        <div class="form-group">
+                            <p>Tên Hàng Hóa</p>
+                            @if (Session["xuatnhap"].ToString() == "Nhap")
+                            {
+                                <input name="Ten" id="Ten" onchange="CheckspTek()" list="listname" style="width: 100%; height: 40px" required />
+                                <datalist id="listname">
+                                    @foreach (DoChoiXeMay.Models.HangHoa Item in ViewBag.NameSP)
+                                    {
+                                        <option value="@Item.Ten"></option>
+                                    }
+                                    
+                                </datalist>
+                            }
+                            else
+                            {
+                                //Xuất hàng bằng dropdownlist
+                                @*@Html.TextBoxFor(m => m.Ten, new { @class = "form-control", style = "width: 100%; height: 40px", @required = true })*@
+                                <input name="Ten" id="Ten" onchange="CheckspTek()" list="listname" style="width: 100%; height: 40px" required />
+                                <datalist id="listname" style="width:200px!important;height:30px">
+                                    @foreach (DoChoiXeMay.Models.HangHoa Item in ViewBag.NameSP)
+                                    {
+                                        <option value="@Item.Ten"></option>
+                                    }
+                                </datalist>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12 col-sx-12 col-12">
+                                <p>Hãng Sản Xuất</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-subtitles"></i></span>
+                                @Html.DropDownList("IDMF", null, new { style = "width: 100%; height: 40px" })
+                            </div>
+                            <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12 col-sx-12 col-12">
+                                <p>Size</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-text-size"></i></span>
+                                @Html.DropDownList("IDSize", null, new { style = "width: 100%; height: 40px" })
+                                
+                            </div>
+                        </div>
+                        <div class="form-group" style="padding-left:10px">
+                            <p>Màu</p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-text-background"></i></span>
+                            @Html.DropDownList("IDColor", null, new { style = "width: 100%; height: 40px" })
+                        </div>
+                        <div class="form-group" style="padding:10px;font-size:medium;display:none" id="TBHHTeK">
+                            <p id="dong0">Trong kho hiện có:</p>
+                            <p id="dong1" style="margin-left:10px"></p>
+                            <p id="dong2" style="margin-left:10px"></p>
+                            <p id="dong3" style="margin-left:10px"></p>
+                            <p id="dong4" style="margin-left:10px"></p>
+                            <p id="dong5" style="margin-left:10px"></p>
+                            <p id="dong6" style="margin-left:10px"></p>
+                        </div>
+                    </div>
+                    <div class="rightcontact">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12 col-sx-12 col-12">
+                                    @if (Session["xuatnhap"].ToString() == "Nhap")
+                                    {
+                                        <p>Số Lượng</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Số Lượng Xuất</p>
+                                    }
+
+                                    <span class="icon-case"><i class="glyphicon glyphicon-shopping-cart"></i></span>
+                                    @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control", @type = "number", style = "width: 75%; height: 40px", @required = true })
+
+                                </div>
+                                <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12 col-sx-12 mobilekhai">
+                                    @if (Session["xuatnhap"].ToString() == "Nhap")
+                                    {
+                                        <p>Giá Nhập</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Giá Xuất</p>
+                                    }
+
+                                    <span class="icon-case"><i class="glyphicon glyphicon-usd"></i></span>
+                                    @Html.TextBoxFor(m => m.Gianhap, new { @class = "form-control", @type = "number", style = "width: 75%; height: 40px", @required = true })
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="form-group">
+                            <p>Hình sản phẩm 1 (giới hạn 7MB) <span></span></p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                            <input type="file" name="Hinh1" id="Hinh1" />
+                            <p id="thongbaosite1" style="color:red; display:none">File quá lớn !!!</p>
+                        </div>
+                        <div class="form-group">
+                            <p>Hình sản phẩm 2 (giới hạn 7MB) <span></span></p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                            <input type="file" name="Hinh2" id="Hinh2" />
+                            <p id="thongbaosite2" style="color:red; display:none">File quá lớn !!!</p>
+                        </div>
+                        <div class="form-group">
+                            <p>Hình sản phẩm 3 (giới hạn 7MB) <span></span></p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                            <input type="file" name="Hinh3" id="Hinh3" />
+                            <p id="thongbaosite3" style="color:red; display:none">File quá lớn !!!</p>
+                        </div>
+                        <script>
+                            var kt1 = true;
+                            var kt2 = true;
+                            var kt3 = true;
+                            $('#Hinh1').bind('change', function () {
+                                //this.files[0].size gets the size of your file.
+                                var size = this.files[0].size;
+                                const file = Math.round((size / 1024));
+                                if (file >= 7200) {
+                                    $("#thongbaosite1").css('display', 'block');
+                                    kt1 = false;
+                                    KtLuu();
+                                } else {
+                                    $("#thongbaosite1").css('display', 'none')
+                                    kt1 = true;
+                                    KtLuu();
+                                }
+                            });
+                            $('#Hinh2').bind('change', function () {
+                                //this.files[0].size gets the size of your file.
+                                var size = this.files[0].size;
+                                const file = Math.round((size / 1024));
+                                if (file >= 7200) {
+                                    $("#thongbaosite2").css('display', 'block');
+                                    kt2 = false;
+                                    KtLuu();
+                                } else {
+                                    $("#thongbaosite2").css('display', 'none')
+                                    kt2 = true;
+                                    KtLuu();
+                                }
+                            });
+                            $('#Hinh3').bind('change', function () {
+                                //this.files[0].size gets the size of your file.
+                                var size = this.files[0].size;
+                                const file = Math.round((size / 1024));
+                                if (file >= 7200) {
+                                    $("#thongbaosite3").css('display', 'block');
+                                    kt3 = false;
+                                    KtLuu();
+                                } else {
+                                    $("#thongbaosite3").css('display', 'none')
+                                    kt3 = true;
+                                    KtLuu();
+                                }
+                            });
+                            function KtLuu() {
+                                if (kt1 == true && kt2 == true && kt3 == true) {
+                                    document.getElementById('btnLuu').disabled = false;
+                                } else {
+                                    document.getElementById('btnLuu').disabled = true;
+                                }
+                            }
+
+                        </script>
+                    </div>
+                        
+                    </div>
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <div class="text-center btn-crud">
+                            <button id="btnLuu" class="btn btn-warning" data-action="InsertChiTietXNbyKy"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Save</button>
+                            <a class="btn btn-primary" href="/Admin/XuatNhap/ListXuatNhapUser" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
+                        </div>
+                        <script>
+                            $(function () {
+                                $("button[data-action]").click(function () {
+                                    if (!confirm("Bạn Có Chắc Chắn Hành Động Của Mình?")) {
+                                        return false;
+                                    } else {
+                                        var action = $(this).attr("data-action");
+                                        this.form.action = "/Admin/XuatNhap/" + action;
+                                    }
+
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    }
+
+</div>
+<script>
+    function CheckspTek() {
+        var Ten = $('#Ten').val();
+        var IDMF = $('#IDMF').val();
+        var IDColor = $('#IDColor').val();
+        var IDSize = $('#IDSize').val();
+        if (Ten != "") {
+            ShowThongBao(Ten, IDMF, IDColor, IDSize)
+        }
+    };
+    $("#IDMF").change(function () {
+        var Ten = $('#Ten').val();
+        var IDMF = $('#IDMF').val();
+        var IDColor = $('#IDColor').val();
+        var IDSize = $('#IDSize').val();
+        if (Ten != "") {
+            ShowThongBao(Ten, IDMF, IDColor, IDSize)
+        }
+    });
+    $("#IDColor").change(function () {
+        var Ten = $('#Ten').val();
+        var IDMF = $('#IDMF').val();
+        var IDColor = $('#IDColor').val();
+        var IDSize = $('#IDSize').val();
+        if (Ten != "") {
+            ShowThongBao(Ten, IDMF, IDColor, IDSize)
+        }
+    });
+    $("#IDSize").change(function () {
+        var Ten = $('#Ten').val();
+        var IDMF = $('#IDMF').val();
+        var IDColor = $('#IDColor').val();
+        var IDSize = $('#IDSize').val();
+        if (Ten != "") {
+            ShowThongBao(Ten, IDMF, IDColor, IDSize)
+        }
+    });
+    
+    function ShowThongBao(Ten, IDMF, IDColor, IDSize) {
+        $('#TBHHTeK').css("display", "block");
+            $.ajax({
+                url: "/Admin/XuatNhap/CheckHHTEK",
+                type: 'POST',
+                datatype: 'JSON',
+                contentType: 'application/json;charset=utf-8;',
+                data: JSON.stringify({ Tenhh: Ten, Hangsx: IDMF, Mau: IDColor, Size: IDSize }),
+                async: true,
+                success: function (res) {
+                    if (res != null) {
+                        $('#TBHHTeK').css("display", "block");
+                        LoadThongBaoChek(res);
+                    } else {
+                        $('#TBHHTeK').css("display", "none");
+                    }
+                }, error: function (err) {
+                    $('#TBHHTeK').css("display", "none");
+                    console.log(err, ':Loi Check Hang Hóa');
+                }
+            });
+
+    }
+    function LoadThongBaoChek(DetailS) {
+        $('#dong0').html('');
+        $('#dong1').html('');
+        $('#dong2').html('');
+        $('#dong3').html('');
+        $('#dong4').html('');
+        $('#dong5').html('');
+        $('#dong6').html('');
+        if (DetailS != null) {
+            if (DetailS.length > 6) {
+                for (var i = 0; i < 5; i++) {
+                    $('#dong' + i).html(DetailS[i]);
+                }
+                $('#dong6').html('...');
+            } else {
+                for (var i = 0; i < DetailS.length; i++) {
+                    $('#dong' + i).html(DetailS[i]);
+                }
+            }
+            
+        } else {
+            var tt = 'Trong Kho hiện không có sp trùng tên.';
+            $('#dong0').html(tt);
+        }
+    }
+</script>
+
+

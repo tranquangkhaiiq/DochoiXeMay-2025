@@ -1,0 +1,221 @@
+﻿@model DoChoiXeMay.Models.ProjectTeK
+@using DoChoiXeMay.Areas.Admin.Data
+@{
+    ViewBag.Title = "UpdateProjectTeK";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<link href="~/Areas/Admin/Content/css/Info_Style.css" rel="stylesheet" />
+@*<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>*@
+
+<div class="container">
+    <h2>Update Dự Án TeK</h2>
+    @using (Html.BeginForm("UpdateProjectTeK", "ProjectTeK", FormMethod.Post, new { enctype = "multipart/form-data", id = "NTV_form" }))
+    {
+        <fieldset class="info_form" style="margin-top:0">
+            <h1 class="info_header">
+                <span style="color:black">@Session["UserName"]</span>  Update Dự Án: @Model.NameProject
+                <span class="pull-right label label-warning" style="color:white;font-family:monospace">
+                    @Html.ValidationSummary()
+                </span>
+            </h1>
+            <div class="contentform">
+                @Html.HiddenFor(kh => kh.Id)
+                @Html.HiddenFor(kh => kh.GroupId)
+                @Html.HiddenFor(kh => kh.PhantramHoanThanh)
+                @Html.HiddenFor(kh => kh.NgayCapNhat)
+                @Html.HiddenFor(kh => kh.UserId)
+                <div class="leftcontact">
+                    <div class="form-group">
+                        <p>Tên Dự Án</p>
+                        <span class="icon-case"><i class="glyphicon glyphicon-user"></i></span>
+                        @Html.TextBoxFor(m => m.NameProject, new { @class = "form-control", style = "width: 75%; height: 40px" })
+                    </div>
+                    <div class="form-group">
+                        <p>Giải thích ngắn</p>
+                        <span class="icon-case"><i class="glyphicon glyphicon-alert"></i></span>
+                        @Html.TextBoxFor(m => m.Giaithich, new { @class = "form-control", style = "width: 100%; height: 40px" })
+                    </div>
+                    <div class="form-group">
+                        <p>Ngày bắt đầu</p>
+                        <span class="icon-case"><i class="glyphicon glyphicon-time"></i></span>
+                        @Html.TextBoxFor(kh => kh.DateBegin, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", style = "height: 40px" })
+                    </div>
+                    <div class="form-group">
+                        <p>Ngày kết thúc</p>
+                        <span class="icon-case"><i class="glyphicon glyphicon-time"></i></span>
+                        @Html.TextBoxFor(kh => kh.DateEnd, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", style = "height: 40px" })
+                    </div>
+                    <div class="row" style="border: 1px dashed #423333; padding: 5px;margin-bottom:15px">
+                        <div class="col-sm-6">
+                            <p>Dự Án quan trọng</p>
+                            @Html.CheckBoxFor(m => m.Uutien, new { @style = "height:20px" })
+                        </div>
+                        <div class="col-sm-6" style="text-align:center">
+                            <p>Trạng thái</p>
+                            @Html.DropDownList("TrangthaiId", null, new { style = "width: 90%; height: 40px" })
+                        </div>
+                    </div>
+                </div>
+                <div class="rightcontact">
+                    @if (ViewBag.CountProjectDetail > 0)
+                    {
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <p>User tham gia</p>
+                            </div>
+                            <div class="col-sm-5">
+                                <p>Leader</p>
+                            </div>
+                        </div>
+                        <div class="row" style="border: 1px dashed #423333; padding-left: 20px;padding-top:15px;margin-bottom:10px">
+                            <div class="col-sm-7">
+                                @foreach (DoChoiXeMay.Models.UserTek Item in ViewBag.User)
+                                {
+                                    var user = "User" + Item.Id;
+                                    var pd = new ProjectTeKData().getProjectDetail(Model.Id, Item.Id);
+
+                                    if (pd != null)
+                                    {
+                                        <p style="height:20px">
+                                            <input disabled style="height:20px;width:40px" type="radio" checked value="@Item.Id" name="@user" />
+                                            <span class="span_chbx">@Item.UserName</span>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p style="height:20px">
+                                            <input disabled style="height:20px;width:40px" type="radio" value="@Item.Id" name="@user" />
+                                            <span class="span_chbx">@Item.UserName</span>
+                                        </p>
+                                    }
+                                }
+                            </div>
+                            <div class="col-sm-5">
+                                @foreach (DoChoiXeMay.Models.UserTek Item in ViewBag.User)
+                                {
+                                    var pd = new ProjectTeKData().getProjectDetail(Model.Id, Item.Id);
+                                    var lead = "Lead" + Item.Id;
+
+                                    if (pd != null && pd.Leader == true)
+                                    {
+                                        <p style="height:20px">
+                                            <input disabled style="height:20px;width:40px" checked type="checkbox" value="@lead" />
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p style="height:20px">
+                                            <input disabled style="height:20px;width:40px" type="checkbox" value="@lead" />
+                                        </p>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <p>Chọn lại User (nếu muốn)</p>
+                        </div>
+                        <div class="col-sm-5">
+                            <p>Chọn lại Leader</p>
+                        </div>
+                    </div>
+                    <div class="row" style="border: 1px dashed #423333; padding-left: 20px;padding-top:15px;margin-bottom:10px">
+                        <div class="col-sm-7">
+                            @foreach (DoChoiXeMay.Models.UserTek Item in ViewBag.User)
+                            {
+                                var user = "User" + Item.Id;
+                                <p style="height:40px">
+                                    <input style="height:20px;width:40px" type="checkbox" id="@user" value="@Item.Id" name="@user" />
+                                    <span class="span_chbx">@Item.UserName</span>
+                                </p>
+                            }
+                        </div>
+                        <div class="col-sm-5">
+                            @foreach (DoChoiXeMay.Models.UserTek Item in ViewBag.User)
+                            {
+                                var lead = "Lead" + Item.Id;
+                                <p style="height:40px">
+                                    <input style="height:20px;width:40px" type="checkbox" id="@lead" value="@lead" name="fooby[1][]" />
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <div class="text-center btn-crud">
+                            <button id="btnLuu" class="btn btn-warning" data-action="UpdateProjectTeK"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Update Dự Án</button>
+                            <a class="btn btn-primary" href="/Admin/ProjectTeK/Index" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
+                        </div>
+                        @*<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>*@
+                        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                        <script>
+                            $(function () {
+                                var stringArray = new Array();
+                                var arrayLead = new Array();
+                                $("input:checkbox").on('click', function () {
+                                    // in the handler, 'this' refers to the box clicked on
+                                    var $box = $(this);
+                                    if ($box.is(":checked")) {
+                                        var group = "input:checkbox[name='" + $box.attr("name") + "']";
+                                        $(group).prop("checked", false);
+                                        $box.prop("checked", true);
+                                        //Xóa leader không chọn
+
+                                        let tt = $box.val() + "";
+                                        if (tt.length > 4) {
+                                            arrayLead.push(tt);
+                                            for (let i = 0; i < arrayLead.length; i++) {
+                                                if (arrayLead[i].length > 4 && arrayLead[i] != tt) {
+                                                    arrayLead.splice(i, 1);
+                                                }
+                                            }
+                                        } else {
+                                            stringArray.push(tt);
+                                        }
+
+                                    } else {
+                                        $box.prop("checked", false);
+                                        //Xóa User không chọn
+                                        for (let i = 0; i < stringArray.length; i++) {
+                                            if (stringArray[i] == $box.val()) {
+                                                stringArray.splice(i, 1);
+                                            }
+                                        }
+                                    }
+                                });
+                                $("button[data-action]").click(function () {
+                                    if (!confirm("Bạn Có Chắc Chắn Hành Động Của Mình?")) {
+                                        return false;
+                                    } else {
+                                        var postData = JSON.stringify({ Id: stringArray, lead: arrayLead });
+                                        $.ajax({
+                                            contentType: "application/json; charset=utf-8",
+                                            url: "/Admin/ProjectTeK/setSession",
+
+                                            dataType: 'json',
+                                            type: 'POST',
+                                            data: postData,
+                                            success: function (response) {
+                                                var action = $(this).attr("data-action");
+                                                this.form.action = "/Admin/ProjectTeK/" + action;
+                                                //document.getElementById("btnLuu").setAttribute("href", "/Admin/ProjectTeK/" + action);
+                                            }
+                                            //dataType: "json",
+                                            //traditional: true
+                                        });
+
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+    }
+
+</div>
+

@@ -1,0 +1,226 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<style>
+    .canhgiua {
+        text-align: center !important;
+    }
+</style>
+<div class="">
+    <div class="row">
+        <div class="Title_Notin" style="text-align:center">
+            <span class="">List Serial đã Active</span>
+        </div>
+    </div>
+    <div class="panel panel-default" style="margin-top:10px">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                    @Session["ThongBaoListDaActive"]
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
+                        <input type="text" class="form-control input-sm pull-right" style="margin-top: 10px;font-size: medium; height: 40px; width: 95%" name="KeywordsTT" id="KeywordsTT" onchange="TimKiemsp()" placeholder="Enter Tìm Theo Lô SX, số Serial, tên người dùng hoặc Khu Vực." />
+                    </div>
+                    <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
+                        @Html.DropDownList("IdChiNhanh", null, new { @class = "form-control", style = "margin-top: 10px;width: 75%; height: 40px" })
+                    </div>
+                    <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12 col-12" style="margin-top:5px">
+                        <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-6" style="text-align:center">
+                            <span class="icon-case"><i class="glyphicon glyphicon-calendar"></i>Từ Active</span>
+                            <input type="date" name="tungay" id="tungay" />
+                        </div>
+                        <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-6" style="text-align:center">
+                            <span class="icon-case"><i class="glyphicon glyphicon-calendar"></i>Đến Active</span>
+                            <input type="date" name="denngay" id="denngay" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />
+            <div class="listDaAC">
+
+
+            </div>
+        </div>
+        <div class="panel-footer">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="TongSanPham"></span>
+                </div>
+                <div class="col-md-4" style="text-align: center">
+                    <span class="TongSanPhamAC"></span>
+                </div>
+                <div class="col-md-4" style="text-align: right">
+                    <span class="TongSanPham"></span>
+                </div>
+            </div>
+
+
+            <ul class="pager">
+                <li><a href="#"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        pageNo = 0;
+        pageSize = 20;
+        TongSP = 0;
+        var tungay = $("#tungay").val();
+        var denngay = $("#denngay").val();
+        var KeywordsTTT = $('#KeywordsTT').val();
+        var IdCN = $('#IdChiNhanh').val();
+        getTongSanPham(tungay, denngay, pageSize, pageNo, IdCN, KeywordsTTT);
+        getTongSanPhamAC(tungay, denngay, IdCN, KeywordsTTT);
+
+        $(".pager a:eq(0)").click(function () {
+            if (pageNo > 0) {
+                pageNo = 0;
+                IdCN = $('#IdChiNhanh').val();
+                KeywordsTTT = $('#KeywordsTT').val();
+                tungay = $("#tungay").val();
+                denngay = $("#denngay").val();
+                LoadPage(tungay, denngay, pageNo, pageSize, IdCN, KeywordsTTT);
+            }
+            return false;
+        });
+        $(".pager a:eq(1)").click(function () {
+            if (pageNo > 0) {
+                pageNo--;
+                IdCN = $('#IdChiNhanh').val();
+                KeywordsTTT = $('#KeywordsTT').val();
+                tungay = $("#tungay").val();
+                denngay = $("#denngay").val();
+                LoadPage(tungay, denngay, pageNo, pageSize, IdCN, KeywordsTTT);
+            }
+            return false;
+        });
+        $(".pager a:eq(2)").click(function () {
+            if (pageNo < pageCount - 1) {
+                pageNo++;
+                IdCN = $('#IdChiNhanh').val();
+                KeywordsTTT = $('#KeywordsTT').val();
+                tungay = $("#tungay").val();
+                denngay = $("#denngay").val();
+                LoadPage(tungay, denngay, pageNo, pageSize, IdCN, KeywordsTTT);
+            }
+            return false;
+        });
+
+        $(".pager a:eq(3)").click(function () {
+            if (pageNo < pageCount - 1) {
+                pageNo = pageCount - 1;
+                IdCN = $('#IdChiNhanh').val();
+                KeywordsTTT = $('#KeywordsTT').val();
+                tungay = $("#tungay").val();
+                denngay = $("#denngay").val();
+                LoadPage(tungay, denngay, pageNo, pageSize, IdCN, KeywordsTTT);
+            }
+            return false
+        });
+        $("#IdChiNhanh").change(function () {
+            pageNo = 0;
+            pageSize = 20;
+            TongSP = 0;
+            IdCN = $('#IdChiNhanh').val();
+            KeywordsTTT = $('#KeywordsTT').val();
+            tungay = $("#tungay").val();
+            denngay = $("#denngay").val();
+            getTongSanPham(tungay, denngay, pageSize, pageNo, IdCN, KeywordsTTT);
+            getTongSanPhamAC(tungay, denngay, IdCN, KeywordsTTT);
+        }); 
+        $("#tungay").change(function () {
+            if ($("#tungay").val() != "" && $("#denngay").val() != "" && $("#tungay").val() <= $("#denngay").val()) {
+                pageNo = 0;
+                pageSize = 20;
+                TongSP = 0;
+                IdCN = $('#IdChiNhanh').val();
+                KeywordsTTT = $('#KeywordsTT').val();
+                tungay = $("#tungay").val();
+                denngay = $("#denngay").val();
+                getTongSanPham(tungay, denngay, pageSize, pageNo, IdCN, KeywordsTTT);
+                getTongSanPhamAC(tungay, denngay, IdCN, KeywordsTTT);
+            }
+        });
+        $("#denngay").change(function () {
+            if ($("#tungay").val() != "" && $("#denngay").val() != "" && $("#tungay").val() <= $("#denngay").val()) {
+                pageNo = 0;
+                pageSize = 20;
+                TongSP = 0;
+                IdCN = $('#IdChiNhanh').val();
+                KeywordsTTT = $('#KeywordsTT').val();
+                tungay = $("#tungay").val();
+                denngay = $("#denngay").val();
+                getTongSanPham(tungay, denngay, pageSize, pageNo, IdCN, KeywordsTTT);
+                getTongSanPhamAC(tungay, denngay, IdCN, KeywordsTTT);
+            }
+        });
+    });
+    //LoadPage();
+    function LoadPage(tungay, denngay, pageNo, pageSize, IdCN, KeywordsTTT) {
+        $.ajax({
+            url: "/Admin/Active/GetListDaActive",
+            data: { tu: tungay, den: denngay, PageNo: pageNo, PageSize: pageSize, IdCN: IdCN, KeywordsTTT: KeywordsTTT },
+            success: function (respone) {
+                $(".listDaAC").html(respone);
+                var pagesp = pageNo + 1;
+                $('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+            }
+        });
+    };
+    function getTongSanPham(tungay, denngay, pageSize, pageNo, IdCN, KeywordsTTT) {
+        $.ajax({
+            url: "/Admin/Active/GetPageCountActive",
+            data: { tu: tungay, den: denngay, PageSize: pageSize, IdCN: IdCN, KeywordsTTT: KeywordsTTT },
+            success: function (respone) {
+                pageCount = respone;
+                TongSP = respone;
+                LoadPage(tungay, denngay, pageNo, pageSize, IdCN, KeywordsTTT);
+            }
+        });
+    };
+    function getTongSanPhamAC(tungay, denngay, IdCN, KeywordsTTT) {
+        $.ajax({
+            url: "/Admin/Active/GetTongSanPhamAC",
+            data: { tu: tungay, den: denngay, IdCN: IdCN, KeywordsTTT: KeywordsTTT },
+            success: function (respone) {
+                $('.TongSanPhamAC').html('Tổng: '+respone+' S/N');
+            }
+        });
+    };
+    function TimKiemsp() {
+        pageNo = 0;
+        pageSize = 20;
+        TongSP = 0;
+        var KeywordsTTT = $('#KeywordsTT').val();
+        var IdCN = $('#IdChiNhanh').val();
+        tungay = $("#tungay").val();
+        denngay = $("#denngay").val();
+        $("#loading").show();
+        $(".list").css('display', 'none');
+        setTimeout(function () {
+            $(".list").css('display', 'block');
+            getTongSanPham(tungay, denngay, pageSize, pageNo, IdCN, KeywordsTTT);
+            getTongSanPhamAC(tungay, denngay, IdCN, KeywordsTTT);
+            //1s sau hiên lên
+        }, 800);
+        $("#loading").hide();
+
+    };
+</script>
+

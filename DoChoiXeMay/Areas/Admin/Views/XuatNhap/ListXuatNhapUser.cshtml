@@ -1,0 +1,180 @@
+﻿@model DoChoiXeMay.Models.KyXuatNhap
+@{
+    ViewBag.Title = "ListXuatNhapUser";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<div class="row">
+    <div class="Title_Notin" style="text-align:center">
+        <span class="">Bảng Xuất Nhập Của User @Session["UserName"]</span>
+    </div>
+</div>
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<style>
+    .canhgiua {
+        text-align: center !important;
+    }
+
+    .marginbutonkh {
+        margin-top: 50%;
+    }
+</style>
+<div class="panel panel-default" style="margin-top:10px">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                @Session["ThongBaoXuatNhapUser"]
+            </div>
+            <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                
+                @Session["ThongBaoXuatNhapUserct"]
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+                    <a class="btn btn-warning" style="margin-left:20px" onclick="uwngtuyen()"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Thêm mới "Kỳ Xuất Nhập"</a>
+                    <span>(Số tiền được tự động tính sau khi bạn nhập Chi Tiết)</span>
+                </div>
+
+
+            </div>
+            <div id="myModal" class="modal fade" role="dialog" style="opacity: 1">
+                <div class="modal-dialog modal-lg" style="left:0; width: 500px; height: 600px; margin-top: 10% !important; background-position: center center; background-repeat: no-repeat; background-size: cover;box-sizing:border-box ">
+                    <div class="modal-content" style="height: 450px; overflow: auto">
+                        <div class="modal-header">
+                            <button type="button" class="close" onclick="closemodal()">&times;</button>
+                            <h4 class="modal-title text-center" style="font-weight:bold;font-size:24px">Thêm Mới "Kỳ Xuất Nhập"</h4>
+                        </div>
+                        <div class="modal-body" style="box-shadow: 1px 0 3px #8ba6c5">
+                            <div style="padding:0 !important">
+                                @using (Html.BeginForm("InsertKyXuatNhap", "XuatNhap", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    <div class="row form-group" style="padding:15px; margin:0px;font-size:larger">
+                                        <div class="row" style="text-align:center">
+                                            <input id="TenKy" placeholder="Tên Kỳ xuất nhập ..." name="TenKy" style="margin-right:10px;width:100%" required />
+                                        </div>
+                                        <div class="row" style="margin-top:10px">
+                                            <span>Loại Hàng Xuất/Nhập</span>
+                                            @Html.DropDownList("IdMaTC", null, new { style = "width: 100%; height: 40px" })
+                                        </div>
+                                        <div class="row" style="margin-top:20px">
+                                            <div class="col-md-6">
+                                                <span>(-)Chiết khấu %</span>
+                                                <input id="CKphantram" type="number" value="0" name="CKphantram" required />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span>(-)Chiết khấu tiền mặt</span>
+                                                <input id="CKtienmat" type="number" value="0" name="CKtienmat" required />
+                                            </div>
+
+                                        </div>
+                                        <div class="row" style="margin-top:10px">
+                                            <div class="col-md-6">
+                                                <span>(+)Tiền Ship</span>
+                                                <input id="Shipper" type="number" value="0" name="Shipper" required />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span>(+)Vat %</span>
+                                                <input id="VAT" type="number" value="0" name="VAT" required />
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top:10px">
+                                            <div class="col-md-6">
+                                                <span>Ngày Xuất Nhập</span>
+                                                <input id="NgayXuatNhap" type="date" name="NgayXuatNhap" required />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span>Kỳ Xuất</span>
+                                                @Html.CheckBoxFor(m => m.XuatNhap, new { @style = "height:20px;margin-left: 10%" })
+                                                <p style="font-size:small">Chiết khấu thì (-), Ship và VAT thì (+)</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12" style="margin-top:10px">
+                                            <span>Tải Hóa Đơn</span>
+                                            <input id="HoaDon" type="file" name="HoaDon" />
+
+                                        </div>
+                                        <div class="col-md-12" style="margin-top:10px">
+                                            <span>Tải File1</span>
+                                            <input id="Filesave2" type="file" name="Filesave2" />
+
+                                        </div>
+                                        <div class="col-md-12" style="margin-top:10px">
+                                            <span>Tải File2</span>
+                                            <input id="Filesave3" type="file" name="Filesave3" />
+
+                                        </div>
+                                        <div class="col-md-6" style="margin-top:10px;font-size:larger;text-align:center">
+                                            <button id="btnLuu" class="btn btn-primary" type="submit">Lưu Kỳ Xuất Nhập</button>
+
+                                        </div>
+                                        <div class="col-md-6" style="margin-top:10px;font-size:larger;text-align:center">
+
+                                            <button id="btnLuu" class="btn btn-default" onclick="closemodal()">Đóng(Không Lưu)</button>
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="panel-body">
+        <img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />
+        <div class="listXNU">
+
+
+        </div>
+    </div>
+    <div class="panel-footer">
+
+        <div class="row">
+            <div class="col-md-8">
+                <span class="TongSanPham"></span>
+            </div>
+            <div class="col-md-4" style="text-align: right">
+                <span class="TongSanPham"></span>
+            </div>
+        </div>
+
+
+        @*<ul class="pager">
+                <li><a href="#"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+            </ul>*@
+
+    </div>
+</div>
+<h2>__Hướng Dẫn__</h2>
+<h5>***Mỗi User tự tạo Kỳ(đợt) Xuất nhập hàng => Đẩy lên bảng xài chung(TeK)</h5>
+<h5>***Bảng Thu Chi sẽ được tự động thêm vào "Xuất Hàng = Thu Vào", "Nhập Hàng = Chi Ra"</h5>
+<h3>***<span>Bước 1:"Thêm mới kỳ xuất nhập"</span>=><span>Bước 2:"Thêm hàng hóa"</span>=><span>Bước 3:"Đẩy Xuất nhập lên TeK"</span></h3>
+<h5>**Tổng tiền: Soluong*gianhap + shipper + VAT - ChietKhau% - ChietKhautienmat</h5>
+<script>
+    function uwngtuyen() {
+        $("#myModal").addClass("show");
+    };
+    function closemodal() {
+        $("#myModal").removeClass("show");
+    }
+    LoadPage();
+    function LoadPage() {
+        $.ajax({
+            url: "/Admin/XuatNhap/GetListKyXNUser",
+            data: {},
+            success: function (respone) {
+                $(".listXNU").html(respone);
+                //var pagesp = pageNo + 1;
+                //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+            }
+        });
+    };
+</script>
+

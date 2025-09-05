@@ -1,0 +1,215 @@
+﻿@model DoChoiXeMay.Models.HangHoa
+@{
+    ViewBag.Title = "UpdateHinhSP";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<link href="~/Areas/Admin/Content/css/Info_Style.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<div class="container">
+    @using (Html.BeginForm("Home", "UpdateHinhSP", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <fieldset class="info_form" style="margin-top:0">
+            <div class="container">
+                @Html.HiddenFor(kh => kh.Id)
+                @Html.HiddenFor(kh => kh.Ten)
+                @Html.HiddenFor(kh => kh.NgayAuto)
+                @Html.HiddenFor(kh => kh.IdLoai)
+                @Html.HiddenFor(kh => kh.IDMF)
+                @Html.HiddenFor(kh => kh.IdLoai)
+                @Html.HiddenFor(kh => kh.IDColor)
+                @Html.HiddenFor(kh => kh.IDSize)
+                @Html.HiddenFor(kh => kh.GhiChu)
+                <h1 class="info_header">
+                    Update hình sản phẩm: @Model.Ten
+                    <span class="pull-right label label-warning" style="color:white;font-family:monospace">
+                        @Html.ValidationSummary()
+                    </span>
+                </h1>
+                <div class="contentform">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <p>Số Lượng <span></span></p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-import"></i></span>
+                                @if (Session["quyen"].ToString() == "1")
+                                {
+                                    @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control", @type = "number", style = "width: 100%; height: 40px" })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control", @type = "number", style = "width: 100%; height: 40px", @disabled = true })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <p>Giá <span></span></p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-import"></i></span>
+                                @if (Session["quyen"].ToString() == "1")
+                                {
+                                    @Html.TextBoxFor(m => m.GiaNhap, new { @class = "form-control", @type = "number", style = "width: 100%; height: 40px" })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(m => m.GiaNhap, new { @class = "form-control", @type = "number", style = "width: 100%; height: 40px", @disabled = true })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <p>Phân Loại <span></span></p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-import"></i></span>
+                                <select class="form-control" id="IDKy" name="IDKy">
+                                    @if (Model.IDKy == 1)
+                                    {
+                                        <option value="1" selected>NVL</option>
+                                        <option value="0">SP</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="0" selected>SP</option>
+                                        <option value="1">NVL</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <p>Hình 1 của sản phẩm (giới hạn 7MB) <span></span></p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                <input type="file" name="Dinhkem1" id="Dinhkem1" />
+                                <p id="thongbaosite1" style="color:red; display:none">File quá lớn !!!</p>
+                                @Html.HiddenFor(kh => kh.Hinh1)
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Model.Hinh1)))
+                            {
+                                <img class="img-responsive img-thumbnail" src="~/Content/imgxuatnhap/@Model.Hinh1" style="max-width:100%;max-height:200px" />
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <p>Hình 2 của sản phẩm (giới hạn 7MB) <span></span></p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                <input type="file" name="Dinhkem2" id="Dinhkem2" />
+                                <p id="thongbaosite2" style="color:red; display:none">File quá lớn !!!</p>
+                                @Html.HiddenFor(kh => kh.Hinh2)
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Model.Hinh2)))
+                            {
+                                <img class="img-responsive img-thumbnail" src="~/Content/imgxuatnhap/@Model.Hinh2" style="max-width:100%;max-height:200px" />
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <p>Hình 3 của sản phẩm (giới hạn 7MB) <span></span></p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                <input type="file" name="Dinhkem3" id="Dinhkem3" />
+                                <p id="thongbaosite3" style="color:red; display:none">File quá lớn !!!</p>
+                                @Html.HiddenFor(kh => kh.Hinh3)
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Model.Hinh3)))
+                            {
+                                <img class="img-responsive img-thumbnail" src="~/Content/imgxuatnhap/@Model.Hinh3" style="max-width:100%;max-height:200px" />
+                            }
+                        </div>
+                    </div>
+                    <script>
+                        var kt1 = true;
+                        var kt2 = true;
+                        var kt3 = true;
+                        $('#Dinhkem1').bind('change', function () {
+                            //this.files[0].size gets the size of your file.
+                            var size = this.files[0].size;
+                            const file = Math.round((size / 1024));
+                            if (file >= 7200) {
+                                $("#thongbaosite1").css('display', 'block');
+                                kt1 = false;
+                                KtLuu();
+                            } else {
+                                $("#thongbaosite1").css('display', 'none')
+                                kt1 = true;
+                                KtLuu();
+                            }
+                        });
+                        $('#Dinhkem2').bind('change', function () {
+                            //this.files[0].size gets the size of your file.
+                            var size = this.files[0].size;
+                            const file = Math.round((size / 1024));
+                            if (file >= 7200) {
+                                $("#thongbaosite2").css('display', 'block');
+                                kt2 = false;
+                                KtLuu();
+                            } else {
+                                $("#thongbaosite2").css('display', 'none')
+                                kt2 = true;
+                                KtLuu();
+                            }
+                        });
+                        $('#Dinhkem3').bind('change', function () {
+                            //this.files[0].size gets the size of your file.
+                            var size = this.files[0].size;
+                            const file = Math.round((size / 1024));
+                            if (file >= 7200) {
+                                $("#thongbaosite3").css('display', 'block');
+                                kt3 = false;
+                                KtLuu();
+                            } else {
+                                $("#thongbaosite3").css('display', 'none')
+                                kt3 = true;
+                                KtLuu();
+                            }
+                        });
+                        function KtLuu() {
+                            if (kt1 == true && kt2 == true && kt3 == true) {
+                                document.getElementById('btnLuu').disabled = false;
+                            } else {
+                                document.getElementById('btnLuu').disabled = true;
+                            }
+                        }
+
+                    </script>
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <div class="text-center btn-crud">
+                                <button id="btnLuu" class="btn btn-warning" data-action="UpdateHinhSP"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Update Hình</button>
+                                <a class="btn btn-primary" href="/Admin/Home/ListHangHoaTek" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
+                            </div>
+                            <script>
+                                $(function () {
+                                    $("button[data-action]").click(function () {
+                                        if (!confirm("Bạn Có Chắc Chắn Hành Động Của Mình?")) {
+                                            return false;
+                                        } else {
+                                            var action = $(this).attr("data-action");
+                                            this.form.action = "/Admin/Home/" + action;
+                                        }
+
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+    }
+</div>
+
+

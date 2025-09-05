@@ -1,0 +1,179 @@
+﻿
+@{
+    ViewBag.Title = "ListSerialChuaIn";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<div class="row">
+    <div class="Title_Notin" style="text-align:center">
+        <span class="">List Serial chưa In</span>
+    </div>
+</div>
+<div class="row">
+    @if (Session["quyen"]!=null)
+    {
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6">
+            <a class="btn btn-warning" style="margin-left:5px" href="/Admin/Serial/AddNewSerial" onclick="return confirm('Bạn muốn Tạo Mới Serial Number ??')">
+                <i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Tạo mới "Serial number TeK"
+            </a>
+        </div>
+    }
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="row">
+            <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                @Session["ThongBaoSerialSPchuaIn"]
+            </div>
+        </div>
+        <div class="panel panel-default" style="margin-top:10px">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6">
+                        <a class="btn btn-danger" style="margin-left:10px" href="/Admin/Serial/DeleteSerialSP" onclick="return confirm('Bạn muốn Xóa tất cả S/N Sản Phẩm còn lại ??')">
+                            <i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp; Xóa all S/N Sản Phẩm
+                        </a>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6">
+                        <h5>List Serial Sản Phẩm</h5>
+                    </div>
+
+                </div>
+
+                </div>
+            <div class="panel-body">
+                <img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />
+                <div class="listSerSP" style="max-height: 600px; overflow: auto">
+
+
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="number" min="0" title="Chọn số lượng để In." name="SoSNSP" id="SoSNSP" required />
+                        <button id="Insp" class="btn btn-success" style="margin-left:20px" href="/Admin/Serial/PrintSerialSP" onclick="Insp()">
+                            <i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp; In S/N Sản Phẩm
+                        </button>
+                        <script>
+                            function Insp() {
+                                var ma = $('#SoSNSP').val();
+                                var mayin = $('#MayIn').val();
+                                if (ma > 0) {
+                                    if (!confirm("Bạn muốn In " + ma + " S/N sp ??")) {
+                                        return false;
+                                    } else {
+                                        $.ajax({
+                                            url: "/Admin/Serial/InSNmoitaoBox",
+                                            data: { bang: 1, soluong: ma, mayin: mayin },
+                                            success: function (respone) {
+                                                location.reload();
+                                                //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+                                            }
+                                        });
+                                    }
+                                }
+                            };
+                        </script>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" value="Brother QL-700" style="width:300px" placeholder="Chọn máy in." name="MayIn" id="MayIn" required />
+                    </div>
+                    <div class="col-md-2" style="text-align:right">
+                        @ViewBag.TotalSerialSPchuaIn S/N
+                    </div>
+                </div>
+                </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                @Session["ThongBaoSerialBoxchuaIn"]
+            </div>
+        </div>
+        <div class="panel panel-default" style="margin-top:10px">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6">
+                        <a class="btn btn-danger" style="margin-left:10px" href="/Admin/Serial/DeleteSerialBox" onclick="return confirm('Bạn đã chọn số lượng và máy In ?')">
+                            <i class="glyphicon glyphicon-remove"></i>&nbsp;&nbsp; Xóa all S/N Box
+                        </a>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-6">
+                        <h5>List Serial Box</h5>
+                    </div>
+                </div>
+
+                </div>
+            <div class="panel-body">
+                <img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />
+                <div class="listSerBox" style="max-height: 600px; overflow: auto">
+
+
+                </div>
+            </div>
+            <div class="panel-footer">
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <input type="number" style="width:100px" min="0" title="Chọn số lượng để In." name="SoSNBOX" id="SoSNBOX" required />
+                        <button id="InBox" class="btn btn-success" style="margin-left:20px" data-action="InSNmoitaoBox?bang=2&soluong=" onclick="InBox()">
+                            <i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp; In S/N Box
+                        </button>
+
+                        <script>
+                            function InBox() {
+                                var ma = $('#SoSNBOX').val();
+                                var mayin = $('#MayIn').val();
+                                if (ma > 0) {
+                                    if (!confirm("Bạn muốn In " + ma + " S/N box ??")) {
+                                        return false;
+                                    } else {
+                                        $.ajax({
+                                            url: "/Admin/Serial/InSNmoitaoBox",
+                                            data: { bang: 2, soluong: ma, mayin: mayin },
+                                            success: function (respone) {
+                                                location.reload();
+                                                //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+                                            }
+                                        });
+                                    }
+                                }
+                            };
+                        </script>
+                    </div>
+                    <div class="col-md-2" style="text-align:right">
+                        @ViewBag.TotalSerialBoXchuaIn
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    LoadPage();
+    function LoadPage() {
+        $.ajax({
+            url: "/Admin/Serial/GetListSer_SP",
+            data: {},
+            success: function (respone) {
+                $(".listSerSP").html(respone);
+                //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+            }
+        });
+        $.ajax({
+            url: "/Admin/Serial/GetListSer_Box",
+            data: {},
+            success: function (respone) {
+                $(".listSerBox").html(respone);
+                //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+            }
+        });
+    };
+</script>
+
+

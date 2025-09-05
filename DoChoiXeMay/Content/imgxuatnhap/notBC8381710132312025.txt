@@ -1,0 +1,60 @@
+gar96572_GaRanKun
+gar96572_khai
+pass: h5c2#4e3F
+.\MSSQLSERVER2019
+https://wiki.matbao.net/huong-dan-quan-tri-hosting-co-ban-tren-direct-admin/
+https://wiki.matbao.net/kb/cach-enable-remote-sql-server-2/
+https://wiki.matbao.net/kb/nhung-luu-y-khi-dang-ky-su-dung-chung-thu-ssl/
+https://wiki.matbao.net/kb/huong-dan-xu-ly-loi-could-not-find-a-part-of-the-path-binroslyncsc-exe/
+
+đăng nhập 
+mã ID : MB1720275
+Pass: Ad676161@
+Plesk 
+user: gar96572
+pass: Qyry6113*
+
+
+www.pdf2go.com
+
+DOCHOIXEMAY
+112.78.2.40,1433
+.\MSSQLSERVER2019
+1/Database name:tek15663_TechZone
+2/Pass:@m2Z1d08v
+3/Username:tek15663_Khaiiq
+
+
+
+
+	
+load file
+_Jobmanagerment  ==> ut.File_CVUngTuyen
+
+
+_CandidateDoc
+_EditCandidateAccount
+Content/Upload/Document
+
+ungvien_tuchoiDN
+
+Facebook
+https://www.youtube.com/watch?v=7CNpLgwa0-c
+
+https://localhost:44312/sigin-facebook
+http://113.161.227.49:81/loginFacebook
+
+https://localhost:44318/loginFacebook
+
+VLDB  ModelCty
+
+ModelBN  VLBN     webvl2024_BacNinh
+
+TypeError: Failed to execute 'query' on 'Permissions': Illegal invocation
+
+
+
+
+
+
+

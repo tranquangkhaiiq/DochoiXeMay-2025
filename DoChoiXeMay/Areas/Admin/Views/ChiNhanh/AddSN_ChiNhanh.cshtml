@@ -1,0 +1,167 @@
+﻿@using DoChoiXeMay.Models;
+
+@model IEnumerable<Ser_Chitiet_XuatSN_CN>
+@{
+    ViewBag.Title = "AddSN_ChiNhanh";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<link href="~/Areas/Admin/Content/css/Info_Style.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<div class="container">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="pull-right label label-success" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                @Session["ThongBaotaolohang"]
+            </div>
+        </div>
+        <div class="row">
+            <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                @Session["ThongBaoLoitaolohang"]
+            </div>
+        </div>
+    </div>
+    @using (Html.BeginForm("ChiNhanh", "AddSN_ChiNhanh", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <fieldset class="info_form" style="margin-top:0">
+            <div class="container">
+                <span class="pull-right label label-success" style="color:white;font-family:monospace">
+                    @Html.ValidationSummary()
+                </span>
+                <h1 class="info_header">
+                    <span>Xem và add Serial cho chi nhánh: @Session["TenChiNhanh"] (add serial cho lô hàng Id= @Session["IdSN_CN"])</span>
+
+                </h1>
+                <div class="contentform">
+                    <div class="form-group">
+                        <div class="row" style="width:95%;padding-left:15px">
+                            <p>Tổng số Serial cần add là: @Session["SoLuong"]</p>
+                        </div>
+                        <div class="row" style="width:95%;padding-left:15px">
+                            <p>Số Serial Đã Add là: @Session["DaAdd"]</p>
+                        </div>
+                        <div class="row" style="width:95%;padding-left:15px">
+                            <p>Kỳ Xuất </p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-expand"></i></span>
+                            <input type="text" disabled value="@Session["KyXuatNhap"]" style="height:40px" class="form-control" placeholder="Kỳ xuất" required>
+                        </div>
+                        <div class="row" style="width:95%;padding-left:15px">
+                            <p>Serial </p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-pencil"></i></span>
+                            <input type="text" autofocus style="height:40px" class="form-control" id="Serial" name="Serial" placeholder="Serial trên hộp" required>
+                        </div>
+
+                        <div class="row" style="margin-top:10px">
+                            <div class="form-group col-sm-12">
+                                <div class="btn-crud">
+                                    <div class="col-md-4" style="text-align:right">
+                                        <button id="btnLuu" class="btn btn-warning" data-action="AddSNCNtoChiTiet"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Add Serial</button>
+                                    </div>
+                                    <div class="col-md-4" style="text-align:center">
+                                        <button id="btnLuu" class="btn btn-social" style="margin-left:20px" data-action="RemoveSerialCN"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Remove Serial</button>
+                                    </div>
+                                    <div class="col-md-4" style="text-align:left">
+                                        <a class="btn btn-primary" href="/Admin/ChiNhanh/Index" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
+                                    </div>
+                                </div>
+                                <script>
+                                    $(function () {
+                                        $("button[data-action]").click(function () {
+                                            if (!confirm("Bạn Có Chắc Chắn Hành Động Của Mình?")) {
+                                                return false;
+                                            } else {
+                                                var action = $(this).attr("data-action");
+                                                this.form.action = "/Admin/ChiNhanh/" + action;
+                                            }
+
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+    }
+    @using (Html.BeginForm("Export", "ChiNhanh", FormMethod.Post))
+    {
+        <input type="text" id="GridHtml" name="GridHtml" hidden />
+        <input onclick="myfff()" type="submit" id="btnSubmit" value="Export to Word" />
+    }
+</div>
+
+<div id="Grid" class="container" style="background-color: white; padding-top: 10px; border-radius: 4px 4px; box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.32);">
+    
+    <h5><a style="text-decoration: none">Danh Sách S/N Đã add cho chi nhánh: @Session["TenChiNhanh"] (lô hàng Id= @Session["IdSN_CN"])</a></h5>
+    <div class="table-responsive">
+        <div class="panel-heading">
+            <div class="row">
+
+                @*<div class="row">
+                        <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12">
+                            <input type="text" class="form-control input-sm pull-right" style="margin-top: 10px;font-size: medium; height: 40px; width: 95%" name="KeywordsTT" id="KeywordsTT" onchange="TimKiemsp()" placeholder="Enter Tìm Theo Số Serial, tên người dùng hoặc Khu Vực." />
+                        </div>
+                        <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12" style="margin-top:5px">
+                            <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-6" style="text-align:center">
+                                <span class="icon-case"><i class="glyphicon glyphicon-calendar"></i>Từ Active</span>
+                                <input type="date" name="tungay" id="tungay" />
+                            </div>
+                            <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-6" style="text-align:center">
+                                <span class="icon-case"><i class="glyphicon glyphicon-calendar"></i>Đến Active</span>
+                                <input type="date" name="denngay" id="denngay" />
+                            </div>
+
+                        </div>
+                    </div>*@
+            </div>
+
+        </div>
+        <div class="listSNtoNPP" style="max-height: 2000px; overflow: auto">
+            <style>
+                .canhgiua {
+                    text-align: center !important;
+                }
+            </style>
+            <table class="table table-hover table-striped" style="margin-bottom:0">
+                <thead>
+                    <tr class="canhgiua" style="background-color: #00bcd4">
+                        <th class="canhgiua">Stt</th>
+                        <th class="canhgiua">Serial Box</th>
+                        <th class="canhgiua">Ngày</th>
+                        <th class="canhgiua">Active</th>
+                        <th class="canhgiua">Check</th>
+                    </tr>
+                </thead>
+                <tbody style="border: 2px solid black !important">
+                    @if (ViewBag.GetCountSNtoNPP > 0)
+                    {
+                        foreach (DoChoiXeMay.Models.Ser_Chitiet_XuatSN_CN Item in ViewBag.GetListSNtoNPP)
+                        {
+                            var kichhoat = new DoChoiXeMay.Areas.Admin.Data.ActiveData().CheckSNActive(Item.Serial);
+
+                            <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                                <td style="border-left: 2px solid black !important; border-bottom: 2px solid black !important">@Item.Ghichu</td>
+                                <td style="border-left: 2px solid black !important; border-bottom: 2px solid black !important">@Item.Serial</td>
+                                <td style="border-left: 2px solid black !important; border-bottom: 2px solid black !important">@Item.NgayXuat</td>
+                                <td style="border-left: 2px solid black !important; border-bottom: 2px solid black !important">@kichhoat</td>
+                                <td style="border-left: 2px solid black !important; border-right: 2px solid black !important; border-bottom: 2px solid black !important "></td>
+                            </tr>
+
+                        }
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    function myfff() {
+        document.getElementById("GridHtml").value = $("#Grid").html();
+        //val($("#Grid").html());
+    }
+</script>
+

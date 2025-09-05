@@ -1,0 +1,52 @@
+﻿<div class="table-responsive">
+    <table class="table table-hover table-striped" style="margin-bottom:0">
+        <thead>
+            <tr class="canhgiua" style="background-color: #00bcd4">
+                <th class="canhgiua">Id</th>
+                <th class="canhgiua">Level Name</th>
+                <th class="canhgiua">CK Ban Đầu</th>
+                <th class="canhgiua">CK KHBH</th>
+                <th class="canhgiua">CK KPIQUI</th>
+                <th class="canhgiua">CK KPIYEAR</th>
+                <th class="canhgiua">CK Khác</th>
+                <th class="canhgiua">Thưởng năm</th>
+                <th class="canhgiua">Update</th>
+            </tr>
+        </thead>
+        <tbody style="border: 2px solid black !important">
+            @foreach (DoChoiXeMay.Models.Ser_Levelchinhanh Item in ViewBag.GetLevelchinhanh)
+            {
+                <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                    <td>@Item.Id</td>
+                    <td>@Item.Level_Name</td>
+                    <td>@Item.ChietKhau_bandau %</td>
+                    <td>
+                        @Item.chietkhau_khbh %
+                    </td>
+                    <td>
+                        @Item.chietkhau_KPIQUI %
+                    </td>
+                    <td>
+                        @Item.ChietKhau_KPIYEAR %
+                    </td>
+                    <td>
+                        @Item.ChietKhau_khac %
+                    </td>
+                    <td>
+                        @Item.Thuongcuoinam
+                    </td>
+                    <td>
+                        @if (int.Parse(Session["quyen"].ToString()) < 5)
+                        {
+                            <a class="btn btn-danger" href="/Admin/DanhMuc/UpdateLVChiNhanh/@Item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a style="display:none" class="btn btn-warning" onclick="return confirm('Bạn muốn xóa LV Chi Nhánh: @Item.Level_Name ??')" href="/Admin/DanhMuc/DeleteLVChiNhanh/@Item.Id"><span class="glyphicon glyphicon-trash"></span></a>
+                            }
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+
+</div>

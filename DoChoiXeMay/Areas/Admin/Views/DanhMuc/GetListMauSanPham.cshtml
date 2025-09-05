@@ -1,0 +1,34 @@
+﻿<div class="table-responsive">
+    <table class="table table-hover table-striped" style="margin-bottom:0">
+        <thead>
+            <tr class="canhgiua" style="background-color: #00bcd4">
+
+                <th class="canhgiua">Tên Màu</th>
+                <th class="canhgiua">Ghi Chú</th>
+                <th class="canhgiua">Ngay</th>
+                <th class="canhgiua">Update</th>
+            </tr>
+        </thead>
+        <tbody style="border: 2px solid black !important">
+            @foreach (DoChoiXeMay.Models.Color Item in ViewBag.GetListMauSP)
+            {
+                <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                    <td>@Item.TenColor</td>
+                    <td>@Item.Ghichu</td>
+                    <td>
+                        @Item.Ngay
+                    </td>
+                    <td>
+                        @if (int.Parse(Session["quyen"].ToString()) < 5)
+                        {
+                            <a class="btn btn-danger" href="/Admin/DanhMuc/UpdateMauSP/@Item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                        }
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+
+</div>

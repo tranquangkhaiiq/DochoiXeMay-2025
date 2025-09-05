@@ -1,0 +1,61 @@
+﻿@using DoChoiXeMay.Models
+@model Ser_ChiNhanh
+<style>
+    .canhgiua {
+        text-align: center !important;
+    }
+</style>
+<table class="table table-hover table-striped" style="margin-bottom:0">
+    <thead>
+        <tr class="canhgiua" style="background-color: #00bcd4">
+            <th class="canhgiua">Ngày Active</th>
+            <th class="canhgiua">Serial SP</th>
+            <th class="canhgiua">Serial Box</th>
+            <th class="canhgiua">Tên</th>
+            <th class="canhgiua">KhuVuc</th>
+            <th class="canhgiua">Trạng Thái</th>
+            <th class="canhgiua">Hết hạn</th>
+            @*<th class="canhgiua">Update</th>*@
+        </tr>
+    </thead>
+    <tbody style="border: 2px solid black !important">
+        @if (Model != null)
+        {
+            var dmdata = new DoChoiXeMay.Areas.Admin.Data.ChiNhanhData();
+            foreach (DoChoiXeMay.Models.Ser_kichhoat Item in ViewBag.ListSerialKH)
+            {
+                var chinhanh = dmdata.GetChiNhanhbyID(Item.IdChiNhanh);
+                var hh = DateTime.Parse(Item.Ghichu);
+                <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                    <td>@Item.NgayKichHoat</td>
+                    <td>@Item.Ser_sp.SerialSP</td>
+                    <td>@Item.Ser_box.Serial</td>
+                    <td>@Item.TenKhachHang</td>
+                    <td>@Item.DiaChiKhach</td>
+                    <td>
+                        @Item.Ser_trangthai.Name
+                    </td>
+                    <td>
+                        @if (DateTime.Now > hh)
+                        {
+                            <span class="DaXoa">@hh.ToShortDateString()</span>
+                        }
+                        else
+                        {
+                            <span>@hh.ToShortDateString()</span>
+                        }
+                    </td>
+                    @*<td>
+                            @if (Session["quyen"].ToString() != "Guest")
+                            {
+                                <a class="btn btn-danger" href="/Admin/DanhMuc/UpdateChiNhanh/@Item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a style="display:none" class="btn btn-warning" onclick="return confirm('Bạn muốn xóa LV Chi Nhánh: @Item.TenChiNhanh ??')" href="/Admin/DanhMuc/DeleteChiNhanh/@Item.Id"><span class="glyphicon glyphicon-trash"></span></a>
+                            }
+                        </td>*@
+                </tr>
+
+            }
+        }
+    </tbody>
+</table>
+

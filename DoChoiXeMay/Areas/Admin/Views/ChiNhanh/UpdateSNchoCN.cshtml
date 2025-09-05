@@ -1,0 +1,77 @@
+﻿@model DoChoiXeMay.Models.Ser_XuatSN_CN
+@{
+    ViewBag.Title = "UpdateSNchoCN";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<link href="~/Areas/Admin/Content/css/Info_Style.css" rel="stylesheet" />
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<div class="container">
+    <h2>Update Level Chi Nhánh</h2>
+    @using (Html.BeginForm("ChiNhanh", "UpdateSNchoCN", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <fieldset class="info_form" style="margin-top:0">
+            <div class="container">
+                @Html.HiddenFor(kh => kh.Id)
+                @Html.HiddenFor(kh => kh.UserId)
+                @Html.HiddenFor(kh=>kh.DaAdd)
+                <h1 class="info_header">
+                    <span style="color:black">Update đợt xuất S/N cho CN có Id=@Model.Id</span>
+                    <span class="pull-right label label-warning" style="color:white;font-family:monospace">
+                        @Html.ValidationSummary()
+                    </span>
+                </h1>
+                <div class="contentform">
+                    <div class="form-group">
+                        <div class="row" style="width:95%;padding-left:15px;margin-bottom:15px">
+                            <p>Số Lượng </p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-user"></i></span>
+                            @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control", @type = "number", style = "height: 40px;width: 50%", @required = true })
+
+                        </div>
+                        <div class="row" style="width: 95%; padding-left: 15px; margin-bottom: 15px">
+                            <p>Kỳ Xuất S/N </p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-user"></i></span>
+                            @Html.DropDownList("IdKyxuat", null, new { @class = "form-control", style = "width: 75%; height: 40px" })
+
+                        </div>
+                        <div class="row" style="width: 95%; padding-left: 15px; margin-bottom: 15px">
+                            <p>Xuất S/N cho Chi Nhánh</p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-user"></i></span>
+                            @Html.DropDownList("IdChiNhanh", null, new { @class = "form-control", style = "width: 75%; height: 40px" })
+
+                        </div>
+                        <div class="row" style="width: 95%; padding-left: 15px; margin-bottom: 15px">
+                            <p>Ghi Chú</p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-user"></i></span>
+                            @Html.TextBoxFor(m => m.Ghichu, new { @class = "form-control", style = "height: 40px;width: 75%", @required = true })
+
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <div class="text-center btn-crud">
+                                    <button id="btnLuu" class="btn btn-warning" data-action="UpdateSNchoCN"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Update</button>
+                                    <a class="btn btn-primary" href="/Admin/ChiNhanh/Index" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
+                                </div>
+                                <script>
+                                    $(function () {
+                                        $("button[data-action]").click(function () {
+                                            if (!confirm("Bạn Có Chắc Chắn Hành Động Của Mình?")) {
+                                                return false;
+                                            } else {
+                                                var action = $(this).attr("data-action");
+                                                this.form.action = "/Admin/ChiNhanh/" + action;
+                                            }
+
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </fieldset>
+    }
+</div>
+

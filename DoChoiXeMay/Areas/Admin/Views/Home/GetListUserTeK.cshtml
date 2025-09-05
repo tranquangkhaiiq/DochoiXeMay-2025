@@ -1,0 +1,46 @@
+﻿<div class="table-responsive">
+    <table class="table table-hover table-striped" style="margin-bottom:0">
+        <thead>
+            <tr class="canhgiua" style="background-color: #00bcd4">
+                <th class="canhgiua">Id</th>
+                <th class="canhgiua">UserName</th>
+                <th class="canhgiua">Pass</th>
+                <th class="canhgiua">Email</th>
+                <th class="canhgiua">Loại</th>
+                <th class="canhgiua">Avatar</th>
+                <th class="canhgiua">Update</th>
+            </tr>
+        </thead>
+        <tbody style="border: 2px solid black !important">
+            @foreach (DoChoiXeMay.Models.UserTek Item in ViewBag.UserTeK)
+            {
+                <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                    <td>@Item.Id</td>
+                    <td>@Item.UserName</td>
+
+                    <td>@Item.Password</td>
+                    <td>@Item.EmailConnection</td>
+                    <td>@Item.LoaiUserTek.LoaiUser</td>
+                    @if (Item.Avatar != null && Item.Avatar != "")
+                    {
+                        <td><img src="~/Content/imgTeK/@Item.Avatar" alt="" class="avatartek" /></td>
+                    }
+                    else
+                    {
+                        <td><img src="~/Content/imgTeK/Namn.png" alt="" class="avatartek" /></td>
+                    }
+                    <td>
+                        @if (int.Parse(Session["quyen"].ToString()) < 5)
+                        {
+                            <a class="btn btn-danger" href="/Admin/Home/EditUser/@Item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a style="display:none" class="btn btn-warning" onclick="return confirm('Bạn muốn xóa User: @Item.Id ??')" href="/Admin/Home/DeleteUserChiNhanh/@Item.Id"><span class="glyphicon glyphicon-trash"></span></a>
+                        }
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+        
+    </table>
+
+</div>

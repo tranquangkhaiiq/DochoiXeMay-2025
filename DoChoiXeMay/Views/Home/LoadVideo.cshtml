@@ -1,0 +1,48 @@
+﻿@using DoChoiXeMay.Models
+@if (ViewBag.totalvd > 0)
+{
+    <div class="row" style="border-bottom: 3px solid #006fc7; margin-left:10px;">
+        <!-- Lien ket title -->
+        <div class="col-lg-12" style="padding:0">
+            <span class="title-part">
+                <h1 class="text-uppercase">Video TeK</h1>
+            </span>
+        </div>
+    </div>
+    <div class="row" style="margin-top:20px">
+        <div class="col-lg-7 col-xl-7 col-md-7 col-sm-7 col-xs-12 col-12" style="padding-top: 0; padding-bottom: 0">
+            @foreach (NoteKythuat video in ViewBag.Video1_kh)
+            {
+                <iframe id="iframe_video" style="width: 100%; height: 350px; box-shadow: 0 2px 5px 1px rgba(0,0,0,0.25)" src="@video.NoiDung" frameborder="0" allowfullscreen></iframe>
+            }
+        </div>
+
+        <div class="col-lg-5 col-xl-5 col-md-5 col-sm-5 col-xs-12 col-12 " style="box-shadow: 0 2px 5px 1px rgba( 0,0,0,0.25 ); padding: 0; height: 350px">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" style="margin-bottom:0">
+                    <tbody style="border: 1px thick darkgray !important">
+                        @foreach (NoteKythuat list in ViewBag.Video_kh)
+                        {
+                            var str = DoChoiXeMay.Areas.Admin.Data.XstringAdmin.Cutstring_getLastString(list.NoiDung);
+                            <tr class="" style="border-bottom: 1px solid darkgray !important">
+                                <td>@list.Id </td>
+                                <td>
+                                    <a href="" style="color:brown" onclick="chose_view(this.id);return false" id="@str">
+                                        @list.NoteName
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+}
+
+<script>
+    function chose_view(e) {
+        $('#iframe_video').attr('src', 'https://www.youtube.com/embed/' + e + "?rel=0&autoplay=1");
+    }
+</script>

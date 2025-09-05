@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<style>
+    .canhgiua {
+        text-align: center !important;
+    }
+</style>
+<div class="">
+    <h2>List Hình cho trang chủ</h2>
+    <div class="panel panel-default" style="margin-top:10px">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="pull-right label label-primary" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                    @Session["ThongBaoHinhtrangchu"]
+                </div>
+            </div>
+            <div class="row" style="margin-top:5px">
+
+                <div class="col-md-4">
+                    <a class="btn btn-warning" style="margin-left:20px" href="/Admin/NoteKyThuat/InsertAotuHinhTrangChu" onclick="return confirm('Bạn muốn Thêm Mới hình cho trang chủ ??')">
+                        <i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Thêm mới hình cho trang chủ
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            @*<img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />*@
+            <div class="listHinhTC">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    LoadPage();
+    function LoadPage() {
+        $.ajax({
+            url: "/Admin/NoteKyThuat/GetHinhTrangChu",
+            data: {  },
+            success: function (respone) {
+                $(".listHinhTC").html(respone);
+            }
+        });
+    };
+</script>
+
+

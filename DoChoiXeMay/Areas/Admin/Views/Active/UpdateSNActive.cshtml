@@ -1,0 +1,84 @@
+﻿@model DoChoiXeMay.Models.Ser_kichhoat
+@{
+    ViewBag.Title = "UpdateSNActive";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<link href="~/Areas/Admin/Content/css/Info_Style.css" rel="stylesheet" />
+@*<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>*@
+
+<div class="container">
+    <h2>Update S/N đã Active</h2>
+    @using (Html.BeginForm("UpdateSNActive", "Active",  FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <fieldset class="info_form" style="margin-top:0">
+            <div class="container">
+                @Html.HiddenFor(kh => kh.Id)
+                @Html.HiddenFor(kh => kh.IDSer_box)
+                @Html.HiddenFor(kh => kh.IDSer_sp)
+                @Html.HiddenFor(kh => kh.NgayKichHoat)
+                @Html.HiddenFor(kh => kh.EmailKichHoat)
+                @Html.HiddenFor(kh => kh.TenKhachHang)
+                @Html.HiddenFor(kh => kh.SDT)
+                @Html.HiddenFor(kh => kh.DiaChiKhach)
+                @Html.HiddenFor(kh => kh.IdChiNhanh)
+                <h1 class="info_header">
+                    <span style="color:black">Update S/N: @Model.Ser_sp.SerialSP của khách hàng: @Model.TenKhachHang</span>
+                    <span class="pull-right label label-warning" style="color:white;font-family:monospace">
+                        @Html.ValidationSummary()
+                    </span>
+                </h1>
+                <div class="contentform">
+                    <div class="form-group">
+                        <div class="row" style="width:95%;padding-left:15px">
+                            <p>Trạng thái </p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-user"></i></span>
+                            @Html.DropDownList("TrangThaiId", null, new { @class = "form-control", style = "width: 75%; height: 40px" })
+                        </div>
+                        <div class="row" style="width:95%;padding-left:15px">
+                            <p>Ngày hết hạn </p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-warning-sign"></i></span>
+                            <input type="date" onload="getDate()" name="ngayhethan" id="ngayhethan" />
+                        </div>
+                        @Html.HiddenFor(m => m.Ghichu, new { @class = "form-control", style = "height: 40px", @required = true })
+                        <div class="row">
+                            <div class="form-group col-sm-12">
+                                <div class="text-center btn-crud">
+                                    <button id="btnLuu" type="submit" class="btn btn-warning" data-action="UpdateSNActive"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Update</button>
+                                    <a class="btn btn-primary" href="/Admin/Active/Index" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
+                                </div>
+                                @*<script>
+                                    $(function () {
+                                        $("button[data-action]").click(function () {
+                                            if (!confirm("Bạn Có Chắc Chắn Hành Động Của Mình?")) {
+                                                return false;
+                                            } else {
+                                                var action = $(this).attr("data-action");
+                                                this.form.action = "/Admin/Active/" + action;
+                                            }
+
+                                        });
+                                    });
+                                </script>*@
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </fieldset>
+    }
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    getDate()
+    function getDate() {
+        var data = $("#Ghichu").val()
+        const dateInput = $("#ngayhethan").val()
+        const myArray = data.split('/');
+        if (myArray.length == 3) {
+            var da = myArray[2] + "-" + myArray[1] + "-" + myArray[0];
+            $("#ngayhethan").val(da)
+        }
+    }
+</script>
+

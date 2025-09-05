@@ -1,0 +1,289 @@
+﻿@using DoChoiXeMay.Areas.Admin.Data;
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+
+<div class="table-responsive">
+    <table class="table table-hover table-striped" style="margin-bottom:0">
+        <thead>
+            <tr class="canhgiua" style="background-color: #00bcd4">
+                <th class="canhgiua" style="width:30px">Xóa Kỳ</th>
+                <th class="canhgiua" style="width:30px">Update Kỳ</th>
+                <th class="canhgiua">Tên Kỳ</th>
+                <th class="canhgiua">Xuất Nhập/Số tiền </th>
+                <th class="canhgiua" style="width: 15px">Hóa Đơn</th>
+                <th class="canhgiua" style="width: 15px">File 2</th>
+                <th class="canhgiua" style="width: 15px">File 3</th>
+                <th class="canhgiua" style="width:30px">Thêm HH</th>
+
+                <th class="canhgiua">Soluong/Tên Hàng/ThôngSố/Hãng</th>
+                <th class="canhgiua">Giá Nhập</th>
+                <th class="canhgiua" style="width: 15px">Hình 1</th>
+                <th class="canhgiua" style="width: 15px">Hình 2</th>
+                <th class="canhgiua" style="width: 15px">Hình 3</th>
+                <th class="canhgiua" style="width:15px">STT</th>
+
+            </tr>
+        </thead>
+        <tbody style="border: 2px solid black !important">
+            @foreach (DoChoiXeMay.Models.KyXuatNhap Item in ViewBag.KyXN)
+            {
+                var Chitiet = new XuatNhapData().GetListByKy(Item.Id);
+                var tenky = XstringAdmin.Truncate(Item.TenKy, 20);
+                <tr class="canhgiua" style="border: 2px solid black !important">
+                    <td style="padding-top:40px">
+                        @if (Item.UserId == int.Parse(Session["UserId"].ToString()))
+                        {
+                            <a title="Xóa Kỳ hiện tại" class="btn btn-danger" onclick="return confirm('Bạn muốn xóa Kỳ @Item.TenKy ??')"
+                               href="/Admin/XuatNhap/DeleteKyXNUser/@Item.Id"><span class="glyphicon glyphicon-trash" style="font-size:30px"></span></a>
+                        }
+                        else
+                        {
+                            <a style="font-size:20px">@Item.UserTek.UserName</a>
+                        }
+
+                    </td>
+                    <td style="padding-top:40px">
+                        <a title="Update Kỳ hiện tại" class="btn btn-primary" href="/Admin/XuatNhap/UpdateKyXNUser/@Item.Id"><span class="glyphicon glyphicon-edit" style="font-size:30px"></span></a>
+                    </td>
+                    <td style="font-size:15px">
+                        <p style="color:red">@tenky</p>
+                        @if (Item.LuuKho != null)
+                        {
+                            if (Item.LuuKho.Trim() != "")
+                            {
+                                <hr />
+                                <p>Lưu: @Item.LuuKho</p>
+                            }
+                        }
+                        <hr />
+                        <p>
+                            @if (Item.UPush == false)
+                            {
+                                if (Chitiet.Count() > 0)
+                                {
+                                    <a title="Sản phẩm thông thường" class="btn btn-default" href="/Admin/XuatNhap/DayXuatNhapTek?id=@Item.Id&thuchi=0" onclick="return confirm('Bạn yêu cầu Đẩy Kỳ-@Item.TenKy- đến TEK ??')">
+                                        Đẩy Đến XN TEK và TC TEK
+                                    </a>
+                                    <hr />
+                                    <a style="background-color:burlywood" title="Nhập sản phẩm do TeK tạo ra, hoặc Xuất tặng, cho mượn,..." class="btn btn-default" href="/Admin/XuatNhap/DayXuatNhapTek?id=@Item.Id&thuchi=1" onclick="return confirm('Bạn yêu cầu Đẩy Kỳ-@Item.TenKy- đến TEK(Không có TC) ??')">
+                                        Đẩy Đến XN TEK(Không có TC)
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a title="Sản phẩm thông thường" class="btn btn-default" onclick="return confirm('Bạn Chưa Có Hàng Hóa để đẩy lên Tek.!!!')">
+                                        Đẩy Đến XN TEK và TC TEK
+                                    </a>
+                                    <hr />
+                                    <a style="background-color:burlywood" title="Nhập sản phẩm do TeK tạo ra, hoặc Xuất tặng, cho mượn,..." class="btn btn-default" onclick="return confirm('Bạn Chưa Có Hàng Hóa để đẩy lên Tek.!!!')">
+                                        Đẩy Đến XN TEK(Không có TC)
+                                    </a>
+                                }
+
+                            }
+                            else
+                            {
+                                if (Item.UserId == int.Parse(Session["UserId"].ToString()))
+                                {
+                                    <a class="btn notika-btn-blue">
+                                        Bạn yêu cầu "Đẩy Xuất Nhập Đến TEK"
+                                        <hr />
+                                        <span>Đang chờ Admin Xác Nhận</span>
+                                    </a>
+                                    <hr />
+                                    <a class="btn btn-danger" href="/Admin/XuatNhap/DayXuatNhapTek?id=@Item.Id&thuchi=1" onclick="return confirm('Bạn muốn ngưng yêu cầu Đẩy Kỳ-@Item.TenKy- đến TEK ??')">
+                                        click: Hủy Yêu Cầu Đẩy
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn notika-btn-blue">
+                                        @Item.UserTek.UserName yêu cầu "Đẩy Xuất Nhập Đến TEK"
+                                        <hr />
+                                        <span>Đang chờ Admin Xác Nhận</span>
+                                    </a>
+                                    <hr />
+                                    <a class="btn btn-danger" href="/Admin/XuatNhap/XacNhanXuatNhapTek/@Item.Id" onclick="return confirm('Xác Nhận yêu cầu Đẩy Kỳ-@Item.TenKy- đến TEK ??')">
+                                        Admin click: Xác Nhận.
+                                    </a>
+                                }
+
+                            }
+
+                        </p>
+                        <p>(Ngày: @Html.FormatValue(Item.NgayXuatNhap, "{0:dd/MM/yyyy}"))</p>
+                    </td>
+
+                    <td style="font-size:15px">
+                        @if (Item.XuatNhap == true)
+                        {
+                            <span style="background-color:burlywood">Xuất Hàng</span>
+                        }
+                        else
+                        {
+                            <span>Nhập Hàng</span>
+                        }
+                        <hr />
+                        <p>Tổng: @Html.FormatValue(Item.TongTienAuto, "{0:#,###,###}")</p>
+                        <p>
+                            @if (Item.VAT > 0)
+                            {
+                                <span>(VAT:&nbsp;@Item.VAT %)</span> <br />
+                            }
+                            @if (Item.CKphantram > 0)
+                            {
+                                <span>(ChietKhau%:&nbsp;@Item.CKphantram %)</span><br />
+                            }
+                            @if (Item.CKtienmat > 0)
+                            {
+                                <span>(ChietKhau tiền mặt:&nbsp;@Html.FormatValue(Item.CKtienmat, "{0:#,###,###}"))</span><br />
+                            }
+                            @if (Item.Shipper > 0)
+                            {
+                                <span>(Tiền Ship:&nbsp;@Html.FormatValue(Item.Shipper, "{0:#,###,###}"))</span><br />
+                            }
+                        </p>
+                    </td>
+                    <td>
+                        @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Item.HoaDon)))
+                        {
+                            <a target="_blank" href="~/Content/imgxuatnhap/@Item.HoaDon">
+                                <i class="glyphicon glyphicon-download-alt"></i>
+                            </a>
+                        }
+                    </td>
+                    <td>
+                        @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Item.Filesave2)))
+                        {
+                            <a target="_blank" href="~/Content/imgxuatnhap/@Item.Filesave2">
+                                <i class="glyphicon glyphicon-download-alt"></i>
+                            </a>
+                        }
+                    </td>
+                    <td style="border-right: 2px solid black !important">
+                        @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Item.Filesave3)))
+                        {
+                            <a target="_blank" href="~/Content/imgxuatnhap/@Item.Filesave3">
+                                <i class="glyphicon glyphicon-download-alt"></i>
+                            </a>
+                        }
+                    </td>
+                    <td>
+                        @if (Item.UPush == true)
+                        {
+                            <a disabled class="marginbutonkh btn btn-warning waves-effect" title="Thêm Hàng Hóa" onclick="return confirm('Bạn Không thể thêm hàng hóa khi đã yêu cầu đẩy')">
+                                <span class="fa fa-plus-circle" style="font-size:30px"></span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="marginbutonkh btn btn-warning waves-effect" href="/Admin/XuatNhap/InsertChiTietXNbyKy/@Item.Id" title="Thêm Hàng Hóa"><span class="fa fa-plus-circle" style="font-size:30px"></span></a>
+                        }
+
+                    </td>
+                    <td>
+                        @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in Chitiet)
+                        {
+                            var tenHH = XstringAdmin.Truncate(ct.Ten, 40);
+                            <p style="height:40px">
+                                <span style="float:left">
+                                    @if (Item.UPush == true)
+                                    {
+                                        <a disabled title="Xóa @ct.SoLuong @tenHH" class="btn btn-danger"
+                                           onclick="return confirm('Bạn Không thể Xóa @ct.SoLuong @tenHH khi đã yêu cầu đẩy')">
+                                            <span class="glyphicon glyphicon-trash" style="font-size:10px"></span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a title="Xóa @ct.SoLuong @tenHH" class="btn btn-danger" onclick="return confirm('Bạn muốn Xóa @ct.SoLuong @ct.Ten ??')"
+                                           href="/Admin/XuatNhap/XoaChiTietXNbyID/@ct.Id"><span class="glyphicon glyphicon-trash" style="font-size:10px"></span></a>
+
+                                    }
+                                </span>
+                                <span>@ct.SoLuong&nbsp;</span>
+                                <span>@tenHH</span>
+                                @if (ct.IDColor > 1)
+                                {
+                                    <span> <span>-</span>@ct.Color.TenColor</span>
+                                }
+                                @if (ct.IDMF != 3)
+                                {
+                                    <span> <span>-</span>@ct.Manufacturer.Name</span>
+                                }
+                                @if (ct.IDSize != 1)
+                                {
+                                    <span> <span>-</span>size @ct.Size.TenSize</span>
+                                }
+                            </p>
+                            <hr />
+                        }
+                    </td>
+                    <td>
+                        @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in Chitiet)
+                        {
+                            <p style="height:40px">
+                                @Html.FormatValue(ct.Gianhap, "{0:#,###,###}")
+                            </p>
+                            <hr />
+                        }
+                    </td>
+                    <td>
+                        @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in Chitiet)
+                        {
+                            if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + ct.Hinh1)))
+                            {
+                                <p style="height:40px">
+                                    <a target="_blank" href="~/Content/imgxuatnhap/@ct.Hinh1">
+                                        <i class="glyphicon glyphicon-download-alt"></i>
+                                    </a>
+                                </p>
+                                <hr />
+                            }
+                        }
+                    </td>
+                    <td>
+                        @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in Chitiet)
+                        {
+                            if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + ct.Hinh2)))
+                            {
+                                <p style="height:40px">
+                                    <a target="_blank" href="~/Content/imgxuatnhap/@ct.Hinh2">
+                                        <i class="glyphicon glyphicon-download-alt"></i>
+                                    </a>
+                                </p>
+                                <hr />
+                            }
+                        }
+                    </td>
+                    <td>
+                        @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in Chitiet)
+                        {
+                            if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + ct.Hinh3)))
+                            {
+                                <p style="height:40px">
+                                    <a target="_blank" href="~/Content/imgxuatnhap/@ct.Hinh3">
+                                        <i class="glyphicon glyphicon-download-alt"></i>
+                                    </a>
+                                </p>
+
+                            }
+                        }
+                    </td>
+                    <td>
+                        @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in Chitiet)
+                        {
+                            <p style="height:40px">
+                                @ct.GhiChu
+                            </p>
+                            <hr />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<script>
+
+</script>

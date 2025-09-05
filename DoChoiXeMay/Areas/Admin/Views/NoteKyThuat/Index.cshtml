@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<style>
+    .canhgiua {
+        text-align: center !important;
+    }
+</style>
+<div class="container">
+    <div class="" style="margin-bottom:20px">
+        @foreach (DoChoiXeMay.Models.NoteKythuat VD1 in ViewBag.ViDeo1)
+        {
+            <div id="">
+                <iframe id="iframe_video" style="width: 100%; height: 500px; box-shadow: 0 2px 5px 1px rgba(0,0,0,0.25)" src="@VD1.NoiDung" title="@VD1.NoteName" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allowfullscreen></iframe>
+            </div>
+        }
+    </div>
+    <div class="" style="height: 500px;overflow-y:scroll; text-align:center; box-shadow: 0 2px 5px 1px rgba(0,0,0,0.25)">
+        
+        <div class="row" style="padding:20px">
+            <h4>Danh sách Video Hướng Dẫn</h4>
+            <div class="row" style="margin-bottom:10px">
+                    <div class="col-md-4">
+                        <a class="btn btn-warning" href="/Admin/NoteKyThuat/InsertVD?loai=1" onclick="return confirm('Bạn muốn Thêm Mới Video Hướng Dẫn ??')">
+                            <i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Thêm mới "Video Hướng Dẫn"
+                        </a>
+                    </div>
+                <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                    @Session["ThongBaoVDTEK"]
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" style="margin-bottom:0">
+                    <tbody style="border: 2px solid black !important">
+                        @foreach (DoChoiXeMay.Models.NoteKythuat Item in ViewBag.ViDeo)
+                        {
+                            var str = DoChoiXeMay.Areas.Admin.Data.XstringAdmin.Cutstring_getLastString(Item.NoiDung);
+                            <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                                <td>@Item.Stt</td>
+                                <td>
+                                    <a href="" onclick="chose_view(this.id);return false" id="@str">
+                                        @Item.NoteName
+                                    </a>
+                                </td>
+                                <td>
+                                    <a>@Item.UserTek.UserName</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger" href="/Admin/NoteKyThuat/EditVideo/@Item.Id"><span class="glyphicon glyphicon-edit"></span></a>
+                                    @if (Session["quyen"].ToString() == "1")
+                                    {
+                                        <a class="btn btn-warning" onclick="return confirm('Bạn muốn xóa Video: @Item.NoteName ??')" href="/Admin/NoteKyThuat/DeleteVideo/@Item.Id"><span class="glyphicon glyphicon-trash"></span></a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function chose_view(e) {
+        $('#iframe_video').attr('src', 'https://www.youtube.com/embed/' + e + "?rel=0&autoplay=1");
+
+    };
+</script>
+

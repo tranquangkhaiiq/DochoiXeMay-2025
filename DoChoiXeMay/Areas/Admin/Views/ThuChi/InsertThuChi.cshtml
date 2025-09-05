@@ -1,0 +1,200 @@
+﻿@model DoChoiXeMay.Models.ChiTietTC
+@{
+    ViewBag.Title = "InsertThuChi";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<link href="~/Areas/Admin/Content/css/Info_Style.css" rel="stylesheet" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<div class="container">
+    @using (Html.BeginForm("ThuChi", "InsertThuChi", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <fieldset class="info_form" style="margin-top:0">
+            <div class="container">
+
+
+                <h1 class="info_header">
+                    <span style="color:black">@Session["UserName"]</span>  Thêm mới thu chi
+                    <span class="pull-right label label-warning" style="color:white;font-family:monospace">
+                        @Html.ValidationSummary()
+                    </span>
+                </h1>
+
+                <div class="contentform">
+                    <div class="leftcontact">
+
+                        <div class="row form-group" style="border: 1px dashed #423333; padding: 5px;margin-bottom:15px">
+                            <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-sx-12 col-12">
+                                <p>Hình Thức Thu Chi</p>
+                                @Html.DropDownList("IdHT", null, new { @class = "form-control", style = "width: 75%; height: 40px" })
+                            </div>
+                            <div class="col-lg-3 col-xl-3 col-md-3 col-sm-3 col-sx-6 col-6" style="text-align:center">
+                                <p>Thu vào</p>
+                                @Html.CheckBoxFor(m => m.ThuChi, new {@style = "height:20px;margin-left: 10%" })
+                            </div>
+                            <div class="col-lg-3 col-xl-3 col-md-3 col-sm-3 col-sx-5 col-5 mobilekhai" style="text-align:center">
+                                <p>Nợ Tiền</p>
+                                @Html.CheckBoxFor(m => m.Indebted, new { @style = "height:20px;margin-left: 10%" })
+                            </div>
+                        </div>
+                            <div class="form-group">
+                                <p>Mã Thu Chi</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-file"></i></span>
+                                @Html.DropDownList("IdMa", null, new { @class = "form-control", style = "width: 75%; height: 40px" })
+                            </div>
+                            <div class="form-group">
+                                <p>Số Tiền</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                                @Html.TextBoxFor(m => m.SoTien, new { @class = "form-control", @type = "number", style = "width: 75%; height: 40px", @required = true })
+
+                            </div>
+                            <div class="form-group">
+                                <p>Ngày Thu Chi</p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-time"></i></span>
+                                @Html.TextBoxFor(kh => kh.NgayTC, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date", style = "height: 40px" })
+                            </div>
+                        </div>
+                    <div class="rightcontact">
+                        <div class="form-group">
+                            <p>Đính kèm File 1 (giới hạn 7MB) <span></span></p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                            <input type="file" name="Filesave1" id="Filesave1" />
+                            <p id="thongbaosite1" style="color:red; display:none">File quá lớn !!!</p>
+                        </div>
+                        <div class="form-group">
+                            <p>Đính kèm File 2 (giới hạn 7MB) <span></span></p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                            <input type="file" name="Filesave2" id="Filesave2" />
+                            <p id="thongbaosite2" style="color:red; display:none">File quá lớn !!!</p>
+                        </div>
+                        <div class="form-group">
+                            <p>Đính kèm <span style="color:blueviolet">Hóa Đơn</span> (giới hạn 7MB) <span></span></p>
+                            <span class="icon-case"><i class="glyphicon glyphicon-info-sign"></i></span>
+                            <input type="file" name="HoaDon" id="HoaDon" />
+                            <p id="thongbaosite3" style="color:red; display:none">File quá lớn !!!</p>
+                        </div>
+                        
+                        <script>
+                            var kt1 = true;
+                            var kt2 = true;
+                            var kt3 = true;
+                            $('#Filesave1').bind('change', function () {
+                                //this.files[0].size gets the size of your file.
+                                var size = this.files[0].size;
+                                const file = Math.round((size / 1024));
+                                if (file >= 7200) {
+                                    $("#thongbaosite1").css('display', 'block');
+                                    kt1 = false;
+                                    KtLuu();
+                                } else {
+                                    $("#thongbaosite1").css('display', 'none')
+                                    kt1 = true;
+                                    KtLuu();
+                                }
+                            });
+                            $('#Filesave2').bind('change', function () {
+                                //this.files[0].size gets the size of your file.
+                                var size = this.files[0].size;
+                                const file = Math.round((size / 1024));
+                                if (file >= 7200) {
+                                    $("#thongbaosite2").css('display', 'block');
+                                    kt2 = false;
+                                    KtLuu();
+                                } else {
+                                    $("#thongbaosite2").css('display', 'none')
+                                    kt2 = true;
+                                    KtLuu();
+                                }
+                            });
+                            $('#HoaDon').bind('change', function () {
+                                //this.files[0].size gets the size of your file.
+                                var size = this.files[0].size;
+                                const file = Math.round((size / 1024));
+                                if (file >= 7200) {
+                                    $("#thongbaosite3").css('display', 'block');
+                                    kt3 = false;
+                                    KtLuu();
+                                } else {
+                                    $("#thongbaosite3").css('display', 'none')
+                                    kt3 = true;
+                                    KtLuu();
+                                }
+                            });
+                            function KtLuu() {
+                                if (kt1 == true && kt2 == true && kt3 == true) {
+                                    document.getElementById('btnLuu').disabled = false;
+                                } else {
+                                    document.getElementById('btnLuu').disabled = true;
+                                }
+                            }
+
+                        </script>
+                    </div>
+                    <div class="form-group">
+                        <p>Nội Dung Thu Chi **</p>
+                        <span class="icon-case"><i class="glyphicon glyphicon-pencil"></i></span>
+                        <input type="text" name="Noidung" id="Noidung" required />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <div class="text-center btn-crud">
+                            <button id="btnLuu" class="btn btn-warning" data-action="InsertThuChikh"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Save</button>
+                            <a class="btn btn-primary" href="/Admin/ThuChi/ListThuChiTeK" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
+                        </div>
+                        <script>
+                            $(function () {
+                                $("button[data-action]").click(function () {
+                                    if (!confirm("Bạn Có Chắc Chắn Hành Động Của Mình?")) {
+                                        return false;
+                                    } else {
+                                        var action = $(this).attr("data-action");
+                                        this.form.action = "/Admin/ThuChi/" + action;
+                                    }
+
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    }
+
+</div>
+
+<script>
+    $(function () {
+        //$.ajax({
+        //    url: "/Admin/ThuChi/LoadKyXuatNhap",
+        //    data: {},
+        //    success: function (response) {
+        //        $("#IdKyxuatnhap").append(
+        //            $('<option/>')
+        //                .attr('value', 1)
+        //                .text('Không có Xuất Nhập _ Defaule')
+        //        );
+        //        $(response).each(function (i, e) {
+        //            $("#IdKyxuatnhap").append(
+        //                $('<option/>')
+        //                    .attr('value', e.Id)
+        //                    .text(e.TenKy)
+        //            );
+        //        });
+        //    }, error: function (ex) {
+        //        alert('Lỗi load ngành nghề: ' + ex);
+        //    }
+        //});
+        $('#IdKyxuatnhap').change(function () {
+            var ma = $('#IdKyxuatnhap').val();
+            $.ajax({
+                url: "/Admin/ThuChi/getTongTien",
+                data: { Id: ma },
+                success: function (response) {
+                    document.getElementById("SoTien").value = response + "";
+                }
+            });
+        });
+    });
+</script>
+

@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "ListMauSanPham";
+    Layout = "~/Areas/Admin/Views/Shared/_Layoutadmin.cshtml";
+}
+<script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
+<style>
+    .canhgiua {
+        text-align: center !important;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="Title_Notin" style="text-align:center">
+            <span class="">List Màu Của Sản Phẩm</span>
+        </div>
+    </div>
+    <div class="panel panel-default" style="margin-top:10px">
+        <div class="panel-heading">
+            <div class="row">
+                @if (Session["quyen"].ToString() == "1")
+                {
+                    <div class="col-md-6">
+                        <a class="btn btn-warning" style="margin-left:20px" href="/Admin/DanhMuc/InsertMauSP" onclick="return confirm('Bạn muốn Thêm Mới Màu sản phẩm ??')">
+                            <i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Thêm mới "Màu Sản Phẩm"
+                        </a>
+                    </div>
+                }
+                <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                    @Session["ThongBaoMauSP"]
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />
+            <div class="listMauSP">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    LoadPage();
+    function LoadPage() {
+        $.ajax({
+            url: "/Admin/DanhMuc/GetListMauSanPham",
+            data: {  },
+            success: function (respone) {
+                $(".listMauSP").html(respone);
+                //var pagesp = pageNo + 1;
+                //$('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+            }
+        });
+    };
+</script>
+

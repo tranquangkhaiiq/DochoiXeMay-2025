@@ -1,0 +1,384 @@
+﻿@using DoChoiXeMay.Models
+@model Ser_ChiNhanh
+
+@{
+    ViewBag.Title = "IndexDL";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<link href="~/Content/Login_Style.css" rel="stylesheet" />
+
+<div class="container" style="width:100%;background-color: white; margin-top: 80px; border-radius: 4px 4px; box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.32);">
+    @if (Model != null)
+    {
+        <div class="omb_login" style="text-align:center">
+            <h3><a style="text-decoration: none">Kiểm tra hoặc kích hoạt bảo hành điện tử cho @Model.TenChiNhanh</a></h3>
+            <h3><a style="text-decoration:none">@Model.Ser_Levelchinhanh.Level_Name _ Khu vực: @Model.KhuVuc.TenKhuvuc </a></h3>
+            <div class="row" style="text-align:center">
+                <span style="font-size:15px" class="pull-right label label-warning">@Session["ThongbaoActiveDL"]</span>
+            </div>
+        </div>
+    }
+
+    <div class="omb_login">
+        <div class="row" style="text-align:center">
+            <span style="font-size:15px" class="pull-right label label-warning">@Session["ThongbaoActive"]</span>
+        </div>
+
+        @using (Html.BeginForm("Index", "Active", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            var ND = @ViewBag.ND;
+            var NPP = @ViewBag.NPP;
+            <div class="row omb_row-sm-offset-3">
+                <div class="col-xs-12 col-sm-6" style="padding-bottom:10px">
+                    <form class="omb_loginForm" action="" autocomplete="off" method="post">
+
+                        <div class="input-group" style="margin-bottom:5px">
+                            <span class="text-center text-primary-emphasis">_Để Kích hoạt bảo hành cần điền 2 số serial:</span>
+                            <span class="text-primary-emphasis"> * Một trên hộp(Box) và một trên sản phẩm(SP) *</span>
+                        </div>
+                        <div class="input-group" style="margin-bottom:5px">
+                            <span class="text-primary-emphasis">_Để kiểm tra thời gian bảo hành sản phẩm:</span>
+                            <span class="text-primary-emphasis"> *Điền S/N vào danh sách đã active phía dưới.*</span>
+                        </div>
+
+
+
+                        <div class="input-group" id="nhaphanphoi" style="height:85px;width:100%">
+
+                            @Html.DropDownList("IdChiNhanh", null, new { @class = "form-control", style = "width: 100%; height: 40px", @disabled = true })
+
+                        </div>
+                        <div class="input-group" id="Tenkhachhang" style="height: 85px ">
+                            <label>Họ và tên người dùng:</label>
+                            <input value="@ViewBag.Password" type="text" class="form-control" id="Tenkh" name="Tenkh" placeholder="Họ và Tên">
+                        </div>
+                        <p class="pull-right label label-warning" id="thongbaoSP"></p>
+                        <div class="input-group" style="margin-bottom:5px">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-qrcode"></i></span>
+                            <input value="" type="text" class="form-control" id="SerialSP" name="SerialSP" placeholder="S/N trên sản phẩm">
+                        </div>
+                        <p class="pull-right label label-warning" id="thongbaoBox"></p>
+                        <div class="input-group" style="margin-bottom:5px">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-qrcode"></i></span>
+                            <input value="" type="text" class="form-control" id="SerialBox" name="SerialBox" placeholder="S/N trên hộp">
+                        </div>
+                        <div class="input-group" style="margin-bottom:5px">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-comment"></i></span>
+                            <input value="" type="email" class="form-control" id="Gmail" name="Gmail" placeholder="Gmail người dùng" required>
+                        </div>
+                        <div class="input-group" style="margin-bottom:10px">
+                            <span class="input-group-addon" style="margin-bottom:5px"><i class="glyphicon glyphicon-phone"></i></span>
+                            <input value="" type="text" class="form-control" id="SDT" name="SDT" placeholder="Số điện thoại người dùng" required>
+                        </div>
+                        <div class="input-group" style="margin-bottom:10px">
+                            <span class="input-group-addon" style="">Khu Vực Người Dùng</span>
+                            @Html.DropDownList("KhuVuc", null, new { @class = "form-control", style = "width: 75%; height: 40px" })
+                        </div>
+                        <div class="input-group" style="margin-bottom:5px">
+                            <p class="pull-right label label-warning" style="font-size:15px" id="thongbaoActive"></p>
+                            <p class="pull-right label label-success" style="font-size:15px" id="thongbaoAcTC"></p>
+                        </div>
+                        @*<div id="ThongtinBH">
+                            <label class="col-md-12" id="tt1">@Session["thongtin1"]</label>
+                            <label class="col-md-12" id="tt2">@Session["thongtin2"]</label>
+                            <label class="col-md-12" id="tt3">@Session["thongtin3"]</label>
+                            <label class="col-md-12" id="tt4">@Session["thongtin4"]</label>
+                        </div>*@
+                        <span class="help-block">@Html.ValidationSummary(false, "", new { @class = "text-danger" })</span>
+                        <div class="row" style="text-align:center">
+                            <a class="btn btn-lg btn-primary btn-block" onclick="Kichhoatbh()"><span id="nameBH">Kíck hoạt BH </span> </a>
+                        </div>
+                        @*<div class="col-md-6">
+                            <a class="btn btn-lg btn-primary btn-block" onclick="kiemtrabh()"><span id="nameKT">Kiểm tra BH</span></a>
+                        </div>*@
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        }
+    </div>
+</div>
+@*listSNCN*@
+<div class="panel-body">
+    <h5><a style="text-decoration: none">Danh Sách Hàng Hóa Đã Mua</a></h5>
+    <div class="listSNCN">
+
+    </div>
+</div>
+@*listSNCN*@
+<div class="container" style="width:100%;background-color: white; margin-top: 80px; border-radius: 4px 4px; box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.32);">
+    <style>
+        .DaXoa {
+            color: red;
+        }
+
+        .NPP {
+            color: blue;
+        }
+    </style>
+    <h5><a style="text-decoration: none">Danh Sách S/N Đã Kích Hoạt bởi :@Model.TenChiNhanh</a></h5>
+    <div class="table-responsive">
+        <div class="panel-heading">
+            <div class="row">
+
+                @*<div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                        @Session["ThongBaoListDaActive"]
+                    </div>*@
+                <div class="row">
+                    <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12">
+                        <input type="text" class="form-control input-sm pull-right" style="margin-top: 10px;font-size: medium; height: 40px; width: 95%" name="KeywordsTT" id="KeywordsTT" onchange="TimKiemsp()" placeholder="Enter Tìm Theo Số Serial, tên người dùng hoặc Khu Vực." />
+                    </div>
+                    <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12 col-12" style="margin-top:5px">
+                        <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-6" style="text-align:center">
+                            <span class="icon-case"><i class="glyphicon glyphicon-calendar"></i>Từ Active</span>
+                            <input type="date" name="tungay" id="tungay" />
+                        </div>
+                        <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-6" style="text-align:center">
+                            <span class="icon-case"><i class="glyphicon glyphicon-calendar"></i>Đến Active</span>
+                            <input type="date" name="denngay" id="denngay" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="listSerSPKHDaKH" style="max-height: 600px; overflow: auto">
+
+
+        </div>
+        <div class="panel-footer">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <span class="TongSanPham"></span>
+                </div>
+                <div class="col-md-4" style="text-align: center">
+                    <div class="col-md-4" style="text-align: center">
+                        <span class="TongSanPhamAC"></span>
+                    </div>
+                </div>
+                <div class="col-md-4" style="text-align: right">
+                    <span class="TongSanPham"></span>
+                </div>
+            </div>
+
+
+            <ul class="pager">
+                <li><a href="#"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    LoadPage();
+    function LoadPage() {
+        $.ajax({
+            url: "/Active/GetListSNofchinhanhbyLo",
+            data: {},
+            success: function (respone) {
+                $(".listSNCN").html(respone);
+            }
+        });
+    };
+    $(function () {
+        pageNo = 0;
+        pageSize = 10;
+        TongSP = 0;
+        var KeywordsTTT = $('#KeywordsTT').val();
+        var IdCN = $('#IdChiNhanh').val();
+        var tungay = $("#tungay").val();
+        var denngay = $("#denngay").val();
+        getTongSanPham(tungay, denngay, pageSize, pageNo, IdCN, KeywordsTTT);
+        getTongSanPhamAC(tungay, denngay, IdCN, KeywordsTTT);
+        $(".pager a:eq(0)").click(function () {
+            if (pageNo > 0) {
+                pageNo = 0;
+                IdCN = $('#IdChiNhanh').val();
+                KeywordsTTT = $('#KeywordsTT').val();
+                tungay = $("#tungay").val();
+                denngay = $("#denngay").val();
+                LoadListKHBHbyChiNhanh(tungay, denngay, pageNo, pageSize, IdCN, KeywordsTTT);
+            }
+            return false;
+        });
+        $(".pager a:eq(1)").click(function () {
+            if (pageNo > 0) {
+                pageNo--;
+                IdCN = $('#IdChiNhanh').val();
+                KeywordsTTT = $('#KeywordsTT').val();
+                tungay = $("#tungay").val();
+                denngay = $("#denngay").val();
+                LoadListKHBHbyChiNhanh(tungay, denngay, pageNo, pageSize, IdCN, KeywordsTTT);
+            }
+            return false;
+        });
+        $(".pager a:eq(2)").click(function () {
+            if (pageNo < pageCount - 1) {
+                pageNo++;
+                IdCN = $('#IdChiNhanh').val();
+                KeywordsTTT = $('#KeywordsTT').val();
+                tungay = $("#tungay").val();
+                denngay = $("#denngay").val();
+                LoadListKHBHbyChiNhanh(tungay, denngay, pageNo, pageSize, IdCN, KeywordsTTT);
+            }
+            return false;
+        });
+
+        $(".pager a:eq(3)").click(function () {
+            if (pageNo < pageCount - 1) {
+                pageNo = pageCount - 1;
+                IdCN = $('#IdChiNhanh').val();
+                KeywordsTTT = $('#KeywordsTT').val();
+                tungay = $("#tungay").val();
+                denngay = $("#denngay").val();
+                LoadListKHBHbyChiNhanh(tungay, denngay, pageNo, pageSize, IdCN, KeywordsTTT);
+            }
+            return false
+        });
+        $("#tungay").change(function () {
+            if ($("#tungay").val() != "" && $("#denngay").val() != "" && $("#tungay").val() <= $("#denngay").val()) {
+                pageNo = 0;
+                pageSize = 10;
+                TongSP = 0;
+                IdCN = $('#IdChiNhanh').val();
+                KeywordsTTT = $('#KeywordsTT').val();
+                tungay = $("#tungay").val();
+                denngay = $("#denngay").val();
+                getTongSanPham(tungay, denngay, pageSize, pageNo, IdCN, KeywordsTTT);
+                getTongSanPhamAC(tungay, denngay, IdCN, KeywordsTTT);
+            }
+        });
+        $("#denngay").change(function () {
+            if ($("#tungay").val() != "" && $("#denngay").val() != "" && $("#tungay").val() <= $("#denngay").val()) {
+                pageNo = 0;
+                pageSize = 10;
+                TongSP = 0;
+                IdCN = $('#IdChiNhanh').val();
+                KeywordsTTT = $('#KeywordsTT').val();
+                tungay = $("#tungay").val();
+                denngay = $("#denngay").val();
+                getTongSanPham(tungay, denngay, pageSize, pageNo, IdCN, KeywordsTTT);
+                getTongSanPhamAC(tungay, denngay, IdCN, KeywordsTTT);
+            }
+        });
+    });
+    //LoadListKHBHbyChiNhanh(pageNo, pageSize, IdCN, KeywordsTTT);
+    function LoadListKHBHbyChiNhanh(tungay, denngay, pageNo, pageSize, IdCN, KeywordsTTT) {
+        $.ajax({
+            url: "/Active/GetListKHBHbyChiNhanh",
+            data: { tu: tungay, den: denngay, PageNo: pageNo, PageSize: pageSize, IdCN: IdCN, KeywordsTTT: KeywordsTTT },
+            success: function (response) {
+                $(".listSerSPKHDaKH").html(response);
+                var pagesp = pageNo + 1;
+                $('.TongSanPham').html(pagesp + '/' + TongSP + ' trang');
+            }
+        });
+    }
+    function getTongSanPham(tungay, denngay, pageSize, pageNo, IdCN, KeywordsTTT) {
+        $.ajax({
+            url: "/Active/GetPageCountActive",
+            data: { tu: tungay, den: denngay, PageSize: pageSize, IdCN: IdCN, KeywordsTTT: KeywordsTTT },
+            success: function (respone) {
+                pageCount = respone;
+                TongSP = respone;
+                LoadListKHBHbyChiNhanh(tungay, denngay, pageNo, pageSize, IdCN, KeywordsTTT);
+            }
+        });
+    };
+    function getTongSanPhamAC(tungay, denngay, IdCN, KeywordsTTT) {
+        $.ajax({
+            url: "/Active/GetTongSanPhamAC",
+            data: { tu: tungay, den: denngay, IdCN: IdCN, KeywordsTTT: KeywordsTTT },
+            success: function (respone) {
+                $('.TongSanPhamAC').html('Tổng: ' + respone + ' S/N');
+            }
+        });
+    };
+    function TimKiemsp() {
+        pageNo = 0;
+        pageSize = 10;
+        TongSP = 0;
+        var KeywordsTTT = $('#KeywordsTT').val();
+        var IdCN = $('#IdChiNhanh').val();
+        tungay = $("#tungay").val();
+        denngay = $("#denngay").val();
+        getTongSanPham(tungay, denngay, pageSize, pageNo, IdCN, KeywordsTTT);
+        getTongSanPhamAC(tungay, denngay, IdCN, KeywordsTTT);
+
+    };
+    
+    function Kichhoatbh() {
+        var serialBox = $("#SerialBox").val()
+        var serialSP = $("#SerialSP").val()
+
+        var tenkh = $("#Tenkh").val()
+        var gmail = $("#Gmail").val()
+        var SDT = $("#SDT").val()
+        var idChiNhanh = $("#IdChiNhanh option:selected").text()
+        var tenkhu = $("#KhuVuc option:selected").text()
+        if (!confirm("Bạn muốn kích hoạt BH điện tử cho người dùng khu vực: " + tenkhu+" ???")) {
+            return false;
+        } else {
+            $("#ThongtinBH").css('display', 'none')
+
+            if (serialBox.length == 0) {
+                alert("Bạn chưa điền số serial trên hộp !!!")
+            } else if (serialSP.length == 0) {
+                alert("Bạn chưa điền số serial trên sản phẩm !!!")
+            } else if (tenkh.length == 0) {
+                alert("Bạn chưa điền Tên người dùng !!!")
+            } else if (gmail.length == 0) {
+                alert("Bạn chưa điền gmail người dùng !!!")
+            } else if (SDT.length == 0) {
+                alert("Bạn chưa điền sdt người dùng !!!")
+            }
+            else {
+                var postData = JSON.stringify({
+                    ND: false, NPP: true, Tenkh: tenkh, sBOX: serialBox
+                    , sSP: serialSP, ChiNhanh: idChiNhanh, gmail: gmail, sdt: SDT, khuvuc: tenkhu
+                });
+                $.ajax({
+                    contentType: "application/json; charset=utf-8",
+                    url: "/Active/KichHoatBaoHanh",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: postData,
+                    success: function (response) {
+                        $("#thongbaoBox").html("")
+                        $("#thongbaoSP").html("")
+                        $("#thongbaoActive").html("")
+                        $("#thongbaoAcTC").html("")
+                        if (response == "111") {
+                            $("#thongbaoBox").html("S/N không đúng, hoặc đã kích hoạt !!!")
+                        } else if (response == "222") {
+                            $("#thongbaoSP").html("S/N không đúng, hoặc đã kích hoạt !!!")
+                        } else if (response == "333") {
+                            $("#thongbaoActive").html("Có Lỗi Hệ Thống, Kích Hoạt không thành công !!!")
+
+                        } else if (parseInt(response) > -1) {
+                            $("#thongbaoAcTC").html("Bạn đã kích hoạt bảo hành thành công S/N: " + serialSP + ", hạn bảo hành " + response + " tháng.")
+                            LoadListKHBHbyChiNhanh();
+
+                            $("#SerialBox").val('')
+                            $("#SerialSP").val('')
+                            $("#SerialSP").focus()
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+</script>
+

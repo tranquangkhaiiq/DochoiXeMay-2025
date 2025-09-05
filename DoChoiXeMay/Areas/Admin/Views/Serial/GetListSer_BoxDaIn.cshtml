@@ -1,0 +1,47 @@
+﻿<div class="table-responsive">
+    <table class="table table-hover table-striped" style="margin-bottom:0">
+        <thead>
+            <tr class="canhgiua" style="background-color: #00bcd4">
+                <th class="canhgiua" style="max-width: 15px">STT</th>
+                <th class="canhgiua">Lô SX</th>
+                <th class="canhgiua">Ngày</th>
+                <th class="canhgiua">Loai SP</th>
+                <th class="canhgiua">Serial Number</th>
+                <th class="canhgiua">Kích hoạt</th>
+            </tr>
+        </thead>
+        <tbody style="border: 2px solid black !important">
+            @foreach (DoChoiXeMay.Models.Ser_box Item in ViewBag.SerBoxDaIn)
+            {
+                <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                    <td>@Item.Stt</td>
+                    <td>
+                        @Item.LoSanXuat
+                    </td>
+                    <td>
+                        @Item.NgayUpdate.ToShortDateString()
+                    </td>
+                    <td>
+                        @Item.Ser_LoaiHang.Name
+                    </td>
+                    <td>
+                        @Item.Serial
+                    </td>
+                    <td>
+                        @Item.Sudung
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="canhgiua">
+                @*<td style="color:chocolate">TeK hiện có:</td>
+                    <td style="color:chocolate">@ViewBag.TongLoai Loại</td>
+                    <td style="color:chocolate">Gồm @ViewBag.Tongsp sản phẩm</td>
+                    <td style="color:chocolate">Tổng Vốn: @Html.FormatValue(ViewBag.TongTien, "{0:#,###,###}") (vnd)</td>*@
+
+            </tr>
+        </tfoot>
+    </table>
+
+</div>

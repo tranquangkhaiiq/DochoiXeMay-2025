@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "GetListSNobyLo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<link href="~/Content/Login_Style.css" rel="stylesheet" />
+
+<div class="container" style="margin-top: 100px">
+    @using (Html.BeginForm("Export", "Active", FormMethod.Post))
+    {
+        <input type="text" id="GridHtml" name="GridHtml" hidden />
+        <input onclick="myfff()" type="submit" id="btnSubmit" value="Export to Word" />
+    }
+</div>
+<div class="container" id="Grid" style="background-color: white; border-radius: 4px 4px; box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.32);">
+
+    <h5><a style="text-decoration: none">Danh Sách S/N Đã add cho chi nhánh: @Session["TenChiNhanh"] (lô hàng Id= @Session["IdSN_CN"])</a></h5>
+    <div class="table-responsive">
+        <div class="panel-heading">
+            <div class="row">
+            </div>
+
+        </div>
+        <div class="listSNtoNPP" style="max-height: 2000px; overflow: auto">
+            <style>
+                .canhgiua {
+                    text-align: center !important;
+                }
+            </style>
+            <table class="table table-hover table-striped" style="margin-bottom:0">
+                <thead>
+                    <tr class="canhgiua" style="background-color: #00bcd4">
+                        <th class="canhgiua">Stt</th>
+                        <th class="canhgiua">Serial Box</th>
+                        <th class="canhgiua">Ngày</th>
+                        <th class="canhgiua">Active</th>
+                        <th class="canhgiua">Check</th>
+                    </tr>
+                </thead>
+                <tbody style="border: 2px solid black !important">
+                    @if (ViewBag.GetCountSNtoNPP > 0)
+                    {
+                        foreach (DoChoiXeMay.Models.Ser_Chitiet_XuatSN_CN Item in ViewBag.GetListSNtoNPP)
+                        {
+                            var kichhoat = new DoChoiXeMay.Areas.Admin.Data.ActiveData().CheckSNActive(Item.Serial);
+
+                            <tr class="canhgiua" style="border-bottom: 2px solid black !important">
+                                <td style="border-left: 2px solid black !important; border-bottom: 2px solid black !important">@Item.Ghichu</td>
+                                <td style="border-left: 2px solid black !important; border-bottom: 2px solid black !important">@Item.Serial</td>
+                                <td style="border-left: 2px solid black !important; border-bottom: 2px solid black !important">@Item.NgayXuat</td>
+                                <td style="border-left: 2px solid black !important; border-bottom: 2px solid black !important">@kichhoat</td>
+                                <td style="border-left: 2px solid black !important; border-right: 2px solid black !important; border-bottom: 2px solid black !important "></td>
+                            </tr>
+
+                        }
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    function myfff() {
+        document.getElementById("GridHtml").value = $("#Grid").html();
+        //val($("#Grid").html());
+    }
+</script>
+
