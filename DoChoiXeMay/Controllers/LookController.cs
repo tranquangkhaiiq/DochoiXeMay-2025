@@ -59,10 +59,18 @@ namespace DoChoiXeMay.Controllers
             }
 
             var be = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1").ToList();
+            var beNhapLoi = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh"
+                                && kh.KyXuatNhap.XuatNhap==false).ToList();
+            var betraLoi = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh"
+                                && kh.KyXuatNhap.XuatNhap == true).ToList();
             if (nam > 0)
             {
                 be = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1" &&
                                 kh.NgayAuto.Year == nam).ToList();
+                beNhapLoi = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh"
+                                && kh.KyXuatNhap.XuatNhap == false && kh.NgayAuto.Year == nam).ToList();
+                betraLoi = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh"
+                                && kh.KyXuatNhap.XuatNhap == true && kh.NgayAuto.Year == nam).ToList();
             }
             
             var beg = be.Where(kh => kh.KyXuatNhap.XuatNhap == true).ToList();
@@ -76,7 +84,10 @@ namespace DoChoiXeMay.Controllers
             var DaBanLSiNSan = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.KyXuatNhap.IdSan == 1 &&
                                 kh.KyXuatNhap.KhachLe == false && dbc.Ser_XuatSN_CN.FirstOrDefault(kk=>kk.IdKyxuat==kh.IdKy && kk.ChuyenKho==true)==null).ToList();
 
-
+            //2/4/2026
+            ViewBag.DaNhanHangDaiLyLoi = beNhapLoi == null ? 0 : beNhapLoi.Sum(kh => kh.SoLuong);
+            ViewBag.DaGuiHangBHDaiLy = betraLoi == null ? 0 : betraLoi.Sum(kh => kh.SoLuong);
+            //2/4/2026
             var DaTraHangKhachLe = beg.Where(kh => kh.IdDoiTra == 4).ToList();   //4:Không Lỗi
             var DaTraHangKhachLeLoi = be.Where(kh => kh.IdDoiTra == 3).ToList(); //4:Không Lỗi//3:có lỗi//2:Mới Nhận
             var modeldaban = daban == null ? 0 : daban.Sum(kh => kh.SoLuong);
@@ -89,6 +100,7 @@ namespace DoChoiXeMay.Controllers
             ViewBag.DaTraHangKhachLe = DaTraHangKhachLe == null ? 0 : DaTraHangKhachLe.Sum(kh => kh.SoLuong);
             var TraHangLeLoi = DaTraHangKhachLeLoi == null ? 0 : DaTraHangKhachLeLoi.Sum(kh => kh.SoLuong);
             ViewBag.DaTraHangKhachLeLoi = TraHangLeLoi;
+
             var kytrabaohanhct = beg.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 3 || kh.KyXuatNhap.IdLoaiHangXN == 4).ToList();
             if (kytrabaohanhct.Count() == 0)
             {

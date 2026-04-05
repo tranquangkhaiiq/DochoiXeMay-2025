@@ -22,7 +22,14 @@
                 <th class="canhgiua">Đã Add</th>
                 <th class="canhgiua">Ghi Chú</th>
                 <th class="canhgiua">Add Serial</th>
-                <th class="canhgiua">Update/Delete</th>
+                @if (Session["quyen"] != null && int.Parse(Session["quyen"].ToString()) < 5)
+                {
+                    <th class="canhgiua">Update/Delete</th>
+                }
+                else
+                {
+                    <th class="canhgiua">Ngày Xuất</th>
+                }
             </tr>
         </thead>
         @if (Model != null)
@@ -82,17 +89,20 @@
                             }
                         </td>
                         <td>
-                            @if (int.Parse(Session["quyen"].ToString()) < 5)
+                            @if (Session["quyen"] != null && int.Parse(Session["quyen"].ToString()) < 5)
                             {
                                 <a class="btn btn-danger" href="/Admin/ChiNhanh/UpdateSNchoCN/@Item.Id"><span class="glyphicon glyphicon-edit"></span></a>
                                 if (Session["quyen"].ToString() == "1")
                                 {
                                     <a style="" class="btn btn-warning" onclick="return confirm('Bạn muốn xóa đợt xuất S/N cho Chi Nhánh: @Item.Ser_ChiNhanh.TenChiNhanh ??')" href="/Admin/ChiNhanh/DeleteSNChiNhanh/@Item.Id"><span class="glyphicon glyphicon-trash"></span></a>
                                 }
-
                             }
-                        </td>
-                    </tr>
+                            else
+                            {
+                                <span>@Html.FormatValue(Item.NgayXuat, "{0:dd/MM/yyyy}")</span> 
+                            }
+                            </td>
+                        </tr>
 
                 }
             </tbody>

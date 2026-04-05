@@ -27,7 +27,9 @@ namespace DoChoiXeMay.Models
         public int IdKyxuat { get; set; }
 
         public int IdChiNhanh { get; set; }
+
         public bool ChuyenKho { get; set; }
+
         public int DenKhoId { get; set; }
 
         [StringLength(200)]

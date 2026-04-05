@@ -215,6 +215,7 @@
     <Compile Include="Models\ProjectDetail.cs" />
     <Compile Include="Models\ProjectTeK.cs" />
     <Compile Include="Models\ProjectUserDetail.cs" />
+    <Compile Include="Models\QCbaiviet.cs" />
     <Compile Include="Models\QCtrangchu.cs" />
     <Compile Include="Models\QCVitri.cs" />
     <Compile Include="Models\SanThuongMai.cs" />

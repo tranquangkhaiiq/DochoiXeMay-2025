@@ -11,91 +11,94 @@
     <audio id="notificationSound" src="~/Content/Sound/aler2026.mp3" preload="auto"></audio>
     @using (Html.BeginForm("ChiNhanh", "AddSN_ChiNhanh", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
+        if (Session["quyen"] != null && int.Parse(Session["quyen"].ToString()) < 5)
+        {
+            <fieldset class="info_form">
 
-        <fieldset class="info_form">
+                <div class="container">
+                    <span class="pull-right label label-success" style="color:white;font-family:monospace">
+                        @Html.ValidationSummary()
+                    </span>
+                    <h1 class="info_header">
+                        <span>Add Serial cho chi nhánh: @Session["TenChiNhanh"] (add serial cho lô hàng Id= @Session["IdSN_CN"])/@Session["ChuyenSNKHO"]</span>
 
-            <div class="container">
-                <span class="pull-right label label-success" style="color:white;font-family:monospace">
-                    @Html.ValidationSummary()
-                </span>
-                <h1 class="info_header">
-                    <span>Add Serial cho chi nhánh: @Session["TenChiNhanh"] (add serial cho lô hàng Id= @Session["IdSN_CN"])/@Session["ChuyenSNKHO"]</span>
-
-                </h1>
-                <div class="contentform">
-                    <div class="row">
-                        <div class="pull-right label label-success" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: 						bold; font-size: large">
-                            @Session["ThongBaotaolohang"]
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: 						bold; font-size: large">
-                            @Session["ThongBaoLoitaolohang"]
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row" style="width:95%;padding-left:15px">
-                            <p>Tổng số Serial cần add là: @Session["SoLuong"]</p>
-                        </div>
-                        <div class="row" style="width:95%;padding-left:15px">
-                            <p>Số Serial Đã Add là: @Session["DaAdd"]</p>
-                        </div>
-                        <div class="row" style="width:95%;padding-left:15px">
-                            <p>Kỳ Xuất </p>
-                            <span class="icon-case"><i class="glyphicon glyphicon-expand"></i></span>
-                            <input type="text" disabled value="@Session["KyXuatNhap"]" style="height:40px" class="form-control" placeholder="Kỳ xuất" required>
-                        </div>
-                        <div class="row" style="width:95%;padding-left:15px">
-                            <p>Serial </p>
-                            <span class="icon-case"><i class="glyphicon glyphicon-pencil"></i></span>
-                            <input type="text" autofocus style="height:40px" class="form-control" onchange="TextSN()" id="SerialSN" name="Serial" required>
-                        </div>
-
-                        <div class="row" style="margin-top:10px">
-                            <div class="form-group col-sm-12">
-                                <div class="btn-crud">
-                                    <div class="col-md-4" style="text-align:right">
-                                        <button id="btnLuu" class="btn btn-warning" data-action="AddSNCNtoChiTiet"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Add Serial</button>
-                                    </div>
-                                    <div class="col-md-4" style="text-align:center">
-                                        <button id="btnLuuRM" class="btn btn-social" style="margin-left:20px" data-action="RemoveSerialCN"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Remove Serial</button>
-                                    </div>
-                                    <div class="col-md-4" style="text-align:left">
-                                        <a class="btn btn-primary" href="/Admin/ChiNhanh/Index" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
-                                    </div>
-                                </div>
-                                <script>
-                                    $(function () {
-                                        $("button[data-action]").click(function () {
-                                            if (!confirm("Bạn Có Chắc Chắn Hành Động Của Mình?")) {
-                                                return false;
-                                            } else {
-                                                var action = $(this).attr("data-action");
-                                                this.form.action = "/Admin/ChiNhanh/" + action;
-                                            }
-
-                                        });
-                                    });
-                                </script>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-heading">
+                    </h1>
+                    <div class="contentform">
                         <div class="row">
-                            <div class="pull-right label label-success" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                            <div class="pull-right label label-success" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: 						bold; font-size: large">
                                 @Session["ThongBaotaolohang"]
                             </div>
                         </div>
                         <div class="row">
-                            <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                            <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: 						bold; font-size: large">
                                 @Session["ThongBaoLoitaolohang"]
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row" style="width:95%;padding-left:15px">
+                                <p>Tổng số Serial cần add là: @Session["SoLuong"]</p>
+                            </div>
+                            <div class="row" style="width:95%;padding-left:15px">
+                                <p>Số Serial Đã Add là: @Session["DaAdd"]</p>
+                            </div>
+                            <div class="row" style="width:95%;padding-left:15px">
+                                <p>Kỳ Xuất </p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-expand"></i></span>
+                                <input type="text" disabled value="@Session["KyXuatNhap"]" style="height:40px" class="form-control" placeholder="Kỳ xuất" required>
+                            </div>
+                            <div class="row" style="width:95%;padding-left:15px">
+                                <p>Serial </p>
+                                <span class="icon-case"><i class="glyphicon glyphicon-pencil"></i></span>
+                                <input type="text" autofocus style="height:40px" class="form-control" onchange="TextSN()" id="SerialSN" name="Serial" required>
+                            </div>
+
+                            <div class="row" style="margin-top:10px">
+                                <div class="form-group col-sm-12">
+                                    <div class="btn-crud">
+                                        <div class="col-md-4" style="text-align:right">
+                                            <button id="btnLuu" class="btn btn-warning" data-action="AddSNCNtoChiTiet"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Add Serial</button>
+                                        </div>
+                                        <div class="col-md-4" style="text-align:center">
+                                            <button id="btnLuuRM" class="btn btn-social" style="margin-left:20px" data-action="RemoveSerialCN"><span class="glyphicon glyphicon-refresh"></span>&nbsp;Remove Serial</button>
+                                        </div>
+                                        <div class="col-md-4" style="text-align:left">
+                                            <a class="btn btn-primary" href="/Admin/ChiNhanh/Index" style="margin-left:10%"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Quay Lại</a>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        $(function () {
+                                            $("button[data-action]").click(function () {
+                                                if (!confirm("Bạn Có Chắc Chắn Hành Động Của Mình?")) {
+                                                    return false;
+                                                } else {
+                                                    var action = $(this).attr("data-action");
+                                                    this.form.action = "/Admin/ChiNhanh/" + action;
+                                                }
+
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="pull-right label label-success" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                                    @Session["ThongBaotaolohang"]
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="pull-right label label-warning" style="margin-bottom: 5px; color: white; font-family: monospace; font-weight: bold; font-size: large">
+                                    @Session["ThongBaoLoitaolohang"]
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </fieldset>
+            </fieldset>
+        }
+
     }
     @using (Html.BeginForm("Export", "ChiNhanh", FormMethod.Post))
     {

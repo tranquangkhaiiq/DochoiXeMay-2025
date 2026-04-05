@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace DoChoiXeMay.Areas.Admin.Controllers
 {
-    [Protect]
+    
     public class ChiNhanhController : Controller
     {
         // GET: Admin/ChiNhanh
@@ -23,6 +23,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             Session["requestUri"] = "/Admin/ChiNhanh/Index";
             return View();
         }
+        [Protect]
         public ActionResult InsertAutoSNChiNhanh()
         {
             try
@@ -130,6 +131,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
 
             return Json(IdKho, JsonRequestBehavior.AllowGet);
         }
+        [Protect]
         public ActionResult DeleteSNChiNhanh( int Id) {
             var modelchitiet = dbc.Ser_Chitiet_XuatSN_CN.FirstOrDefault(kh => kh.IdSN_CN==Id);
             if(modelchitiet == null)
@@ -152,6 +154,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Protect]
         public ActionResult UpdateSNchoCN(int Id)
         {
             var model = dbc.Ser_XuatSN_CN.Find(Id);
@@ -161,6 +164,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             return View(model);
         }
         [HttpPost]
+        [Protect]
         public ActionResult UpdateSNchoCN(Ser_XuatSN_CN model)
         {
             try
@@ -236,7 +240,8 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
         }
         public ActionResult TimSNLoHang(string Serial)
         {
-            var modelct = dbc.Ser_Chitiet_XuatSN_CN.FirstOrDefault(kh => kh.Serial == Serial);
+            var modelct = dbc.Ser_Chitiet_XuatSN_CN.FirstOrDefault(kh => kh.Serial == Serial && kh.Ser_XuatSN_CN.Ser_ChiNhanh.IdLevel !=10);
+            var modelctKho = dbc.Ser_Chitiet_XuatSN_CN.FirstOrDefault(kh => kh.Serial == Serial && kh.Ser_XuatSN_CN.Ser_ChiNhanh.IdLevel == 10);
             var modelctxn = dbc.ChitietXuatNhaps.FirstOrDefault(kh => kh.SerialHop == Serial && kh.IdDoiTra <4);
             if (modelct != null && modelctxn == null)
             {
@@ -244,11 +249,16 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                 Session["ThongBaoXuatSN_ChiNhanh"] = "Số serial: " + Serial + " đã nằm trong lô hàng của chi nhánh "
                     + modelct.Ser_XuatSN_CN.Ser_ChiNhanh.TenChiNhanh + " có Id=" + modelct.IdSN_CN + ".!!!";
             }
+            else if (modelct == null && modelctKho != null)
+            {
+                Session["ThongBaoLoiSN_ChiNhanh"] = "";
+                Session["ThongBaoXuatSN_ChiNhanh"] = "Số serial: " + Serial + " đang ở Kho :"+ modelctKho.Ser_XuatSN_CN.Ser_ChiNhanh.TenChiNhanh;
+            }
             else if(modelctxn !=null && modelct == null)
             {
                 Session["ThongBaoLoiSN_ChiNhanh"] = "";
                 Session["ThongBaoXuatSN_ChiNhanh"] = "Số serial: " + Serial + " đã xuất cho khách lẻ.!!!";
-            }else if(modelct == null && modelctxn == null)
+            }else if(modelct == null && modelctxn == null && modelctKho==null)
             {
                 Session["ThongBaoLoiSN_ChiNhanh"] = "";
                 Session["ThongBaoXuatSN_ChiNhanh"] = "Số serial: " + Serial + " vẫn CHƯA dùng.";

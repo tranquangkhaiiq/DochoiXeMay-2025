@@ -74,10 +74,13 @@ namespace DoChoiXeMay.Areas.Admin.Data
                 var sgcongthang1 = float.Parse(sgcongthang.ToString());
                 var sgtcathang1 = float.Parse(sgtcathang.ToString());
                 var sglethang1 = float.Parse(sglethang.ToString());
+                //var sgcongthang1 = float.Parse(sgcongthang.ToString());
+                //var sgtcathang1 = float.Parse(sgtcathang.ToString());
+                //var sglethang1 = float.Parse(sglethang.ToString());
 
                 string sql = "insert into [" + DBname + "TechZone].[dbo].[NV_Cong] " +
                               "values(" + idnv + "," + snc1 + "," + sntc1 + ","+snle1+","+slcom+","+slgiaohang+"" +
-                              ","+slhotro+","+ sgcongthang1 + ","+sgtcathang1+","+sglethang1+","+thang+","+nam+ "" +
+                              ","+slhotro+",0,0,0,"+thang+","+nam+ "" +
                               ",convert(datetime, '" + date + "', 120),N'Insert Auto')";
                 var insert_SVL = _context.Database.ExecuteSqlCommand(sql);
                 return true;

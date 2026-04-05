@@ -12,6 +12,7 @@ namespace DoChoiXeMay.Models
         public Guid Id { get; set; }
 
         public int IdHangHoa { get; set; }
+
         public int IdKho { get; set; }
 
         public int SoLuong { get; set; }

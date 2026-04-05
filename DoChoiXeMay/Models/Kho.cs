@@ -24,6 +24,7 @@ namespace DoChoiXeMay.Models
 
         [StringLength(500)]
         public string GhiChu { get; set; }
+
         public bool SuDung { get; set; }
 
         public DateTime Ngay { get; set; }

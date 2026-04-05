@@ -19,6 +19,8 @@ namespace DoChoiXeMay.Models
 
         public int Idvitri { get; set; }
 
+        public int Idbaiviet { get; set; }
+
         public bool Sudung { get; set; }
 
         public bool Img { get; set; }
@@ -32,6 +34,8 @@ namespace DoChoiXeMay.Models
         public string Ghichu { get; set; }
 
         public virtual Loai_Socials Loai_Socials { get; set; }
+
+        public virtual QCbaiviet QCbaiviet { get; set; }
 
         public virtual QCVitri QCVitri { get; set; }
     }

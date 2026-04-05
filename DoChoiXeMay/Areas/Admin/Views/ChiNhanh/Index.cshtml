@@ -35,45 +35,57 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="row" style="margin-top:5px">
 
-                <div class="col-md-3">
-                    <a class="btn btn-warning" style="margin-left:20px" href="/Admin/ChiNhanh/InsertAutoSNChiNhanh" onclick="return confirm('Bạn muốn Thêm Mới S/N cho Chi Nhánh ??')">
-                        <i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Xuất SN cho Chi Nhánh (tạo lô hàng cho chi nhánh)
-                    </a>
+                <div class="col-md-2" style="text-align:left">
+                    @if (Session["quyen"] != null && int.Parse(Session["quyen"].ToString()) < 5)
+                    {
+                        <a class="btn btn-warning" style="height:40px" href="/Admin/ChiNhanh/InsertAutoSNChiNhanh" onclick="return confirm('Bạn muốn Thêm Mới S/N cho Chi Nhánh ??')">
+                            <i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Tạo lô hàng gửi chi nhánh
+                        </a>
+                    }
+                    else
+                    {
+                        <span>Hiển thị 40 đơn gần nhất</span>
+                    }
+
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <div class="col-md-4" style="border: 2px solid #d7d5d2 !important">
-                        
-                            <div class="col-md-6">
-                                @Html.DropDownList("IdKho", null, new { style = "width: 90%; height: 40px" })
-                            </div>
-                            <div class="col-md-6">
-                                <select class="form-control" id="ChuyenKho" name="ChuyenKho" style="width: 90%; height: 40px; margin: 0 auto">
-                                    <option value="0">ChuyểnKho/Không</option>
-                                    <option value="1">Chuyển Kho</option>
-                                    <option value="2">Không Chuyển</option>
-                                </select>
-                            </div>
-                        
+                        <div class="col-md-5">
+                            @Html.DropDownList("IdKho", null, new { style = "width: 100%; height: 40px" })
+                        </div>
+                        <div class="col-md-7">
+                            <select class="form-control" id="ChuyenKho" name="ChuyenKho" style="width: 100%; height: 40px; margin: 0 auto">
+                                <option value="0">ChuyểnKho/Bán</option>
+                                <option value="1">Chuyển Kho</option>
+                                <option value="2">Bán</option>
+                            </select>
+                        </div>
                     </div>
-                        <div class="col-md-2">
-                            @Html.DropDownList("IdChiNhanh", null, new { style = "width: 70%; height: 40px" })
+                    <div class="col-md-2">
+                        @Html.DropDownList("IdChiNhanh", null, new { style = "width: 70%; height: 40px" })
+                    </div>
+                    <div class="col-md-2">
+                        <div class="col-md-3">
+                            <span style="line-height:40px; font-size:30px">Id:</span>
                         </div>
-                        <div class="col-md-1">
-                            <input type="number" value="0" class="form-control input-sm" style="font-size: medium; height: 40px; width: 90%" name="Keywordsid" id="Keywordsid" placeholder="Tìm theo Id." />
+                        <div class="col-md-9">
+                            <input type="number" value="0" class="form-control input-sm" style="font-size: medium; height: 40px; width: 100%" name="Keywordsid" id="Keywordsid" placeholder="Tìm theo Id." />
                         </div>
-                        <div class="col-md-3 pull-right">
-                            <input type="text" class="form-control input-sm" style="font-size: medium; height: 40px; width: 95%" name="KeywordsTT" id="KeywordsTT" placeholder="Tìm Số Serial box đang ở lô hàng nào ??." />
+                    </div>
+                    <div class="col-md-2" style="text-align:right">
+                        <a onclick="TimKiemsp()" class="btn btn-warning" style="text-align: right; height: 40px">Kiểm tra số S/N</a>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control input-sm" style="font-size: medium; height: 40px; width: 95%" name="KeywordsTT" id="KeywordsTT" placeholder="Tìm Số Serial box đang ở lô hàng nào ??." />
 
-                        </div>
-                        <div class="col-md-2" style="text-align:right">
-                            <a onclick="TimKiemsp()" class="btn btn-warning" style="text-align:right">Kiểm tra số S/N</a>
-                        </div>
                     </div>
 
                 </div>
+
+            </div>
 
         </div>
         <div class="panel-body">

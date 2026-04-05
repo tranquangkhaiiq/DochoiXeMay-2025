@@ -50,6 +50,7 @@ namespace DoChoiXeMay.Models
         public virtual DbSet<ProjectDetail> ProjectDetails { get; set; }
         public virtual DbSet<ProjectTeK> ProjectTeKs { get; set; }
         public virtual DbSet<ProjectUserDetail> ProjectUserDetails { get; set; }
+        public virtual DbSet<QCbaiviet> QCbaiviets { get; set; }
         public virtual DbSet<QCtrangchu> QCtrangchus { get; set; }
         public virtual DbSet<QCVitri> QCVitris { get; set; }
         public virtual DbSet<SanThuongMai> SanThuongMais { get; set; }
@@ -288,6 +289,16 @@ namespace DoChoiXeMay.Models
                 .HasMany(e => e.ProjectDetails)
                 .WithRequired(e => e.ProjectTeK)
                 .HasForeignKey(e => e.ProjectId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<QCbaiviet>()
+                .Property(e => e.BaiViet)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<QCbaiviet>()
+                .HasMany(e => e.QCtrangchus)
+                .WithRequired(e => e.QCbaiviet)
+                .HasForeignKey(e => e.Idbaiviet)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<QCVitri>()

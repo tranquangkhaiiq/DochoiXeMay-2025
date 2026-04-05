@@ -58,6 +58,7 @@ namespace DoChoiXeMay.Models
         public string Ghichu { get; set; }
 
         public int BaoHanh { get; set; }
+
         public int IdKho { get; set; }
 
         public virtual Color Color { get; set; }
