@@ -177,7 +177,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             }
 
             ViewBag.Tongsp = model.Sum(kh => kh.SoLuong);
-            var model1= model.OrderBy(h => h.IdKho)
+            var model1= model.OrderByDescending(h => h.IdKho)
                                 .ThenBy(kh=>kh.IDKy)//SP or NVL
                                 .ThenByDescending(h=>h.IDMF)
                                 .ThenByDescending(h => h.SoLuong)

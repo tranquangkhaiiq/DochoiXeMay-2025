@@ -9,10 +9,14 @@
             <tr class="canhgiua" style="background-color: #00bcd4">
                 <th class="canhgiua" style="max-width: 15px">STT</th>
                 <th class="canhgiua">Tên Sản Phẩm</th>
+                <th class="canhgiua">Màu</th>
+                <th class="canhgiua">Hãng</th>
                 <th class="canhgiua">Loại</th>
+                <th class="canhgiua">Size</th>
                 <th class="canhgiua">Kho</th>
                 <th class="canhgiua">Số Lượng</th>
-                <th class="canhgiua" style="width:230px">Giá Nhập Cuối</th>
+                <th class="canhgiua">Ngày</th>
+                <th class="canhgiua" style="max-width:230px">Giá Nhập</th>
 
                 <th class="canhgiua" style="max-width: 40px;padding:0">Img 1</th>
                 <th class="canhgiua" style="max-width: 40px; padding: 0">Img 2</th>
@@ -36,17 +40,17 @@
                     <td>@Item.GhiChu</td>
                     <td>
                         @Item.Ten
+                    </td>
+                    <td>
                         @if (Item.IDColor > 1)
                         {
-                            <span> <span>-</span>@Item.Color.TenColor</span>
+                            <span>@Item.Color.TenColor</span>
                         }
+                    </td>
+                    <td>
                         @if (Item.IDMF != 3)
                         {
-                            <span> <span>-</span>@Item.Manufacturer.Name</span>
-                        }
-                        @if (Item.IDSize != 1)
-                        {
-                            <span> <span>-</span>size @Item.Size.TenSize</span>
+                            <span>@Item.Manufacturer.Name</span>
                         }
                     </td>
                     <td>
@@ -59,10 +63,17 @@
                             <span>SP</span>
                         }
                     </td>
+                    <td>
+                        @if (Item.IDSize != 1)
+                        {
+                            <span>@Item.Size.TenSize</span>
+                        }
+                    </td>
                     <td class="@cl">
                         <span>@Item.Kho.TenKho</span>
                     </td>
                     <td>@Item.SoLuong</td>
+                    <td>@Html.FormatValue(Item.NgayAuto, "{0:dd/MM/yyyy}")</td>
                     <td>@Html.FormatValue(Item.GiaNhap, "{0:#,###,###}")</td>
 
                     <td>

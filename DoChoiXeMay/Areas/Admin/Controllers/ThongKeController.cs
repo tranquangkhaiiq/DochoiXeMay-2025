@@ -23,9 +23,11 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             Session["requestUri"] = "/Admin/ThongKe/Index";
             var be = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1").ToList();
             var beg = be.Where(kh=>kh.KyXuatNhap.XuatNhap == true).ToList();
-            var begsanxuat = be.Where(kh => kh.KyXuatNhap.XuatNhap == false && kh.IdDoiTra == 1).ToList();
+            var begsanxuat = be.Where(kh => kh.KyXuatNhap.XuatNhap == false && kh.IdDoiTra == 1 && kh.KyXuatNhap.IdKho == 1).ToList();
             var begin = beg.Where(kh=> kh.IdDoiTra == 1).ToList();
-            var daban = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1).ToList();
+            var daban = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 &&
+                                dbc.Ser_XuatSN_CN.FirstOrDefault(kk => kk.IdKyxuat == kh.IdKy && kk.ChuyenKho == true) == null).ToList();
+            
             var DaBanTikTok = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.KyXuatNhap.IdSan == 2 && kh.KyXuatNhap.KhachLe == true).ToList();
             var DaBanShopee = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.KyXuatNhap.IdSan == 3 && kh.KyXuatNhap.KhachLe == true).ToList();
             var DaBanLeNSan = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.KyXuatNhap.IdSan == 1 && kh.KyXuatNhap.KhachLe == true).ToList();
@@ -51,29 +53,32 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             var DaTraHangKhachLeLoiKhoiNSan = be.Where(kh => kh.IdDoiTra == 3 && kh.IDColor == 7 && kh.KyXuatNhap.IdSan == 1).ToList();
 
 
-            var DaBanLSiNSan = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.KyXuatNhap.IdSan == 1 && kh.KyXuatNhap.KhachLe == false).ToList();
+            var DaBanLSiNSan = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.KyXuatNhap.IdSan == 1 && kh.KyXuatNhap.KhachLe == false
+                    && dbc.Ser_XuatSN_CN.FirstOrDefault(kk => kk.IdKyxuat == kh.IdKy && kk.ChuyenKho == true) == null).ToList();
 
             var TrongDaBan = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.IDColor == 5).ToList();
             var TrongDaBanTikTok = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.IDColor == 5 && kh.KyXuatNhap.IdSan == 2).ToList();
             var trongDaBanShopee = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.IDColor == 5 && kh.KyXuatNhap.IdSan == 3).ToList();
             var trongDaBanLeNSan = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.IDColor == 5 && kh.KyXuatNhap.IdSan == 1 && kh.KyXuatNhap.KhachLe == true).ToList();
-            var trongDaBanLSiNSan = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.IDColor == 5 && kh.KyXuatNhap.IdSan == 1 && kh.KyXuatNhap.KhachLe == false).ToList();
+            var trongDaBanLSiNSan = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.IDColor == 5 && kh.KyXuatNhap.IdSan == 1 && kh.KyXuatNhap.KhachLe == false
+                            && dbc.Ser_XuatSN_CN.FirstOrDefault(kk => kk.IdKyxuat == kh.IdKy && kk.ChuyenKho == true) == null).ToList();
             
             var KhoiDaBan = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.IDColor == 7).ToList();
             var KhoiDaBanTikTok = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.IDColor == 7 && kh.KyXuatNhap.IdSan == 2).ToList();
             var KhoiDaBanShopee = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.IDColor == 7 && kh.KyXuatNhap.IdSan == 3).ToList();
             var KhoiDaBanLeNSan = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.IDColor == 7 && kh.KyXuatNhap.IdSan == 1 && kh.KyXuatNhap.KhachLe == true).ToList();
-            var KhoiDaBanLSiNSan = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.IDColor == 7 && kh.KyXuatNhap.IdSan == 1 && kh.KyXuatNhap.KhachLe == false).ToList();
+            var KhoiDaBanLSiNSan = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 && kh.IDColor == 7 && kh.KyXuatNhap.IdSan == 1 && kh.KyXuatNhap.KhachLe == false
+                            && dbc.Ser_XuatSN_CN.FirstOrDefault(kk => kk.IdKyxuat == kh.IdKy && kk.ChuyenKho == true) == null).ToList();
 
             var MauDaXuat = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 2).ToList();
             var KhoiMauDaXuat = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 2 && kh.IDColor == 7).ToList();
             var TrongMauDaXuat = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 2 && kh.IDColor == 5).ToList();
 
-            var Tonkho = dbc.HangHoas.Where(kh => kh.Id == 55 || kh.Id == 56).Sum(kh => kh.SoLuong);
+            var Tonkho = dbc.HangHoas.Where(kh => kh.Id == 55 || kh.Id == 56 || kh.Id == 1066 || kh.Id == 66).Sum(kh => kh.SoLuong);
             ViewBag.TongXiNhanGen1Tek = Tonkho;
-            var TonkhoT= dbc.HangHoas.Where(kh => kh.Id == 56).Sum(kh => kh.SoLuong);
+            var TonkhoT= dbc.HangHoas.Where(kh => kh.Id == 56 || kh.Id == 1066).Sum(kh => kh.SoLuong);
             ViewBag.TongXiNhanGen1TrongTK = TonkhoT;
-            var TonkhoK = dbc.HangHoas.Where(kh => kh.Id == 55).Sum(kh => kh.SoLuong);
+            var TonkhoK = dbc.HangHoas.Where(kh => kh.Id == 55 || kh.Id == 66).Sum(kh => kh.SoLuong);
             ViewBag.TongXiNhanGen1KhoiTK = TonkhoK;
 
             var modeldaban = daban == null ? 0 : daban.Sum(kh => kh.SoLuong);
