@@ -618,14 +618,20 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
 
             ViewBag.IDColor = new SelectList(dbc.Colors.OrderByDescending(kh => kh.Id), "Id", "TenColor",7);
             ViewBag.IDSize = new SelectList(dbc.Sizes.OrderBy(kh => kh.Id), "Id", "TenSize",1);
-            if(ky.XuatNhap==true && ky.KhachLe == true)
+            IEnumerable<HangHoa> hh ;
+            if (ky.IdMaTC == 5)//NVL==>HangHoas=>IDKy
             {
-                ViewBag.NameSP = dbc.HangHoas.Where(kh=>kh.IDKy==0 && kh.IdKho==ky.IdKho).DistinctBy(kh => kh.Ten);
+                hh = dbc.HangHoas.Where(kh => kh.IDKy == 1 && kh.IdKho == ky.IdKho).DistinctBy(kh => kh.Ten);
+            }
+            else if (ky.IdMaTC == 17)//SP
+            {
+                hh = dbc.HangHoas.Where(kh => kh.IDKy == 0 && kh.IdKho == ky.IdKho).DistinctBy(kh => kh.Ten);
             }
             else
             {
-                ViewBag.NameSP = dbc.HangHoas.Where(kh => kh.IdKho == ky.IdKho).DistinctBy(kh => kh.Ten);
+                hh = dbc.HangHoas.Where(kh => kh.IdKho == ky.IdKho).DistinctBy(kh => kh.Ten);
             }
+            ViewBag.NameSP = hh;
             return View();
         }
         [HttpPost]

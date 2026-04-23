@@ -197,7 +197,6 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             ViewBag.phantramTonkhoK = (100 * float.Parse(Session["TonKhoXiNhanGen1TekK"].ToString()) / float.Parse(Session["daSX"].ToString())).ToString("#0.00");
             ViewBag.phantramMauDaXuat = (100 * float.Parse(Session["MauDaXuat"].ToString()) / float.Parse(Session["daSX"].ToString())).ToString("#0.00");
 
-
             return PartialView();
         }
         public ActionResult NVLTonKho()
@@ -217,8 +216,6 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                 model[i].STT = (i + 1).ToString();
             }
             ViewBag.KyTonKho = model.OrderByDescending(kh => kh.Id).ToList();
-            
-            
             return PartialView();
         }
         public ActionResult InsertKyTonKho()
