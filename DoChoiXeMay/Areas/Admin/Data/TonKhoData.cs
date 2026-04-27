@@ -95,7 +95,7 @@ namespace DoChoiXeMay.Areas.Admin.Data
             try
             {
                 var modelhh = db.ChiTietTonKhoes.FirstOrDefault(kh => kh.TenHang.ToLower().Trim() == tenhang.ToLower().Trim() && kh.IDMF == IDMF
-                                                && kh.IDColor == Color && kh.IDSize == Size && kh.IdKyTonKho==IdKyton && kh.ChuaRap >0);
+                                                && kh.IDColor == Color && kh.IDSize == Size && kh.IdKyTonKho==IdKyton);
                 if (modelhh != null)
                 {
                     var model = db.ChiTietTonKhoes.Find(modelhh.Id);

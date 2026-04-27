@@ -22,6 +22,8 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
         {
             Session["requestUri"] = "/Admin/ThongKe/Index";
             var be = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1").ToList();
+            var betraLoi = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh"
+                                && kh.KyXuatNhap.XuatNhap == true).ToList();
             var beg = be.Where(kh=>kh.KyXuatNhap.XuatNhap == true).ToList();
             var begsanxuat = be.Where(kh => kh.KyXuatNhap.XuatNhap == false && kh.IdDoiTra == 1 && kh.KyXuatNhap.IdKho == 1).ToList();
             var begin = beg.Where(kh=> kh.IdDoiTra == 1).ToList();
@@ -156,10 +158,12 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             {
                 ViewBag.TongtraBH = kytrabaohanhct.Sum(kh=>kh.SoLuong);
             }
-            //var dsx= ViewBag.daban + ViewBag.TongXiNhanGen1Tek + ViewBag.TongXiNhanGen1MauDaXuat
-            //                    + ViewBag.DaTraHangKhachLeLoi + ViewBag.TongtraBH;
+            //27/4/2026 => update dasanxuat 
+            var traNoBox = beg.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 4).Sum(kh => kh.SoLuong);
+            var trahangnhanBH = betraLoi.Sum(kh => kh.SoLuong);
+            //27/4/2026 => update dasanxuat
             var dsx = begsanxuat.Sum(kh => kh.SoLuong);
-            ViewBag.DaSanXuat=dsx;
+            ViewBag.DaSanXuat=dsx + traNoBox + trahangnhanBH;
             //Vẽ đồ thị pie
             Session["daban"] = modeldaban;
             Session["DaTraHangKhachLeLoi"] = TraHangLeLoi;

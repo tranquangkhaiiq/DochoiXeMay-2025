@@ -100,7 +100,7 @@ namespace DoChoiXeMay.Controllers
             ViewBag.DaTraHangKhachLe = DaTraHangKhachLe == null ? 0 : DaTraHangKhachLe.Sum(kh => kh.SoLuong);
             var TraHangLeLoi = DaTraHangKhachLeLoi == null ? 0 : DaTraHangKhachLeLoi.Sum(kh => kh.SoLuong);
             ViewBag.DaTraHangKhachLeLoi = TraHangLeLoi;
-
+            //KyXuatNhap.IdLoaiHangXN==4(NoBox)
             var kytrabaohanhct = beg.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 3 || kh.KyXuatNhap.IdLoaiHangXN == 4).ToList();
             if (kytrabaohanhct.Count() == 0)
             {
@@ -110,11 +110,15 @@ namespace DoChoiXeMay.Controllers
             {
                 ViewBag.TongtraBH = kytrabaohanhct.Sum(kh => kh.SoLuong);
             }
+            //27/4/2026 => update dasanxuat 
+            var traNoBox = beg.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 4).Sum(kh => kh.SoLuong);
+            var trahangnhanBH = betraLoi.Sum(kh => kh.SoLuong);
+            //27/4/2026 => update dasanxuat
             var dsx = begsanxuat.Sum(kh => kh.SoLuong);
             var TonkhoT = dbc.HangHoas.Where(kh => kh.Id == 56 || kh.Id==1066).Sum(kh => kh.SoLuong);
             var TonkhoK = dbc.HangHoas.Where(kh => kh.Id == 55 || kh.Id==66).Sum(kh => kh.SoLuong);
 
-            ViewBag.DaSanXuat = dsx;
+            ViewBag.DaSanXuat = dsx + traNoBox+trahangnhanBH;
             Session["DaTraHangKhachLeLoi"] = TraHangLeLoi;
             Session["TongtraBH"] = kytrabaohanhct.Count() == 0 ? 0 : kytrabaohanhct.Sum(kh => kh.SoLuong);
             //Session["TonKhoXiNhanGen1Tek"] = Tonkho;

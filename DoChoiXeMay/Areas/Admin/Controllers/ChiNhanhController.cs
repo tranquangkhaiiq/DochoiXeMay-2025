@@ -75,6 +75,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             {
                 var model = KhongChon;
                 ViewBag.TongSL = model.Sum(kh => kh.SoLuong);
+                ViewBag.TongSDong = model.Count();
                 ViewBag.GetListSNchinhanh = model.Skip(0).Take(40).ToList();
                 return PartialView(model);
             }
@@ -82,12 +83,14 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             {//Chỉ có 1 dòng
                 var model = ChonId;
                 ViewBag.TongSL = model.Sum(kh => kh.SoLuong);
+                ViewBag.TongSDong = model.Count();
                 ViewBag.GetListSNchinhanh = model.ToList();
                 return PartialView(model);
             }
             else if (id==0 && idchinhanh > 0) {
                 var model = ChonChiNhanh.ToList();
                 ViewBag.TongSL = model.Sum(kh => kh.SoLuong);
+                ViewBag.TongSDong = model.Count();
                 ViewBag.GetListSNchinhanh = model.Skip(0).Take(40).ToList();
                 return PartialView(model);
             }
@@ -96,6 +99,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                 var ck=chuyenkho==1?true:false;
                 var model = O4.Where(kh=>kh.ChuyenKho==ck);
                 ViewBag.TongSL = model.Sum(kh => kh.SoLuong);
+                ViewBag.TongSDong = model.Count();
                 ViewBag.GetListSNchinhanh = model.Skip(0).Take(40).ToList();
                 return PartialView(model);
             }
@@ -103,6 +107,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             {
                 var model = O4.Where(kh => kh.KyXuatNhap.IdKho == idkho);
                 ViewBag.TongSL = model.Sum(kh => kh.SoLuong);
+                ViewBag.TongSDong = model.Count();
                 ViewBag.GetListSNchinhanh = model.Skip(0).Take(40).ToList();
                 return PartialView(model);
             }
@@ -111,6 +116,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                 var ck = chuyenkho == 1 ? true : false;
                 var model = O4.Where(kh => kh.ChuyenKho == ck && kh.KyXuatNhap.IdKho==idkho);
                 ViewBag.TongSL = model.Sum(kh => kh.SoLuong);
+                ViewBag.TongSDong = model.Count();
                 ViewBag.GetListSNchinhanh = model.Skip(0).Take(40).ToList();
                 return PartialView(model);
             }
@@ -150,6 +156,8 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             var requestUri = Session["requestUri"] as string;
             if (requestUri != null)
             {
+                ViewBag.IdChiNhanh = new SelectList(dbc.Ser_ChiNhanh.Where(kh => kh.Id > 7).ToList(), "Id", "DaiDien");
+                ViewBag.IdKho = new SelectList(dbc.Khoes.Where(kh => kh.SuDung == true).ToList(), "Id", "TenKho");
                 return Redirect(requestUri);
             }
             return RedirectToAction("Index");
