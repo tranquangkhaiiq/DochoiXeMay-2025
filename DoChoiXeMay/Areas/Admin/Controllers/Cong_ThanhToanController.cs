@@ -22,11 +22,14 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
         public ActionResult ListThanhToan()
         {
             Session["requestUri"] = "/Admin/Cong_ThanhToan/ListThanhToan";
+            ViewBag.IdNhanVien = new SelectList(dbc.NV_NhanVienTek.Where(kh => kh.DaNghiViec == false).ToList(), "Id", "HoTen");
             return View();
         }
-        public ActionResult GetListThanhToan(DateTime dtInput)
+        public ActionResult GetListThanhToan(DateTime dtInput,int idnv=0)
         {
-            ViewBag.GetThanhToan = dbc.NV_ThanhToanLuong.Where(kh => kh.Thang == dtInput.Month && kh.Nam == dtInput.Year)
+            if (idnv == 0)
+            {
+                var modeltt = dbc.NV_ThanhToanLuong.Where(kh => kh.Thang == dtInput.Month && kh.Nam == dtInput.Year)
                 .OrderByDescending(kh => kh.NV_NhanVienTek.DaNghiViec)
                 .ThenBy(kh => kh.DaNhanLuong)
                 .ThenByDescending(kh => kh.Thang)
@@ -34,7 +37,32 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                 .ThenByDescending(kh => kh.ThucLinh)
                 .ThenByDescending(kh => kh.NV_NhanVienTek.NgayTao)
                 .ToList();
+                ViewBag.GetThanhToan = modeltt;
+                ViewBag.GetTongTien = modeltt.Sum(kh => kh.ThucLinh);
+            }
+            else
+            {
+                var modeltt = dbc.NV_ThanhToanLuong.Where(kh => kh.Thang == dtInput.Month && kh.Nam == dtInput.Year
+                        && kh.IdNhanVien == idnv)
+                .OrderByDescending(kh => kh.NV_NhanVienTek.DaNghiViec)
+                .ThenBy(kh => kh.DaNhanLuong)
+                .ThenByDescending(kh => kh.Thang)
+                .ThenByDescending(kh => kh.NV_NhanVienTek.NV_Vitrinhanvien.DonViTinh)
+                .ThenBy(kh => kh.ThucLinh)
+                .ThenByDescending(kh => kh.NV_NhanVienTek.NgayTao)
+                .ToList();
+                ViewBag.GetThanhToan = modeltt;
+                ViewBag.GetTongTien = modeltt.Sum(kh => kh.ThucLinh);
+            }
+            
             return PartialView();
+        }
+        public ActionResult NhanVienThanhToan()
+        {
+            var IdNhanVien = dbc.NV_NhanVienTek.Where(kh=>kh.DaNghiViec==false).
+                            Select(kh => new { id = kh.Id, ten = kh.HoTen });
+
+            return Json(IdNhanVien, JsonRequestBehavior.AllowGet);
         }
         public ActionResult ListCong()
         {

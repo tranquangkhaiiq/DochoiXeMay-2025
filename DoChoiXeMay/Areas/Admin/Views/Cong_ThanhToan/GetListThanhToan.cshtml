@@ -19,10 +19,10 @@
                 <th class="canhgiua">KhautruBH</th>
                 <th class="canhgiua">UngLuong</th>
                 <th class="canhgiua">ThucLinh</th>
-                <th class="canhgiua">DaNhan</th>
+
                 <th class="canhgiua">Thang/Nam</th>
                 <th class="canhgiua">NgayUpdate</th>
-
+                <th class="canhgiua">DaNhan</th>
                 @if (Session["quyen"].ToString() == "1")
                 {
                     <th class="canhgiua" style="width:120px">Update</th>
@@ -75,16 +75,16 @@
                     <td>
                         @Html.FormatValue(Item.ThucLinh, "{0:#,###,###}")
                     </td>
-                    <td>
-                        @Item.DaNhanLuong
-                    </td>
+
                     <td>
                         @Item.Thang/@Item.Nam
                     </td>
                     <td>
                         @Html.FormatValue(Item.NgayUpdate, "{0:dd/MM/yyyy}")
                     </td>
-
+                    <td>
+                        @Item.DaNhanLuong
+                    </td>
                     @if (Session["quyen"].ToString() == "1")
                     {
                         <td>
@@ -94,6 +94,19 @@
                 </tr>
             }
         </tbody>
+        <tfoot>
+            <tr class="canhgiua">
+                <td colspan="5" style="color:chocolate">
+                    
+                </td>
+                <td colspan="4" style="color:chocolate">
+                    
+                </td>
+                <td colspan="6" style="color:mediumblue">
+                    Tổng Tiền Lương NV: @ViewBag.GetTongTien
+                </td>
+            </tr>
+        </tfoot>
     </table>
 
 </div>

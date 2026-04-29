@@ -28,8 +28,11 @@
                 <div class="col-lg-6 col-xl-6 col-md-4 col-sm-12 col-12">
                     <input style="margin-left: 10px; margin-bottom: 10px" type="month" name="ThangNam" value="@DateTime.Now.ToString("yyyy-MM")" id="ThangNam" />
                 </div>
-
+                <div class="col-lg-6 col-xl-6 col-md-4 col-sm-12 col-12">
+                    @Html.DropDownList("IdNhanVien", null, new { style = "width: 70%; height: 30px" })
+                </div>
             </div>
+            
         </div>
     </div>
     <div class="panel-body">
@@ -62,12 +65,14 @@
     </div>
 </div>
 <script>
+    LoadNhanVienThanhToan();
     var tn = $('#ThangNam').val();
-    LoadPage(tn);
-    function LoadPage(tn) {
+    var NV = $("#IdNhanVien").val();
+    LoadPage(tn,NV);
+    function LoadPage(tn,NV) {
         $.ajax({
             url: "/Admin/Cong_ThanhToan/GetListThanhToan",
-            data: { dtInput: tn},
+            data: { dtInput: tn, idnv: NV},
             success: function (respone) {
                 $(".listThanhToan").html(respone);
                 //var pagesp = pageNo + 1;
@@ -76,8 +81,40 @@
         });
     };
     $("#ThangNam").change(function () {
+        var NV = $("#IdNhanVien").val();
         var tn = $('#ThangNam').val();
-        LoadPage(tn)
+        LoadPage(tn,NV)
     });
+    $("#IdNhanVien").change(function () {
+        var NV = $("#IdNhanVien").val();
+        var tn = $('#ThangNam').val();
+        LoadPage(tn,NV)
+    });
+    function LoadNhanVienThanhToan() {
+        $('#IdNhanVien').empty();
+        $.ajax({
+            url: "/Admin/Cong_ThanhToan/NhanVienThanhToan", // we are calling json method
+            data: {},
+            success: function (response) {
+                $("#IdNhanVien").append(
+                    $('<option/>')
+                        .attr('value', 0)
+                        .text("Chọn NV")
+                );
+                $(response).each(function (i, e) {
+                    $("#IdNhanVien").append(
+                        $('<option/>')
+                            .attr('value', e.id)
+                            .text(e.ten)
+                    );
+                    // here we are adding option for Hãng
+                });
+            },
+            error: function (ex) {
+                alert('Lỗi load httc: ' + ex);
+            }
+        });
+
+    };
 </script>
 
