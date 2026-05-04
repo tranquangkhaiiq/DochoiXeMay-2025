@@ -373,6 +373,7 @@ namespace DoChoiXeMay.Areas.Admin.Data
                     model.Hinh1 = hinh1 !=""?hinh1:model.Hinh1;
                     model.Hinh2 = hinh2 !=""?hinh2:model.Hinh2;
                     model.Hinh3 = hinh3 !=""?hinh3:model.Hinh3;
+                    model.NgayAuto = DateTime.Now;
                     db.Entry(model).State = EntityState.Modified;
                     var kq= db.SaveChanges();
                     //ChiTietSLHangHoas 13 thang 2
