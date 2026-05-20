@@ -44,7 +44,9 @@ namespace DoChoiXeMay.Controllers
 
             ViewBag.KhoiTon311 = dbc.HangHoas.Where(kh => kh.Id == 55).Sum(kh => kh.SoLuong);
             ViewBag.KhoiTonKho2 = dbc.HangHoas.Where(kh => kh.Id == 66).Sum(kh => kh.SoLuong);
-            
+
+            ViewBag.TrongTonChuaVoHop = dbc.HangHoas.Where(kh => kh.Id == 1069).Sum(kh => kh.SoLuong);
+            ViewBag.KhoiTonChuaVoHop = dbc.HangHoas.Where(kh => kh.Id == 1070).Sum(kh => kh.SoLuong);
             return View();
         }
         public ActionResult DoThiThongKe(int nam=0)

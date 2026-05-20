@@ -157,6 +157,9 @@ namespace DoChoiXeMay.Areas.Admin.Data
         }
         public bool AutoChiTietSLHangHoa(int idhh,int soluong, string DBname)
         {
+            // Khác ngày ins, cùng ngày update
+            // chưa sửa dụng, không biết ?
+            // thêm 
             try
             {
                 var modelktSPTeK = _context.HangHoas.FirstOrDefault(kh => kh.IDMF == 5 && kh.IDKy == 0 && kh.Id == idhh);

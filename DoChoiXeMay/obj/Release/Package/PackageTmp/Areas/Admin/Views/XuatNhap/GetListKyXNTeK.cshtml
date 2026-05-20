@@ -15,7 +15,7 @@
                 <th class="canhgiua" style="width:100px">UserName</th>
                 <th class="canhgiua" style="width:200px">Tên Kỳ</th>
                 <th class="canhgiua" style="width:200px">Xuất Nhập/Số tiền </th>
-                <th class="canhgiua" style="max-width: 30px; padding-left: 0;padding-right:0">Hóa Đơn</th>
+                <th class="canhgiua" style="max-width: 30px; padding-left: 0;padding-right:0">HĐ</th>
                 <th class="canhgiua" style="max-width: 30px; padding-left: 0;padding-right:0">File 2</th>
                 <th class="canhgiua" style="max-width: 30px; padding-left: 0;padding-right:0">File 3</th>
                 <th class="canhgiua">Trả Hàng/Update</th>
@@ -24,10 +24,9 @@
                         <th class="canhgiua">Trả Hàng</th>
                     }*@
                 <th class="canhgiua">Soluong/Tên Hàng/ThôngSố/Hãng</th>
-                <th class="canhgiua">Giá Nhập</th>
-                <th class="canhgiua" style="max-width: 15px">Hình 1</th>
-                <th class="canhgiua" style="max-width: 15px">Hình 2</th>
-                <th class="canhgiua" style="max-width: 15px">Hình 3</th>
+                <th class="canhgiua">Giá</th>
+                <th class="canhgiua" style="max-width: 15px">H1</th>
+                
                 <th class="canhgiua" style="max-width: 15px">STT</th>
 
             </tr>
@@ -332,36 +331,8 @@
                         }
 
                     </td>
-                    <td>
-                        @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in Chitiet)
-                        {
-                            if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + ct.Hinh2)))
-                            {
-                                <p style="height:70px">
-                                    <a target="_blank" href="~/Content/imgxuatnhap/@ct.Hinh2">
-                                        <i class="glyphicon glyphicon-download-alt"></i>
-                                    </a>
-                                </p>
-                                <hr />
-                            }
-                        }
-
-                    </td>
-                    <td>
-                        @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in Chitiet)
-                        {
-                            if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + ct.Hinh3)))
-                            {
-                                <p style="height:70px">
-                                    <a target="_blank" href="~/Content/imgxuatnhap/@ct.Hinh3">
-                                        <i class="glyphicon glyphicon-download-alt"></i>
-                                    </a>
-                                </p>
-
-                            }
-                        }
-
-                    </td>
+                    
+                    
                     <td>
                         @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in Chitiet)
                         {

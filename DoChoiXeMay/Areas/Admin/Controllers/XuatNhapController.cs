@@ -15,6 +15,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Razor.Tokenizer.Symbols;
 using System.Web.UI.WebControls.Expressions;
+using System.Windows.Media;
 
 namespace DoChoiXeMay.Areas.Admin.Controllers
 {
@@ -135,7 +136,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                         //add vao bang hang hoa
                         if (XN.XuatNhap==true && XN.IdLoaiHangXN<4) 
                         {
-                            /*=4 là hàng NoBox, không trừ bảng hàng h*/
+                            /*=4 là hàng NoBox, không trừ bảng hàng h -- Tự trừ thủ công*/
                             //Kiểm tra số lượng bảng hh >= so luong xuất
                             var kqktHH = Data.XuatNhapData.kiemtrasoluongHH(dbc, id);
                             if (kqktHH == false)
@@ -152,7 +153,15 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                                         modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong, XN.IdKho);
                                     if (kq == false)
                                     {
-                                        Session["ThongBaoXuatNhapUserct"] = "Có Lỗi xuất hàng: " + modelct[i].Ten + " không đủ đk để xuất!!!.";
+                                        Session["ThongBaoXuatNhapUserct"] = "Lỗi xuất hàng/NVL: " + modelct[i].Ten + " không đủ số lượng để xuất!!!.";
+                                    }
+                                    else if(XN.KhachLe==false && XN.IdLoaiHangXN==3)
+                                    {
+                                        //trừ sl nhận bh
+                                        //=4 là hàng NoBox, không trừ bảng hàng h -- Tự trừ thủ công
+                                        string tenhbh = "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh";
+                                        var kqtrahangDL = Data.XuatNhapData.XuatHangHoa(dbc, DBname, tenhbh, 5,
+                                        modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong, 1);
                                     }
                                 }
                             }
@@ -167,6 +176,41 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                                     modelct[i].Hinh1, modelct[i].Hinh2, modelct[i].Hinh3, XN.IdKho);
                                 var kqtonkho = Data.TonKhoData.UpdateCTKytonKho(dbc, modelct[i].KyXuatNhap.IdKyTonKho,
                                     modelct[i].Ten, modelct[i].IDMF, modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong);
+                                //GhibangHangHoa xong thì 
+                                //Kiểm tra hàng nhập là sp xi nhan và có kỳ tồn kho
+                                //gọi trừ NVL
+                                //gọi trừ Xinhan chưa vô hộp
+                                string teenhh = "Xi Nhan Wave TNT BLOCKX G2 ZEN 1";
+
+                                string teenhhChuaHop = "Xi Nhan G2 ZEN 1(Chưa vô hộp)";
+
+                                string nvl1 = "Đế đen và mạch điện";
+                                string nvl2 = "Kính trong Xi nhan wave";
+                                string nvl3 = "Kính khói Xi nhan wave";
+                                string nvl4 = "Thanh Sáng dài Xi Nhan Wave phải";
+                                string nvl5 = "Thanh Sáng dài Xi Nhan Wave trái";
+                                string nvl6 = "Nanh Sáng ngắn Xi Nhan Wave";
+                                string nvl7 = "Đế Sáng phải";
+                                string nvl8 = "Đế Sáng trái";
+                                if (kq==true && XN.IdKho==1 && modelct[i].Ten.ToLower() == teenhh.ToLower() && XN.IdKyTonKho > 1)
+                                {
+                                    var kqnvl1 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl1, 5, 1, 1, modelct[i].SoLuong, 1);
+                                    if (modelct[i].IDColor == 5)
+                                    {
+                                        var kqnvl2 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl2, 5, 5, 1, modelct[i].SoLuong, 1);
+                                        var kqteenhhChuaHop = Data.XuatNhapData.XuatHangHoa(dbc, DBname, teenhhChuaHop, 5, 5, 1, modelct[i].SoLuong, 1);
+                                    }
+                                    else if(modelct[i].IDColor == 7)
+                                    {
+                                        var kqnvl3 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl3, 5, 7, 1, modelct[i].SoLuong, 1);
+                                        var kqteenhhChuaHop = Data.XuatNhapData.XuatHangHoa(dbc, DBname, teenhhChuaHop, 5, 7, 1, modelct[i].SoLuong, 1);
+                                    }
+                                    var kqnvl4 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl4, 5, 1, 1, modelct[i].SoLuong, 1);
+                                    var kqnvl5 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl5, 5, 1, 1, modelct[i].SoLuong, 1);
+                                    var kqnvl6 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl6, 5, 1, 1, modelct[i].SoLuong, 1);
+                                    var kqnvl7 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl7, 5, 1, 1, modelct[i].SoLuong, 1);
+                                    var kqnvl8 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl8, 5, 1, 1, modelct[i].SoLuong, 1);
+                                }
                                 
                             }
                         }
@@ -355,6 +399,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                             var modelct = dbc.ChitietXuatNhaps.Where(kh => kh.IdKy == id).ToList();
                             for (int i = 0; i < modelct.Count(); i++)
                             {
+                                //update 19thang5
                                 var kq = Data.XuatNhapData.GhibangHangHoa(dbc,DBname, modelct[i].Ten, modelct[i].IDMF,
                                     modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong, modelct[i].Gianhap,
                                     modelct[i].Hinh1, modelct[i].Hinh2, modelct[i].Hinh3, XN.IdKho);

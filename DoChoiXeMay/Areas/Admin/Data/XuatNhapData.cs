@@ -423,6 +423,7 @@ namespace DoChoiXeMay.Areas.Admin.Data
                 return false;
             }
         }
+        
         public static bool XuatHangHoa(Model1 db,string DBname, string Ten, int Hangsx = 0, int Mau = 0, int Size = 0, int soluong = 0, int idkho=0)
         {
             //dùng cho kỳ nhập (thu hồi) ??
@@ -443,7 +444,7 @@ namespace DoChoiXeMay.Areas.Admin.Data
                         var kq = db.SaveChanges();
                         //ChiTietSLHangHoas 13 thang 2
                         //Chua co thi Insert, co roi thi update
-                        if (kq > 0)
+                        if (kq > 0 && modelhh.IDKy==0)
                         {
                             new TonKhoData().AutoChiTietSLHangHoa(model.Id, model.SoLuong, DBname);
                             return true;

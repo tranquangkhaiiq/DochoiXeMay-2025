@@ -45,123 +45,125 @@
                     <span style="margin-left: 20px; color: brown ">Tồn Kho TNT BLOCKX G2 ZEN 1-Khói: @ViewBag.KhoiTon</span>
                 </div>
             </div>
-                <div id="myModal" class="modal fade" role="dialog" style="opacity: 1">
-                    <div class="modal-dialog modal-lg" style="left:0; width: 500px; height: 600px; margin-top: 10% !important; background-position: center center; background-repeat: no-repeat; background-size: cover;box-sizing:border-box ">
-                        <div class="modal-content" style="height: 450px; overflow: auto">
-                            <div class="modal-header">
-                                <button type="button" class="close" onclick="closemodal()">&times;</button>
-                                <h4 class="modal-title text-center" style="font-weight:bold;font-size:24px">Thêm Mới "Kỳ Xuất Nhập"</h4>
-                            </div>
-                            <div class="modal-body" style="box-shadow: 1px 0 3px #8ba6c5">
-                                <div style="padding:0 !important">
-                                    @using (Html.BeginForm("InsertKyXuatNhap", "XuatNhap", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                    {
-                                        <div class="row form-group" style="padding:15px; margin:0px;font-size:larger">
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <span>Sàn(Khách Lẻ)</span>
-                                                    @Html.DropDownList("IdSan", null, new { style = "width: 100%; height: 40px" })
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <span>Kỳ Xuất</span>
-                                                            @Html.CheckBoxFor(m => m.XuatNhap, new { @style = "height:20px;margin-left: 10%" })
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <span>Khách Lẻ</span>
-                                                            @Html.CheckBoxFor(m => m.KhachLe, new { @style = "height:20px;margin-left: 10%" })
-
-                                                        </div>
+            <div id="myModal" class="modal fade" role="dialog" style="opacity: 1">
+                <div class="modal-dialog modal-lg" style="left:0; width: 500px; height: 600px; margin-top: 10% !important; background-position: center center; background-repeat: no-repeat; background-size: cover;box-sizing:border-box ">
+                    <div class="modal-content" style="height: 450px; overflow: auto">
+                        <div class="modal-header">
+                            <button type="button" class="close" onclick="closemodal()">&times;</button>
+                            <h4 class="modal-title text-center" style="font-weight:bold;font-size:24px">Thêm Mới "Kỳ Xuất Nhập"</h4>
+                            <h6 class="modal-title text-center" style="font-weight:bold">(Ráp hàng tại 311 + kytonkho thì trừ sl NVL)</h6>
+                            <h6 class="modal-title text-center" style="font-weight:bold">(Trả BH(Box) cho đại lý thì trừ sl nhận BH)</h6>
+                        </div>
+                        <div class="modal-body" style="box-shadow: 1px 0 3px #8ba6c5">
+                            <div style="padding:0 !important">
+                                @using (Html.BeginForm("InsertKyXuatNhap", "XuatNhap", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    <div class="row form-group" style="padding:15px; margin:0px;font-size:larger">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <span>Sàn(Khách Lẻ)</span>
+                                                @Html.DropDownList("IdSan", null, new { style = "width: 100%; height: 40px" })
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <span>Kỳ Xuất</span>
+                                                        @Html.CheckBoxFor(m => m.XuatNhap, new { @style = "height:20px;margin-left: 10%" })
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <span>Khách Lẻ</span>
+                                                        @Html.CheckBoxFor(m => m.KhachLe, new { @style = "height:20px;margin-left: 10%" })
 
-                                                    <p style="font-size:small">Chiết khấu thì (-), Ship và VAT thì (+)</p>
-                                                </div>
-                                            </div>
-                                            <div class="row" style="margin-top:15px">
-                                                <div class="col-md-8">
-                                                    <input id="TenKy" placeholder="Tên Kỳ xuất nhập ..." name="TenKy" style="margin-right: 10px; width: 100%; height: 30px" required />
-                                                </div>
-                                                <div class="col-md-4">
-                                                    @Html.DropDownList("IdKho", null, new { style = "width: 100%; height: 30px" })
-                                                </div>
-                                            </div>
-                                            <div class="row" style="margin-top:10px">
-                                                <span>Khu Vực</span>
-                                                @Html.DropDownList("IdKhuVuc", null, new { style = "width: 100%; height: 40px" })
-                                            </div>
-                                            <div class="row" style="margin-top:10px">
-                                                <span>Loại Hàng Xuất/Nhập</span>
-                                                @Html.DropDownList("IdMaTC", null, new { style = "width: 100%; height: 40px" })
-                                            </div>
-                                            <div class="row" style="margin-top:10px">
-                                                <div class="col-md-6">
-                                                    <span>Tồn Kho(Kỳ Nhập)</span>
-                                                    @Html.DropDownList("IdKyTonKho", null, new { style = "width: 100%; height: 40px" })
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <span>Loại Kỳ X/N</span>
-                                                    @Html.DropDownList("IdLoaiHangXN", null, new { style = "width: 100%; height: 40px" })
-                                                </div>
-                                            </div>
-                                            <div class="row XuatKhachLe" style="margin-top:20px">
-                                                <div class="col-md-6">
-                                                    <span>(-)Chiết khấu %</span>
-                                                    <input id="CKphantram" type="number" value="0" name="CKphantram" required />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <span>(-)Chiết khấu tiền mặt</span>
-                                                    <input id="CKtienmat" type="number" value="0" name="CKtienmat" required />
+                                                    </div>
                                                 </div>
 
+                                                <p style="font-size:small">Chiết khấu thì (-), Ship và VAT thì (+)</p>
                                             </div>
-                                            <div class="row XuatKhachLe" style="margin-top:10px">
-                                                <div class="col-md-6">
-                                                    <span>(+)Tiền Ship</span>
-                                                    <input id="Shipper" type="number" value="0" name="Shipper" required />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <span>(+)Vat %</span>
-                                                    <input id="VAT" type="number" value="0" name="VAT" required />
-                                                </div>
+                                        </div>
+                                        <div class="row" style="margin-top:15px">
+                                            <div class="col-md-8">
+                                                <input id="TenKy" placeholder="Tên Kỳ xuất nhập ..." name="TenKy" style="margin-right: 10px; width: 100%; height: 30px" required />
                                             </div>
-
-
-                                            <div class="col-md-12 XuatKhachLe" style="margin-top:10px">
-                                                <span>Tải Hóa Đơn</span>
-                                                <input id="HoaDon" type="file" name="HoaDon" />
-
+                                            <div class="col-md-4">
+                                                @Html.DropDownList("IdKho", null, new { style = "width: 100%; height: 30px" })
                                             </div>
-                                            <div class="col-md-12 XuatKhachLe" style="margin-top:10px">
-                                                <span>Tải File1</span>
-                                                <input id="Filesave2" type="file" name="Filesave2" />
-
+                                        </div>
+                                        <div class="row" style="margin-top:10px">
+                                            <span>Khu Vực</span>
+                                            @Html.DropDownList("IdKhuVuc", null, new { style = "width: 100%; height: 40px" })
+                                        </div>
+                                        <div class="row" style="margin-top:10px">
+                                            <span>Loại Hàng Xuất/Nhập</span>
+                                            @Html.DropDownList("IdMaTC", null, new { style = "width: 100%; height: 40px" })
+                                        </div>
+                                        <div class="row" style="margin-top:10px">
+                                            <div class="col-md-6 TonKhoNhap">
+                                                <span>Tồn Kho(Kỳ Nhập)</span>
+                                                @Html.DropDownList("IdKyTonKho", null, new { style = "width: 100%; height: 40px" })
                                             </div>
-                                            <div class="col-md-12 XuatKhachLe" style="margin-top:10px">
-                                                <span>Tải File2</span>
-                                                <input id="Filesave3" type="file" name="Filesave3" />
-
+                                            <div class="col-md-6">
+                                                <span>Loại Kỳ X/N</span>
+                                                @Html.DropDownList("IdLoaiHangXN", null, new { style = "width: 100%; height: 40px" })
                                             </div>
-                                            <div class="col-md-6" style="margin-top:10px;font-size:larger;text-align:center">
-                                                <button id="btnLuu" class="btn btn-primary" type="submit">Lưu Kỳ Xuất Nhập</button>
-
+                                        </div>
+                                        <div class="row XuatKhachLe" style="margin-top:20px">
+                                            <div class="col-md-6">
+                                                <span>(-)Chiết khấu %</span>
+                                                <input id="CKphantram" type="number" value="0" name="CKphantram" required />
                                             </div>
-                                            <div class="col-md-6" style="margin-top:10px;font-size:larger;text-align:center">
-
-                                                <button id="btnLuu" class="btn btn-default" onclick="closemodal()">Đóng(Không Lưu)</button>
+                                            <div class="col-md-6">
+                                                <span>(-)Chiết khấu tiền mặt</span>
+                                                <input id="CKtienmat" type="number" value="0" name="CKtienmat" required />
                                             </div>
 
                                         </div>
-                                        }
-                                </div>
-                                </div>
+                                        <div class="row XuatKhachLe" style="margin-top:10px">
+                                            <div class="col-md-6">
+                                                <span>(+)Tiền Ship</span>
+                                                <input id="Shipper" type="number" value="0" name="Shipper" required />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span>(+)Vat %</span>
+                                                <input id="VAT" type="number" value="0" name="VAT" required />
+                                            </div>
+                                        </div>
 
+
+                                        <div class="col-md-12 XuatKhachLe" style="margin-top:10px">
+                                            <span>Tải Hóa Đơn</span>
+                                            <input id="HoaDon" type="file" name="HoaDon" />
+
+                                        </div>
+                                        <div class="col-md-12 XuatKhachLe" style="margin-top:10px">
+                                            <span>Tải File1</span>
+                                            <input id="Filesave2" type="file" name="Filesave2" />
+
+                                        </div>
+                                        <div class="col-md-12 XuatKhachLe" style="margin-top:10px">
+                                            <span>Tải File2</span>
+                                            <input id="Filesave3" type="file" name="Filesave3" />
+
+                                        </div>
+                                        <div class="col-md-6" style="margin-top:10px;font-size:larger;text-align:center">
+                                            <button id="btnLuu" class="btn btn-primary" type="submit">Lưu Kỳ Xuất Nhập</button>
+
+                                        </div>
+                                        <div class="col-md-6" style="margin-top:10px;font-size:larger;text-align:center">
+
+                                            <button id="btnLuu" class="btn btn-default" onclick="closemodal()">Đóng(Không Lưu)</button>
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
                         </div>
+
                     </div>
                 </div>
-
-
             </div>
+
+
+        </div>
     </div>
     <div class="panel-body">
         <img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />
@@ -227,10 +229,16 @@
     });
     $("#KhachLe").change(function () {
         var XuatNhap = $('#XuatNhap').is(':checked');
-        if (this.checked && XuatNhap == true) {
+        if (this.checked) {
             //$(this).prop("checked", returnVal);
-            $('.XuatKhachLe').addClass('hidden');
+            $('.TonKhoNhap').addClass('hidden');
+            if (XuatNhap == true) {
+                $('.XuatKhachLe').addClass('hidden');
+            } else {
+                $('.XuatKhachLe').removeClass('hidden');
+            }
         } else {
+            $('.TonKhoNhap').removeClass('hidden');
             $('.XuatKhachLe').removeClass('hidden');
         }
 
