@@ -1,4 +1,8 @@
-﻿
+﻿<style>
+    .hinhdaidientek {
+        max-width: 50px !important;
+    }
+</style>
 <div class="table-responsive">
     <table class="table table-hover table-striped" style="margin-bottom:0">
         <thead>
@@ -93,7 +97,7 @@
                             @if (File.Exists(Request.MapPath("~/Content/imgthuchi/" + Item.Filesave1)))
                             {
                                 <a target="_blank" href="~/Content/imgthuchi/@Item.Filesave1">
-                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                    <img src="~/Content/imgthuchi/@Item.Filesave1" alt="" class="hinhdaidientek" />
                                 </a>
                             }
                         </td>
@@ -101,7 +105,7 @@
                             @if (File.Exists(Request.MapPath("~/Content/imgthuchi/" + Item.Filesave2)))
                             {
                                 <a target="_blank" href="~/Content/imgthuchi/@Item.Filesave2">
-                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                    <img src="~/Content/imgthuchi/@Item.Filesave2" alt="" class="hinhdaidientek" />
                                 </a>
                             }
                         </td>
@@ -120,7 +124,7 @@
                             @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Item.Filesave1)))
                             {
                                 <a target="_blank" href="~/Content/imgxuatnhap/@Item.Filesave1">
-                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                    <img src="~/Content/imgxuatnhap/@Item.Filesave1" alt="" class="hinhdaidientek" />
                                 </a>
                             }
                         </td>
@@ -128,7 +132,7 @@
                             @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Item.Filesave2)))
                             {
                                 <a target="_blank" href="~/Content/imgxuatnhap/@Item.Filesave2">
-                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                    <img src="~/Content/imgxuatnhap/@Item.Filesave2" alt="" class="hinhdaidientek" />
                                 </a>
                             }
                         </td>
