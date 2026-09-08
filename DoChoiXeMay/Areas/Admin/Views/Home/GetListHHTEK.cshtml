@@ -8,15 +8,18 @@
         <thead>
             <tr class="canhgiua" style="background-color: #00bcd4">
                 <th class="canhgiua" style="max-width: 15px">STT</th>
+                <th class="canhgiua" style="max-width: 20px">Id</th>
                 <th class="canhgiua">Tên Sản Phẩm</th>
                 <th class="canhgiua">Màu</th>
                 <th class="canhgiua">Hãng</th>
-                <th class="canhgiua">Loại</th>@*//IDKy*@
-                <th class="canhgiua">Size</th>
+                <th class="canhgiua">Loại</th>
+                @*//IDKy*@
+
                 <th class="canhgiua">Kho</th>
                 <th class="canhgiua">Số Lượng</th>
+                <th class="canhgiua">Size</th>
                 <th class="canhgiua">Ngày</th>
-                <th class="canhgiua" style="max-width:230px">Giá Nhập</th>
+                <th class="canhgiua" style="max-width:230px">Main</th>
 
                 <th class="canhgiua" style="max-width: 40px;padding:0">Img 1</th>
                 <th class="canhgiua" style="max-width: 40px; padding: 0">Img 2</th>
@@ -38,6 +41,7 @@
                 }
                 <tr class="canhgiua" style="border-bottom: 2px solid black !important">
                     <td>@Item.GhiChu</td>
+                    <td>@Item.Id</td>
                     <td>
                         @Item.Ten
                     </td>
@@ -63,18 +67,20 @@
                             <span>SP</span>
                         }
                     </td>
+
+                    <td class="@cl">
+                        <span>@Item.Kho.TenKho</span>
+                    </td>
+                    <td>@Item.SoLuong</td>
                     <td>
                         @if (Item.IDSize != 1)
                         {
                             <span>@Item.Size.TenSize</span>
                         }
                     </td>
-                    <td class="@cl">
-                        <span>@Item.Kho.TenKho</span>
-                    </td>
-                    <td>@Item.SoLuong</td>
                     <td>@Html.FormatValue(Item.NgayAuto, "{0:dd/MM/yyyy}")</td>
-                    <td>@Html.FormatValue(Item.GiaNhap, "{0:#,###,###}")</td>
+                    <td>@Item.Main</td>
+                    @*<td>@Html.FormatValue(Item.GiaNhap, "{0:#,###,###}")</td>*@
 
                     <td>
                         @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Item.Hinh1)))

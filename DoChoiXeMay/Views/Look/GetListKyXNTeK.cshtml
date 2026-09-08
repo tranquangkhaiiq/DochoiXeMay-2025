@@ -10,15 +10,15 @@
         <thead>
             <tr class="canhgiua" style="background-color: #00bcd4">
                 <th class="canhgiua" style="max-width: 15px">STT</th>
-                <th class="canhgiua" style="width:200px">Tên Kỳ</th>
-                <th class="canhgiua" style="width:200px">Xuất Nhập/Số tiền </th>
-                <th class="canhgiua" style="max-width: 15px; padding-left: 0; padding-right: 0">F 1</th>
-                <th class="canhgiua" style="max-width: 15px; padding-left: 0; padding-right: 0">F 2</th>
-                <th class="canhgiua" style="max-width: 15px; padding-left: 0; padding-right: 0">F 3</th>
+                <th class="canhgiua" style="max-width:200px">Tên Kỳ</th>
+                <th class="canhgiua" style="width: 300px; padding-left: 0; padding-right: 0">Xuất Nhập/Số tiền </th>
+                <th class="canhgiua" style="padding-left: 0; padding-right: 0">F 1</th>
+                @*<th class="canhgiua" style="max-width: 5px; padding-left: 0; padding-right: 0">F 2</th>
+                <th class="canhgiua" style="max-width: 5px; padding-left: 0; padding-right: 0">F 3</th>*@
 
-                <th class="canhgiua" style="width:120px">Đổi Trả</th>
-                <th class="canhgiua" style="width: 300px; padding-left: 0; padding-right: 0">Soluong/Tên/ThôngSố/Hãng</th>
-                <th class="canhgiua" style="width: 15px">STT</th>
+                <th class="canhgiua" style="max-width:120px">Đổi Trả</th>
+                <th class="canhgiua" style="max-width: 300px; padding-left: 0; padding-right: 0">Soluong/Tên/ThôngSố/Hãng</th>
+                <th class="canhgiua" style="width: 15px; padding-left: 0; padding-right: 0">STT</th>
 
             </tr>
         </thead>
@@ -52,7 +52,8 @@
                         }
                         else
                         {
-                            <p>(Ngày: @Html.FormatValue(Item.NgayXuatNhap, "{0:dd/MM/yyyy}"))</p>
+                            @*<p>(Ngày: @Html.FormatValue(Item.NgayXuatNhap, "{0:dd/MM/yyyy}"))</p>*@
+                            <p>Ngày: @Item.NgayXuatNhap</p>
                         }
 
                     </td>
@@ -64,7 +65,7 @@
                             if (Item.KhachLe == true)
                             {
                                 <p style="font-size: 15px"><span style="background-color:burlywood">Xuất Hàng/KhachLe</span></p>
-                                <p style="font-size: 15px"><span>(Ngày: @Html.FormatValue(Item.NgayXuatNhap, "{0:dd/MM/yyyy}"))</span></p>
+                                <p style="font-size: 15px"><span>(Ngày: @Item.NgayXuatNhap)</span></p>
 
                             }
                             else
@@ -72,16 +73,19 @@
                                 <p style="font-size: 15px"><span style="background-color:burlywood">Xuất Hàng/ĐaiLy</span></p>
 
                             }
-                            if (Item.IdLoaiHangXN == 3 || Item.IdLoaiHangXN == 4)
+                            if (Item.IdLoaiHangXN == 1)
                             {
-                                <p style="font-size: 15px"><span style="background-color:burlywood">@Item.KyXuatNhap_LoaiHang.TenLoai</span></p>
-                                    
-                                }
+                                <h6 style="background-color:cadetblue;color:white">@Item.KyXuatNhap_LoaiHang.TenLoai</h6>
                             }
                             else
                             {
-                                <p style="font-size: 15px"><span>Nhập Hàng</span></p>
+                                <h5 style="background-color:cadetblue">@Item.KyXuatNhap_LoaiHang.TenLoai</h5>
                             }
+                        }
+                        else
+                        {
+                            <p style="font-size: 15px"><span>Nhập Hàng</span></p>
+                        }
                         <hr />
                         @if (Item.XuatNhap != false && Item.KhachLe != false)
                         {
@@ -93,7 +97,7 @@
                         }
 
                     </td>
-                    <td>
+                    <td style="border-right: 2px solid black !important">
                         @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Item.HoaDon)))
                         {
                             <a target="_blank" href="~/Content/imgxuatnhap/@Item.HoaDon">
@@ -101,7 +105,7 @@
                             </a>
                         }
                     </td>
-                    <td>
+                    @*<td>
                         @if (File.Exists(Request.MapPath("~/Content/imgxuatnhap/" + Item.Filesave2)))
                         {
                             <a target="_blank" href="~/Content/imgxuatnhap/@Item.Filesave2">
@@ -116,7 +120,7 @@
                                 <i class="glyphicon glyphicon-download-alt"></i>
                             </a>
                         }
-                    </td>
+                    </td>*@
                     <td>
                         @if (Item.KhachLe)
                         {
@@ -152,10 +156,17 @@
                     <td>
                         @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in Chitiet)
                         {
-                            var tenHH = XstringAdmin.Truncate(ct.Ten, 20);
+                            var tenHH = XstringAdmin.Truncate(ct.Ten, 40);
                             <p title="@ct.Ten">
                                 <span>@ct.SoLuong&nbsp;</span>
-                                <span>@tenHH</span>
+                                @if (tenHH == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1")
+                                {
+                                    <span>@tenHH</span>
+                                }
+                                else
+                                {
+                                    <span style="color:blue">@tenHH</span>
+                                }
                             </p>
                             <p title="@ct.Ten">
                                 @if (ct.IDColor > 1)

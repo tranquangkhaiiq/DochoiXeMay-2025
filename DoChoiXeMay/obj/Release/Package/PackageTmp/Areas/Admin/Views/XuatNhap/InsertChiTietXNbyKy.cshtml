@@ -265,20 +265,21 @@
     });
     $("#SerialHop").change(function () {
         var box = $("#SerialHop").val();
+        var Ten = $("#Ten").val();
         $.ajax({
             url: "/Admin/XuatNhap/GetSerialSPbyBox",
             type: 'POST',
             datatype: 'JSON',
             contentType: 'application/json;charset=utf-8;',
-            data: JSON.stringify({ str:box }),
+            data: JSON.stringify({ str: box, tensp:Ten }),
             async: true,
             success: function (res) {
                 if (res == "Sold") {
-                    alert("Hàng đã bán hoặc không có trong kho này!!!.")
-                    $("#SerialSP").val(res);
-                } else {
-                    $("#SerialSP").val(res);
+                    alert("Hàng đã bán!!!.")
+                } else if (res == "") {
+                    alert("Hàng không có trong kho này!!!.")
                 }
+                $("#SerialSP").val(res);
             }, error: function (err) {
                 console.log(err, ':Loi Load Serial SP');
             }

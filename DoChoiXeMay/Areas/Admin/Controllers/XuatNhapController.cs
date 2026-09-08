@@ -59,6 +59,8 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             Session["requestUri"] = "/Admin/XuatNhap/ListXuatNhapUser";
             ViewBag.TrongTon=dbc.HangHoas.Where(kh => kh.Id == 56).Sum(kh => kh.SoLuong);
             ViewBag.KhoiTon = dbc.HangHoas.Where(kh => kh.Id == 55).Sum(kh => kh.SoLuong);
+            ViewBag.KhoiVibeTon = dbc.HangHoas.Where(kh => kh.Id == 1071).Sum(kh => kh.SoLuong);
+            ViewBag.TrongVibeTon = dbc.HangHoas.Where(kh => kh.Id == 1072).Sum(kh => kh.SoLuong);
             return View();
         }
         public ActionResult GetListKyXNUser()
@@ -88,6 +90,8 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             ViewBag.IdLoaiHangXN = new SelectList(dbc.KyXuatNhap_LoaiHang.ToList(), "Id", "TenLoai");
             ViewBag.TrongTon = dbc.HangHoas.Where(kh => kh.Id == 56).Sum(kh => kh.SoLuong);
             ViewBag.KhoiTon = dbc.HangHoas.Where(kh => kh.Id == 55).Sum(kh => kh.SoLuong);
+            ViewBag.KhoiVibeTon = dbc.HangHoas.Where(kh => kh.Id == 1071).Sum(kh => kh.SoLuong);
+            ViewBag.TrongVibeTon = dbc.HangHoas.Where(kh => kh.Id == 1072).Sum(kh => kh.SoLuong);
             return View();
         }
         public ActionResult GetListKyXNTeK(string ngay = "",string strk = "",int idLHXN = 0,int IdSan=0, int Iddoitra = 0, int PageNo = 0, int PageSize = 8,int UserId = 0)
@@ -123,7 +127,10 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             //có thuchi => thuchi=0
             var uid = int.Parse(Session["UserId"].ToString());
             var XN = dbc.KyXuatNhaps.Find(id);
-            if(XN != null)
+            string teenGen1 = "Xi Nhan Wave TNT BLOCKX G2 ZEN 1";
+            string teenViber = "Xi Nhan Wave TNT BLOCKX G2 _ Viber";
+            string tenhbh = "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh";
+            if (XN != null)
             {
                 if (Session["quyen"].ToString() == "1")
                 {
@@ -136,6 +143,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                         //add vao bang hang hoa
                         if (XN.XuatNhap==true && XN.IdLoaiHangXN<4) 
                         {
+                            //Xuất hàng
                             /*=4 là hàng NoBox, không trừ bảng hàng h -- Tự trừ thủ công*/
                             //Kiểm tra số lượng bảng hh >= so luong xuất
                             var kqktHH = Data.XuatNhapData.kiemtrasoluongHH(dbc, id);
@@ -150,7 +158,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                                 for (int i = 0; i < modelct.Count(); i++)
                                 {
                                     var kq = Data.XuatNhapData.XuatHangHoa(dbc,DBname, modelct[i].Ten, modelct[i].IDMF,
-                                        modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong, XN.IdKho);
+                                        modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong, XN.IdKho,false);
                                     if (kq == false)
                                     {
                                         Session["ThongBaoXuatNhapUserct"] = "Lỗi xuất hàng/NVL: " + modelct[i].Ten + " không đủ số lượng để xuất!!!.";
@@ -159,9 +167,15 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                                     {
                                         //trừ sl nhận bh
                                         //=4 là hàng NoBox, không trừ bảng hàng h -- Tự trừ thủ công
-                                        string tenhbh = "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh";
-                                        var kqtrahangDL = Data.XuatNhapData.XuatHangHoa(dbc, DBname, tenhbh, 5,
-                                        modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong, 1);
+                                        
+                                        if(modelct[i].Ten == teenGen1 || modelct[i].Ten== tenhbh)
+                                        {
+                                            var kqtrahangDL = Data.XuatNhapData.XuatHangHoa(dbc, DBname, tenhbh, 5,
+                                                                                    modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong, 1, true);
+                                        }else if (modelct[i].Ten == teenViber)
+                                        { /*==6 ==>trừ số lượng hàng nhận bảo hành*/
+                                            var kqnvl9 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, teenViber, 5, modelct[i].IDColor, 1, modelct[i].SoLuong, 1, true, 6);
+                                        }
                                     }
                                 }
                             }
@@ -173,18 +187,18 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                             {
                                 var kq = Data.XuatNhapData.GhibangHangHoa(dbc,DBname, modelct[i].Ten, modelct[i].IDMF,
                                     modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong, modelct[i].Gianhap,
-                                    modelct[i].Hinh1, modelct[i].Hinh2, modelct[i].Hinh3, XN.IdKho);
+                                    modelct[i].Hinh1, modelct[i].Hinh2, modelct[i].Hinh3, XN.IdKho,XN.IdLoaiHangXN);
                                 var kqtonkho = Data.TonKhoData.UpdateCTKytonKho(dbc, modelct[i].KyXuatNhap.IdKyTonKho,
                                     modelct[i].Ten, modelct[i].IDMF, modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong);
                                 //GhibangHangHoa xong thì 
                                 //Kiểm tra hàng nhập là sp xi nhan và có kỳ tồn kho
                                 //gọi trừ NVL
                                 //gọi trừ Xinhan chưa vô hộp
-                                string teenhh = "Xi Nhan Wave TNT BLOCKX G2 ZEN 1";
+                                
 
                                 string teenhhChuaHop = "Xi Nhan G2 ZEN 1(Chưa vô hộp)";
 
-                                string nvl1 = "Đế đen và mạch điện";
+                                string nvl1 = "Đế đen và mạch điện";    
                                 string nvl2 = "Kính trong Xi nhan wave";
                                 string nvl3 = "Kính khói Xi nhan wave";
                                 string nvl4 = "Thanh Sáng dài Xi Nhan Wave phải";
@@ -192,26 +206,29 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                                 string nvl6 = "Nanh Sáng ngắn Xi Nhan Wave";
                                 string nvl7 = "Đế Sáng phải";
                                 string nvl8 = "Đế Sáng trái";
-                                if (kq==true && XN.IdKho==1 && modelct[i].Ten.ToLower() == teenhh.ToLower() && XN.IdKyTonKho > 1)
+                                if (kq==true && XN.IdKho==1 && modelct[i].Ten.ToLower() == teenGen1.ToLower() && XN.IdKyTonKho > 1)
                                 {
-                                    var kqnvl1 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl1, 5, 1, 1, modelct[i].SoLuong, 1);
+                                    var kqnvl1 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl1, 5, 1, 1, modelct[i].SoLuong, 1,true);
                                     if (modelct[i].IDColor == 5)
                                     {
-                                        var kqnvl2 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl2, 5, 5, 1, modelct[i].SoLuong, 1);
-                                        var kqteenhhChuaHop = Data.XuatNhapData.XuatHangHoa(dbc, DBname, teenhhChuaHop, 5, 5, 1, modelct[i].SoLuong, 1);
+                                        var kqnvl2 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl2, 5, 5, 1, modelct[i].SoLuong, 1,true);
+                                        var kqteenhhChuaHop = Data.XuatNhapData.XuatHangHoa(dbc, DBname, teenhhChuaHop, 5, 5, 1, modelct[i].SoLuong, 1,true);
                                     }
                                     else if(modelct[i].IDColor == 7)
                                     {
-                                        var kqnvl3 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl3, 5, 7, 1, modelct[i].SoLuong, 1);
-                                        var kqteenhhChuaHop = Data.XuatNhapData.XuatHangHoa(dbc, DBname, teenhhChuaHop, 5, 7, 1, modelct[i].SoLuong, 1);
+                                        var kqnvl3 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl3, 5, 7, 1, modelct[i].SoLuong, 1,true);
+                                        var kqteenhhChuaHop = Data.XuatNhapData.XuatHangHoa(dbc, DBname, teenhhChuaHop, 5, 7, 1, modelct[i].SoLuong, 1, true);
                                     }
-                                    var kqnvl4 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl4, 5, 1, 1, modelct[i].SoLuong, 1);
-                                    var kqnvl5 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl5, 5, 1, 1, modelct[i].SoLuong, 1);
-                                    var kqnvl6 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl6, 5, 1, 1, modelct[i].SoLuong, 1);
-                                    var kqnvl7 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl7, 5, 1, 1, modelct[i].SoLuong, 1);
-                                    var kqnvl8 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl8, 5, 1, 1, modelct[i].SoLuong, 1);
+                                    var kqnvl4 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl4, 5, 1, 1, modelct[i].SoLuong, 1, true);
+                                    var kqnvl5 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl5, 5, 1, 1, modelct[i].SoLuong, 1, true);
+                                    var kqnvl6 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl6, 5, 1, 1, modelct[i].SoLuong, 1, true);
+                                    var kqnvl7 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl7, 5, 1, 1, modelct[i].SoLuong, 1, true);
+                                    var kqnvl8 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, nvl8, 5, 1, 1, modelct[i].SoLuong, 1, true);
+                                }else if(kq == true && XN.IdKho == 1 && modelct[i].Ten.ToLower() == teenViber.ToLower())
+                                {
+                                    var kqnvl9 = Data.XuatNhapData.XuatHangHoa(dbc, DBname, teenViber, 5, modelct[i].IDColor, 1, modelct[i].SoLuong, 1, true, 5);
                                 }
-                                
+                                    
                             }
                         }
                     }
@@ -370,7 +387,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                                 for (int i = 0; i < modelct.Count(); i++)
                                 {
                                     var kq = Data.XuatNhapData.XuatHangHoa(dbc,DBname, modelct[i].Ten, modelct[i].IDMF,
-                                        modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong,XN.IdKho);
+                                        modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong,XN.IdKho,false);
                                     if (kq == false)
                                     {
                                         Session["ThongBaoXuatNhapTeKct"] = "Có Lỗi xuất hàng: " + modelct[i].Ten + " không đủ đk để xuất!!!.";
@@ -402,7 +419,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                                 //update 19thang5
                                 var kq = Data.XuatNhapData.GhibangHangHoa(dbc,DBname, modelct[i].Ten, modelct[i].IDMF,
                                     modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong, modelct[i].Gianhap,
-                                    modelct[i].Hinh1, modelct[i].Hinh2, modelct[i].Hinh3, XN.IdKho);
+                                    modelct[i].Hinh1, modelct[i].Hinh2, modelct[i].Hinh3, XN.IdKho,XN.IdLoaiHangXN);
                             }
                             //Insert Nhật Ký
                             var nhatky = Data.XuatNhapData.InsertNhatKy_Admin(dbc, uid, Session["quyen"].ToString()
@@ -671,15 +688,15 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             IEnumerable<HangHoa> hh ;
             if (ky.IdMaTC == 5)//NVL==>HangHoas=>IDKy
             {
-                hh = dbc.HangHoas.Where(kh => kh.IDKy == 1 && kh.IdKho == ky.IdKho).DistinctBy(kh => kh.Ten);
+                hh = dbc.HangHoas.Where(kh => kh.IDKy == 1 && kh.IdKho == ky.IdKho && kh.Main==true).DistinctBy(kh => kh.Ten);
             }
             else if (ky.IdMaTC == 17)//SP
             {
-                hh = dbc.HangHoas.Where(kh => kh.IDKy == 0 && kh.IdKho == ky.IdKho).DistinctBy(kh => kh.Ten);
+                hh = dbc.HangHoas.Where(kh => kh.IDKy == 0 && kh.IdKho == ky.IdKho && kh.Main == true).DistinctBy(kh => kh.Ten);
             }
             else
             {
-                hh = dbc.HangHoas.Where(kh => kh.IdKho == ky.IdKho).DistinctBy(kh => kh.Ten);
+                hh = dbc.HangHoas.Where(kh => kh.IdKho == ky.IdKho && kh.Main == true).DistinctBy(kh => kh.Ten);
             }
             ViewBag.NameSP = hh;
             return View();
@@ -691,12 +708,12 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             ViewBag.IDMF = new SelectList(dbc.Manufacturers.Where(kh => kh.Sudung == true), "Id", "Name",5);
             ViewBag.IDColor = new SelectList(dbc.Colors.OrderByDescending(kh => kh.Id), "Id", "TenColor",7);
             ViewBag.IDSize = new SelectList(dbc.Sizes.OrderBy(kh => kh.Id), "Id", "TenSize",1);
-            ViewBag.NameSP = dbc.HangHoas.Where(kh=>kh.IdKho==idkho)
+            ViewBag.NameSP = dbc.HangHoas.Where(kh=>kh.IdKho== idkho && kh.Main == true)
                                         .DistinctBy(kh => kh.Ten);
             if (Session["xuatnhap"] !=null && Session["KhachLe"] !=null && Session["xuatnhap"].ToString() == "Xuat" 
                 && Session["KhachLe"].ToString() == "KhachLe")
             {
-                ViewBag.NameSP = dbc.HangHoas.Where(kh => kh.IDKy == 0 && kh.IdKho == idkho)
+                ViewBag.NameSP = dbc.HangHoas.Where(kh => kh.IDKy == 0 && kh.IdKho == idkho && kh.Main == true)
                                                 .DistinctBy(kh => kh.Ten);
             }
             //check trùng hàng cùng kỳ
@@ -978,7 +995,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                                 for (int i = 0; i < modelct.Count(); i++)
                                 {
                                     var kqthuhoi = Data.XuatNhapData.XuatHangHoa(dbc,DBname, modelct[i].Ten, modelct[i].IDMF,
-                                        modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong,model.IdKho);
+                                        modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong,model.IdKho,false);
                                 }
                             }
                             else //kỳ xuất
@@ -987,7 +1004,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                                 {
                                     var kqthuhoi = Data.XuatNhapData.GhibangHangHoa(dbc,DBname, modelct[i].Ten, modelct[i].IDMF,
                                         modelct[i].IDColor, modelct[i].IDSize, modelct[i].SoLuong, modelct[i].Gianhap,
-                                    modelct[i].Hinh1, modelct[i].Hinh2, modelct[i].Hinh3,model.IdKho);
+                                    modelct[i].Hinh1, modelct[i].Hinh2, modelct[i].Hinh3,model.IdKho,model.IdLoaiHangXN);
                                 }
                             }
                             
@@ -1023,14 +1040,14 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             var araylistHH = Data.XuatNhapData.CheckHHTEKaotu(dbc,Tenhh, Hangsx, Mau, Size,idkho);
             return Json(araylistHH, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult GetSerialSPbyBox(string str = "")
+        public ActionResult GetSerialSPbyBox(string str = "",string tensp="")
         {
             var idkho = int.Parse(Session["IdKho"].ToString());
             var ktser = dbc.ChitietXuatNhaps.FirstOrDefault(kh => kh.SerialHop == str && kh.IdDoiTra <4);
             
             if (ktser==null)
             {
-                string ser = Data.XuatNhapData.GetSerialbySerial(dbc, str,idkho);
+                string ser = Data.XuatNhapData.GetSerialbySerial(dbc, str,idkho,tensp);
                 return Json(ser, JsonRequestBehavior.AllowGet);
             }
             else

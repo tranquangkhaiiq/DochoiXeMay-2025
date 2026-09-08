@@ -4,7 +4,7 @@
     }
 </style>
 <script src="~/Areas/Admin/Content/jquery2.0.3.min.js"></script>
-@if (@Session["Year"] != null)
+@if (Session["Year"] != null)
 {
     <input id="Yeardt" value="@Session["Year"].ToString()" hidden />
 }
@@ -12,6 +12,7 @@ else
 {
     <input id="Yeardt" value="" hidden />
 }
+<input id="tensanpham" value="@Session["TenSPPartime"]" hidden />
 
 <input id="phantramdaban" value="@ViewBag.phantramdaban" hidden />
 <input id="phantramTraHangLeLoi" value="@ViewBag.phantramTraHangLeLoi" hidden />
@@ -62,6 +63,7 @@ else
 <script>
     DothiXN();
     function DothiXN() {
+        var tensanpham = $("#tensanpham").val()
         const CDaSanXuat = $("#DaSanXuat").val()
         const Cdaban = $("#daban").val()
         const CTongtraBH = $("#TongtraBH").val()
@@ -84,10 +86,11 @@ else
         var MauDaXuat = $("#phantramMauDaXuat").val().replace(',', '.')
         var tMauDaXuat = parseFloat(MauDaXuat)
 
+        var title = tensanpham + " Da San Xuat " + CYeardt + ": " + CDaSanXuat
         var chart = new CanvasJS.Chart("chartContainer", {
             animationEnabled: true,
             title: {
-                text: "Wave TNT BLOCKX G2 ZEN 1 đã sản xuất " + CYeardt + ": " + CDaSanXuat
+                text: title
             },
             data: [{
                 type: "pie",
@@ -129,11 +132,12 @@ else
         const DaBanLSiNSan = $("#DaBanLSiNSan").val()
         const DaBanLeNSan = $("#DaBanLeNSan").val()
 
+        var titleBan = tensanpham + " Da Ban " + CYeardt + ": " + Cdaban
         var chart3 = new CanvasJS.Chart("chartContainer3", {
             exportEnabled: true,
             animationEnabled: true,
             title: {
-                text: "TNT BLOCKX G2 ZEN 1 Da Ban " + CYeardt + ": " + Cdaban
+                text: titleBan
             },
             subtitles: [{
                 text: "Trong: Blue  -  Khoi: Red"
@@ -207,11 +211,12 @@ else
         ///11thang2 năm 2026
         const YearHT = @Session["YearHT"].ToString();
         const YearC = @Session["YearC"].ToString();
+        var titleThang = tensanpham + " Theo Tháng " + YearC + ": " + YearHT
         var chart4 = new CanvasJS.Chart("chartContainer4", {
             exportEnabled: true,
             animationEnabled: true,
             title: {
-                text: "Thống Kê TNT BLOCKX G2 ZEN 1 Theo Tháng " + YearC + " - " + YearHT
+                text: titleThang
             },
             subtitles: [{
                 text: YearC + ": Blue  -  " + YearHT +": Red"

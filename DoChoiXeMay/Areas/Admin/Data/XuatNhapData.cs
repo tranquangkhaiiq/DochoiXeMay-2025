@@ -357,16 +357,31 @@ namespace DoChoiXeMay.Areas.Admin.Data
             }   
             return null;    
         }
-        public static bool GhibangHangHoa(Model1 db,string DBname, string Ten, int Hangsx, int Mau, int Size, int soluong, double gianhap, string hinh1,string hinh2, string hinh3, int idkho)
+        public static bool GhibangHangHoa(Model1 db,string DBname, string Ten, int Hangsx, int Mau, int Size, int soluong, double gianhap, string hinh1,string hinh2, string hinh3, int idkho, int IdLoaiHangXN)
         {
             //dùng cho kỳ xuất (thu hồi)
             //07/03/2026 thêm idkho
             try
             {
+                if (Ten == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1" && IdLoaiHangXN == 5)
+                {
+                    Ten = "Xi Nhan G2 ZEN 1(Chưa vô hộp)";
+                }else if (Ten == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1" && IdLoaiHangXN == 6)
+                {
+                    Ten = "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh";
+                }else if(Ten == "Xi Nhan Wave TNT BLOCKX G2 _ Viber" && IdLoaiHangXN == 5)
+                {
+                    Ten = "Xi Nhan Viber(Chưa vô hộp)";
+                }
+                else if (Ten == "Xi Nhan Wave TNT BLOCKX G2 _ Viber" && IdLoaiHangXN == 6)
+                {
+                    Ten = "Xi Nhan Viber-NhanBaoHanh";
+                }
                 var modelhh = db.HangHoas.FirstOrDefault(kh => kh.Ten.ToLower().Trim() == Ten.ToLower().Trim() && kh.IDMF == Hangsx
                                                 && kh.IDColor == Mau && kh.IDSize == Size && kh.IdKho == idkho);
                 if (modelhh != null)
                 {
+                    
                     var model = db.HangHoas.Find(modelhh.Id);
                     model.SoLuong = model.SoLuong + soluong;
                     model.GiaNhap = gianhap;
@@ -402,6 +417,7 @@ namespace DoChoiXeMay.Areas.Admin.Data
                     model.IDColor = Mau;
                     model.IDSize = Size;
                     model.GhiChu = "";
+                    model.Main = true;
                     db.HangHoas.Add(model);
                     var kq= db.SaveChanges();
                     //ChiTietSLHangHoas 13 thang 2
@@ -424,18 +440,58 @@ namespace DoChoiXeMay.Areas.Admin.Data
             }
         }
         
-        public static bool XuatHangHoa(Model1 db,string DBname, string Ten, int Hangsx = 0, int Mau = 0, int Size = 0, int soluong = 0, int idkho=0)
+        public static bool XuatHangHoa(Model1 db,string DBname, string Ten, int Hangsx = 0, int Mau = 0, int Size = 0, int soluong = 0, int idkho=0
+                        , bool autoTek=false, int IdLoaiHangXN=1)
         {
             //dùng cho kỳ nhập (thu hồi) ??
             //07/03/2026 thêm idkho
             try
             {
+                if (Ten == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1" && IdLoaiHangXN == 5)
+                {
+                    Ten = "Xi Nhan G2 ZEN 1(Chưa vô hộp)";
+                }
+                else if (Ten == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1" && IdLoaiHangXN == 6)
+                {
+                    Ten = "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh";
+                }
+                else if (Ten == "Xi Nhan Wave TNT BLOCKX G2 _ Viber" && IdLoaiHangXN == 5)
+                {
+                    Ten = "Xi Nhan Viber(Chưa vô hộp)";
+                }
+                else if (Ten == "Xi Nhan Wave TNT BLOCKX G2 _ Viber" && IdLoaiHangXN == 6)
+                {
+                    Ten = "Xi Nhan Viber-NhanBaoHanh";
+                }
                 var modelhh = db.HangHoas.FirstOrDefault(kh => kh.Ten.ToLower().Trim() == Ten.ToLower().Trim() && kh.IDMF == Hangsx
                                                 && kh.IDColor == Mau && kh.IDSize == Size && kh.IdKho == idkho);
                 if (modelhh != null)
                 {
                     //Cancel code delete hang hoa
-                    if(modelhh.SoLuong >= soluong)//UPDATE SOLUONG
+                    if (autoTek == false)
+                    {
+                        if (modelhh.SoLuong >= soluong)//UPDATE SOLUONG
+                        {
+                            var model = db.HangHoas.Find(modelhh.Id);
+                            model.SoLuong = model.SoLuong - soluong;
+                            model.NgayAuto = DateTime.Now;
+                            db.Entry(model).State = EntityState.Modified;
+                            var kq = db.SaveChanges();
+                            //ChiTietSLHangHoas 13 thang 2
+                            //Chua co thi Insert, co roi thi update
+                            if (kq > 0 && modelhh.IDKy == 0)
+                            {
+                                new TonKhoData().AutoChiTietSLHangHoa(model.Id, model.SoLuong, DBname);
+                                return true;
+                            }
+                            return false;
+                        }
+                        if (modelhh.SoLuong < soluong)
+                        {
+                            return false;
+                        }
+                    }
+                    else
                     {
                         var model = db.HangHoas.Find(modelhh.Id);
                         model.SoLuong = model.SoLuong - soluong;
@@ -444,17 +500,14 @@ namespace DoChoiXeMay.Areas.Admin.Data
                         var kq = db.SaveChanges();
                         //ChiTietSLHangHoas 13 thang 2
                         //Chua co thi Insert, co roi thi update
-                        if (kq > 0 && modelhh.IDKy==0)
+                        if (kq > 0 && modelhh.IDKy == 0)
                         {
                             new TonKhoData().AutoChiTietSLHangHoa(model.Id, model.SoLuong, DBname);
                             return true;
                         }
                         return false;
                     }
-                    if(modelhh.SoLuong < soluong)
-                    {
-                        return false;
-                    }
+                    
                 }
                     return true;
             }
@@ -469,13 +522,28 @@ namespace DoChoiXeMay.Areas.Admin.Data
         {
             var xn = db.KyXuatNhaps.FirstOrDefault(kh => kh.Id == id);
             var modelct = db.ChitietXuatNhaps.Where(kh => kh.IdKy == id).ToList();
-            
             for (int i = 0; i < modelct.Count(); i++)
             {
-                string tt = modelct[i].Ten.ToLower().Trim(); int IDMF = modelct[i].IDMF; 
+                string tt = modelct[i].Ten.Trim(); int IDMF = modelct[i].IDMF; 
                 int IDColor = modelct[i].IDColor; int IDSize = modelct[i].IDSize; int idkho = xn.IdKho;
                 //07/03/2026 thêm idKho
-                var listhhkt = db.HangHoas.FirstOrDefault(kh => kh.Ten.ToLower().Trim() == tt &&
+                if (tt == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1" && xn.IdLoaiHangXN == 5)
+                {
+                    tt = "Xi Nhan G2 ZEN 1(Chưa vô hộp)";
+                }
+                else if (tt == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1" && xn.IdLoaiHangXN == 6)
+                {
+                    tt = "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh";
+                }
+                else if (tt == "Xi Nhan Wave TNT BLOCKX G2 _ Viber" && xn.IdLoaiHangXN == 5)
+                {
+                    tt = "Xi Nhan Viber(Chưa vô hộp)";
+                }
+                else if (tt == "Xi Nhan Wave TNT BLOCKX G2 _ Viber" && xn.IdLoaiHangXN == 6)
+                {
+                    tt = "Xi Nhan Viber-NhanBaoHanh";
+                }
+                var listhhkt = db.HangHoas.FirstOrDefault(kh => kh.Ten.Trim() == tt &&
                         kh.IDMF == IDMF && kh.IDColor == IDColor && kh.IDSize == IDSize && kh.IdKho==idkho);
                 if (listhhkt == null || listhhkt.SoLuong < modelct[i].SoLuong)
                 {
@@ -484,13 +552,27 @@ namespace DoChoiXeMay.Areas.Admin.Data
             }
             return true;
         }
-        public static string GetSerialbySerial(Model1 db, string str,int idkho)
+        public static string GetSerialbySerial(Model1 db, string str,int idkho,string namesp)
         {
             string kq = "";
             if (str !=null && str.Length == 14)
             {
                 var kq1 = db.Ser_sp.FirstOrDefault(kh =>kh.IdKho==idkho && kh.Ser_box.Serial == str);
-                kq = kq1 != null ? kq1.SerialSP : "";
+                if(namesp == "Xi Nhan Wave TNT BLOCKX G2 _ Viber" && (kq1.Name_sp== "Xi Nhan Wave ViBe"
+                    ||kq1.Name_sp== "Xi Nhan Wave TNT BLOCKX G2 _ Vibes"))
+                {
+                    kq = kq1 != null ? kq1.SerialSP : "";
+                }
+                else if(namesp != "Xi Nhan Wave TNT BLOCKX G2 _ Viber" && (kq1.Name_sp == "Xi Nhan Wave ViBe"
+                    || kq1.Name_sp == "Xi Nhan Wave TNT BLOCKX G2 _ Vibes"))
+                {
+                    kq = "Sai Ten SP";
+                }
+                else
+                {
+                    kq = kq1 != null ? kq1.SerialSP : "";
+                }
+                    
             }
             if (str != null && str.Length == 11)
             {

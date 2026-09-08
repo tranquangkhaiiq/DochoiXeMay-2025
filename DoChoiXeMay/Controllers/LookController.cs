@@ -39,19 +39,28 @@ namespace DoChoiXeMay.Controllers
             //16thang12
             ViewBag.IdSan = new SelectList(dbc.SanThuongMais.Where(kh => kh.SuDung == true), "Id", "TenSan");
             ViewBag.IdLoaiHangXN = new SelectList(dbc.KyXuatNhap_LoaiHang.ToList(), "Id", "TenLoai");
-            ViewBag.TrongTon311 = dbc.HangHoas.Where(kh => kh.Id == 56).Sum(kh => kh.SoLuong);
-            ViewBag.TrongTonKho2 = dbc.HangHoas.Where(kh => kh.Id == 1066).Sum(kh => kh.SoLuong);
 
-            ViewBag.KhoiTon311 = dbc.HangHoas.Where(kh => kh.Id == 55).Sum(kh => kh.SoLuong);
-            ViewBag.KhoiTonKho2 = dbc.HangHoas.Where(kh => kh.Id == 66).Sum(kh => kh.SoLuong);
+            ViewBag.TrongTon311 = dbc.HangHoas.Where(kh => kh.Id == 56 && kh.IdKho == 1).Sum(kh => kh.SoLuong);
+            ViewBag.TrongTonKho2 = dbc.HangHoas.Where(kh => kh.Id == 1066 && kh.IdKho==2).Sum(kh => kh.SoLuong);
+            ViewBag.TrongTon311Viber = dbc.HangHoas.Where(kh => kh.Id == 1072 && kh.IdKho == 1).Sum(kh => kh.SoLuong);
+
+            ViewBag.KhoiTon311 = dbc.HangHoas.Where(kh => kh.Id == 55 && kh.IdKho == 1).Sum(kh => kh.SoLuong);
+            ViewBag.KhoiTonKho2 = dbc.HangHoas.Where(kh => kh.Id == 66 && kh.IdKho==2).Sum(kh => kh.SoLuong);
+            ViewBag.KhoiTon311Viber = dbc.HangHoas.Where(kh => kh.Id == 1071 && kh.IdKho == 1).Sum(kh => kh.SoLuong);
 
             ViewBag.TrongTonChuaVoHop = dbc.HangHoas.Where(kh => kh.Id == 1069).Sum(kh => kh.SoLuong);
             ViewBag.KhoiTonChuaVoHop = dbc.HangHoas.Where(kh => kh.Id == 1070).Sum(kh => kh.SoLuong);
+
+            ViewBag.TrongTonChuaVoHopViber = dbc.HangHoas.Where(kh => kh.Id == 1076).Sum(kh => kh.SoLuong);
+            ViewBag.KhoiTonChuaVoHopViber = dbc.HangHoas.Where(kh => kh.Id == 1075).Sum(kh => kh.SoLuong);
+
             return View();
         }
-        public ActionResult DoThiThongKe(int nam=0)
+        public ActionResult DoThiThongKe(int nam=0, int Xinhan=0)
         {
-            if(nam > 0)
+            Session["TenSPPartime"] = "";
+            string tenxinhan = "";string tenxinhan_NhanBaoHanh = "";
+            if (nam > 0)
             {
                 Session["Year"] = nam;
             }
@@ -59,24 +68,40 @@ namespace DoChoiXeMay.Controllers
             {
                 Session.Remove("Year");
             }
-
-            var be = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1").ToList();
-            var beNhapLoi = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh"
-                                && kh.KyXuatNhap.XuatNhap==false).ToList();
-            var betraLoi = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh"
-                                && kh.KyXuatNhap.XuatNhap == true).ToList();
+            if (Xinhan == 0)
+            {
+                tenxinhan = "Xi Nhan Wave TNT BLOCKX G2 ZEN 1";
+                tenxinhan_NhanBaoHanh = "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh";
+            }
+            else
+            {
+                tenxinhan = "Xi Nhan Wave TNT BLOCKX G2 _ Viber";
+                tenxinhan_NhanBaoHanh = "Xi Nhan Viber-NhanBaoHanh";
+            }
+            Session["TenSPPartime"] = tenxinhan;
+            var be = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == tenxinhan).ToList();
+            var beNhapLoi = dbc.ChitietXuatNhaps.Where(kh => kh.KyXuatNhap.XuatNhap == false && (kh.Ten == tenxinhan_NhanBaoHanh
+                || (kh.Ten == tenxinhan && kh.KyXuatNhap.IdLoaiHangXN == 6))).ToList();
+            
+            var betraLoi = dbc.ChitietXuatNhaps.Where(kh => kh.KyXuatNhap.XuatNhap == true && kh.KyXuatNhap.KhachLe == false
+                        && (kh.Ten == tenxinhan_NhanBaoHanh || kh.Ten == tenxinhan)
+                        && (kh.KyXuatNhap.IdLoaiHangXN == 3 || kh.KyXuatNhap.IdLoaiHangXN == 4))
+                        .ToList();
             if (nam > 0)
             {
-                be = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1" &&
+                be = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == tenxinhan &&
                                 kh.NgayAuto.Year == nam).ToList();
-                beNhapLoi = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh"
+                beNhapLoi = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == tenxinhan_NhanBaoHanh
                                 && kh.KyXuatNhap.XuatNhap == false && kh.NgayAuto.Year == nam).ToList();
-                betraLoi = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave G2 ZEN 1-NhanBaoHanh"
-                                && kh.KyXuatNhap.XuatNhap == true && kh.NgayAuto.Year == nam).ToList();
+                betraLoi = dbc.ChitietXuatNhaps.Where(kh => kh.KyXuatNhap.XuatNhap == true
+                        && (kh.Ten == tenxinhan_NhanBaoHanh || kh.Ten == tenxinhan)
+                        && kh.KyXuatNhap.KhachLe==false && kh.NgayAuto.Year == nam
+                        && (kh.KyXuatNhap.IdLoaiHangXN==3 || kh.KyXuatNhap.IdLoaiHangXN==4))
+                        .ToList();
             }
             
             var beg = be.Where(kh => kh.KyXuatNhap.XuatNhap == true).ToList();
-            var begsanxuat = be.Where(kh => kh.KyXuatNhap.XuatNhap == false && kh.IdDoiTra == 1 && kh.KyXuatNhap.IdKho==1).ToList();
+            var begsanxuat = be.Where(kh => kh.KyXuatNhap.XuatNhap == false && kh.IdDoiTra == 1 && kh.KyXuatNhap.IdKho==1 && kh.KyXuatNhap.IdLoaiHangXN <3).ToList();
             var begin = beg.Where(kh => kh.IdDoiTra == 1).ToList();
             var daban = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 1 &&
                                 dbc.Ser_XuatSN_CN.FirstOrDefault(kk => kk.IdKyxuat == kh.IdKy && kk.ChuyenKho == true) == null).ToList();
@@ -94,8 +119,8 @@ namespace DoChoiXeMay.Controllers
             var DaTraHangKhachLeLoi = be.Where(kh => kh.IdDoiTra == 3).ToList(); //4:Không Lỗi//3:có lỗi//2:Mới Nhận
             var modeldaban = daban == null ? 0 : daban.Sum(kh => kh.SoLuong);
             ViewBag.daban = modeldaban;
-            var Tonkho = dbc.HangHoas.Where(kh => kh.Id == 55 || kh.Id == 56).Sum(kh => kh.SoLuong);
-            ViewBag.TongXiNhanGen1Tek = Tonkho;
+            //var Tonkho = dbc.HangHoas.Where(kh => kh.Id == 55 || kh.Id == 56).Sum(kh => kh.SoLuong);
+            //ViewBag.TongXiNhanGen1Tek = Tonkho;
             var MauDaXuat = begin.Where(kh => kh.KyXuatNhap.IdLoaiHangXN == 2).ToList();
             var modelMauDaXuat = MauDaXuat == null ? 0 : MauDaXuat.Sum(kh => kh.SoLuong);
             ViewBag.TongXiNhanGen1MauDaXuat = modelMauDaXuat;
@@ -117,10 +142,22 @@ namespace DoChoiXeMay.Controllers
             var trahangnhanBH = betraLoi.Sum(kh => kh.SoLuong);
             //27/4/2026 => update dasanxuat
             var dsx = begsanxuat.Sum(kh => kh.SoLuong);
-            var TonkhoT = dbc.HangHoas.Where(kh => kh.Id == 56 || kh.Id==1066).Sum(kh => kh.SoLuong);
-            var TonkhoK = dbc.HangHoas.Where(kh => kh.Id == 55 || kh.Id==66).Sum(kh => kh.SoLuong);
+            var TonkhoT = 0; var TonkhoK = 0; var Tonkho = 0;
+            if (tenxinhan == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1")
+            {
+                Tonkho = dbc.HangHoas.Where(kh => kh.Id == 55 || kh.Id == 56).Sum(kh => kh.SoLuong);
+                TonkhoT = dbc.HangHoas.Where(kh => kh.Id == 56 || kh.Id == 1066).Sum(kh => kh.SoLuong);
+                TonkhoK = dbc.HangHoas.Where(kh => kh.Id == 55 || kh.Id == 66).Sum(kh => kh.SoLuong);
+            }
+            else /*vibes*/
+            {
+                Tonkho = dbc.HangHoas.Where(kh => kh.Id == 1072 || kh.Id == 1071).Sum(kh => kh.SoLuong);
+                TonkhoT = dbc.HangHoas.Where(kh => kh.Id == 1072).Sum(kh => kh.SoLuong);
+                TonkhoK = dbc.HangHoas.Where(kh => kh.Id == 1071).Sum(kh => kh.SoLuong);
+            }
 
-            ViewBag.DaSanXuat = dsx + traNoBox+trahangnhanBH;
+            ViewBag.TongXiNhanGen1Tek = Tonkho;
+            ViewBag.DaSanXuat = dsx + traNoBox + trahangnhanBH;
             Session["DaTraHangKhachLeLoi"] = TraHangLeLoi;
             Session["TongtraBH"] = kytrabaohanhct.Count() == 0 ? 0 : kytrabaohanhct.Sum(kh => kh.SoLuong);
             //Session["TonKhoXiNhanGen1Tek"] = Tonkho;
@@ -189,7 +226,7 @@ namespace DoChoiXeMay.Controllers
             namc = namht - 1;
             Session["YearHT"]=namht;
             Session["YearC"] = namc;
-            var daban2 = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1"
+            var daban2 = dbc.ChitietXuatNhaps.Where(kh => kh.Ten == tenxinhan
                 && kh.KyXuatNhap.XuatNhap == true && kh.IdDoiTra == 1 
                 && dbc.Ser_XuatSN_CN.FirstOrDefault(kk => kk.IdKyxuat == kh.IdKy && kk.ChuyenKho == true) == null).ToList();
             for (int j = 1; j < 12; j++)

@@ -12,8 +12,8 @@
                 {
                     <th class="canhgiua" style="width:30px">Thu Hồi</th>
                 }
-                <th class="canhgiua" style="width:100px">UserName</th>
-                <th class="canhgiua" style="width:200px">Tên Kỳ</th>
+                <th class="canhgiua" style="width: 100px; padding-left: 0; padding-right: 0">UserName</th>
+                <th class="canhgiua" style="width:250px">Tên Kỳ</th>
                 <th class="canhgiua" style="width:200px">Xuất Nhập/Số tiền </th>
                 <th class="canhgiua" style="max-width: 30px; padding-left: 0;padding-right:0">HĐ</th>
                 <th class="canhgiua" style="max-width: 30px; padding-left: 0;padding-right:0">File 2</th>
@@ -103,8 +103,6 @@
                             {
                                 <span>(Tiền Ship:&nbsp;@Html.FormatValue(Item.Shipper, "{0:#,###,###}"))</span><br />
                             }
-
-
                         </p>
                         @if (Item.UYeuCauThuHoi && Session["quyen"].ToString() == "1")
                         {
@@ -122,7 +120,7 @@
                     </td>
 
                     <td>
-                        <p style="font-size: 20px; color: red; height: 65px">
+                        <p style="font-size: 20px; color: red; height: 70px">
                             @tenky-@Item.KhuVuc.TenKhuvuc
                             @if (Item.KhachLe)
                             {
@@ -137,20 +135,20 @@
                                 <p>Lưu: @Item.LuuKho</p>
                             }
                         }
-                        <hr />
                         @if (Item.XuatNhap != false && Item.KhachLe != false)
                         {
 
                         }
                         else
                         {
+                            <hr />
                             <p>(Ngày: @Html.FormatValue(Item.NgayXuatNhap, "{0:dd/MM/yyyy}"))</p>
                         }
 
                     </td>
 
                     <td>
-                        <p style="font-size: 17px; height: 65px">
+                        <p style="font-size: 17px">
                             @if (Item.XuatNhap == true)
                             {
                                 if (Item.KhachLe == true)
@@ -162,9 +160,13 @@
                                 {
                                     <span style="background-color:burlywood">Xuất Hàng/ĐaiLy</span>
                                 }
-                                if (Item.IdLoaiHangXN == 3 || Item.IdLoaiHangXN == 4)
+                                if (Item.IdLoaiHangXN == 1)
                                 {
-                                    <span style="background-color:burlywood">@Item.KyXuatNhap_LoaiHang.TenLoai</span>
+                                    <h6 style="background-color:cadetblue;color:white">@Item.KyXuatNhap_LoaiHang.TenLoai</h6>
+                                }
+                                else
+                                {
+                                    <h5 style="background-color:cadetblue">@Item.KyXuatNhap_LoaiHang.TenLoai</h5>
                                 }
                             }
                             else
@@ -172,13 +174,14 @@
                                 <span>Nhập Hàng</span>
                             }
                         </p>
-                        <hr />
+
                         @if (Item.XuatNhap != false && Item.KhachLe != false)
                         {
 
                         }
                         else
                         {
+                            <hr />
                             <p style="font-size:20px">Tổng: @Html.FormatValue(Item.TongTienAuto, "{0:#,###,###}")</p>
                         }
 
@@ -270,6 +273,7 @@
 
                         }
                     </td>
+                    @*08/09/2026*@
                     <td>
                         @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in Chitiet)
                         {
@@ -277,7 +281,14 @@
                             <p style="height:70px" title="@ct.Ten">
 
                                 <span>@ct.SoLuong&nbsp;</span>
-                                <span>@tenHH</span>
+                                @if (tenHH == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1")
+                                {
+                                    <span>@tenHH</span>
+                                }
+                                else
+                                {
+                                    <span style="color:blue">@tenHH</span>
+                                }
                                 @if (ct.IDColor > 1)
                                 {
                                     <span> <span>-</span>@ct.Color.TenColor</span>

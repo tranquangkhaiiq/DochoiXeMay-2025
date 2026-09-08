@@ -3,16 +3,17 @@
     <table class="table table-hover table-striped" style="margin-bottom:0">
         <thead>
             <tr class="canhgiua" style="background-color: #00bcd4">
-                <th class="canhgiua" style="width:10px">STT</th>
+                <th class="canhgiua" style="width: 10px; padding-left: 0; padding-right: 0">STT</th>
                 @*<th class="canhgiua" style="width:10px">GioiTinh</th>*@
-                <th class="canhgiua">HinhDaiDien</th>
+                <th class="canhgiua" style="padding-left: 0; padding-right: 0">HDaiDien</th>
                 <th class="canhgiua">GioiTinh</th>
                 <th class="canhgiua" style="width:100px">Tên NV</th>
+                <th class="canhgiua">NgaySinh</th>
                 <th class="canhgiua">CanCuocCongDan</th>
                 <th class="canhgiua">DiaChiThuongTru</th>
                 <th class="canhgiua">DiaChiHienTai</th>
 
-                <th class="canhgiua">CongViec</th>
+                <th class="canhgiua">Bank</th>
                 <th class="canhgiua">BangCapChinh</th>
                 <th class="canhgiua">Vị Trí</th>
                 <th class="canhgiua">ThuViec</th>
@@ -73,6 +74,9 @@
                     </td>
                     <td>
                         @Item.HoTen
+                    </td>
+                    <td>
+                        @Html.FormatValue(Item.NgayUpdate, "{0:dd/MM/yyyy}")
                     </td>
                     <td style="font-size:15px">
                         @Item.CCCD

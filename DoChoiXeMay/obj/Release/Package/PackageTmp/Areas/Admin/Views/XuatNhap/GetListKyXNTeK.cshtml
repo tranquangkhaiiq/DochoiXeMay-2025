@@ -157,14 +157,18 @@
                                 {
                                     <span style="background-color:burlywood">Xuất Hàng/KhachLe</span>
                                     <span>(Ngày: @Html.FormatValue(Item.NgayXuatNhap, "{0:dd/MM/yyyy}"))</span>
+
                                 }
                                 else
                                 {
                                     <span style="background-color:burlywood">Xuất Hàng/ĐaiLy</span>
                                 }
-                                if (Item.IdLoaiHangXN == 3 || Item.IdLoaiHangXN == 4)
+                                if (Item.IdLoaiHangXN == 1)
                                 {
-                                    <span style="background-color:burlywood">@Item.KyXuatNhap_LoaiHang.TenLoai</span>
+                                    <h6 style="background-color:cadetblue;color:white">@Item.KyXuatNhap_LoaiHang.TenLoai</h6>
+                                }
+                                else {
+                                    <h5 style="background-color:cadetblue">@Item.KyXuatNhap_LoaiHang.TenLoai</h5>
                                 }
                             }
                             else
@@ -277,7 +281,14 @@
                             <p style="height:70px" title="@ct.Ten">
 
                                 <span>@ct.SoLuong&nbsp;</span>
-                                <span>@tenHH</span>
+                                @if (tenHH == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1")
+                                {
+                                    <span>@tenHH</span>
+                                }
+                                else
+                                {
+                                    <span style="color:blue">@tenHH</span>
+                                }
                                 @if (ct.IDColor > 1)
                                 {
                                     <span> <span>-</span>@ct.Color.TenColor</span>

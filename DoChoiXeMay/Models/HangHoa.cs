@@ -44,6 +44,7 @@ namespace DoChoiXeMay.Models
 
         [StringLength(200)]
         public string GhiChu { get; set; }
+        public bool Main { get; set; }
 
         public virtual Color Color { get; set; }
 

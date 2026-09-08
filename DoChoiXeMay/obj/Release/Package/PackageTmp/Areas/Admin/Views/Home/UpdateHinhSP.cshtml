@@ -28,7 +28,7 @@
                 </h1>
                 <div class="contentform">
                     <div class="row">
-                        <div class="col-sm-9">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <p>Số Lượng <span></span></p>
                                 <span class="icon-case"><i class="glyphicon glyphicon-import"></i></span>
@@ -40,6 +40,13 @@
                                 {
                                     @Html.TextBoxFor(m => m.SoLuong, new { @class = "form-control", @type = "number", style = "width: 100%; height: 40px", @disabled = true })
                                 }
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <p>Main(SP chính) <span></span></p>
+                                @Html.CheckBoxFor(m => m.Main, new { @style = "height:20px;margin-left: -30%" })
+
                             </div>
                         </div>
                     </div>

@@ -227,7 +227,16 @@
                                     }
                                 </span>
                                 <span>@ct.SoLuong&nbsp;</span>
-                                <span>@tenHH</span>
+                                @*08/09/2026*@
+                                @if (tenHH == "Xi Nhan Wave TNT BLOCKX G2 ZEN 1")
+                                {
+                                    <span>@tenHH</span>
+                                }
+                                else
+                                {
+                                    <span style="color:blue">@tenHH</span>
+                                }
+                                @*08/09/2026*@
                                 @if (ct.IDColor > 1)
                                 {
                                     <span> <span>-</span>@ct.Color.TenColor</span>

@@ -139,6 +139,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
                 model.Name = "Auto";
                 model.Ngay = DateTime.Now;
                 model.Idvitri = 1;
+                model.Idbaiviet = 1;
                 model.Sudung = false;
                 model.Img = true;
                 model.Idloai_socials = 1;
@@ -180,6 +181,7 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             var model = dbc.QCtrangchus.Find(Id);
             ViewBag.Idvitri = new SelectList(dbc.QCVitris.ToList(), "Id", "Vitri", model.Idvitri);
             ViewBag.Idloai_socials = new SelectList(dbc.Loai_Socials.ToList(), "Id", "Loai", model.Idloai_socials);
+            ViewBag.Idbaiviet = new SelectList(dbc.QCbaiviets.ToList(), "Id", "TieuDe", model.Idbaiviet);
             return View(model);
         }
         [HttpPost]

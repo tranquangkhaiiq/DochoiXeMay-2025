@@ -19,7 +19,8 @@ namespace DoChoiXeMay.Controllers
         Model1 dbc = new Model1();
         public ActionResult Index()
         {
-            ViewBag.GetPanelNgang   = dbc.QCtrangchus.Where(kh=>kh.Idvitri== 1 && kh.Sudung == true && kh.Img == true).ToList();
+            ViewBag.GetPanelNgang   = dbc.QCtrangchus.Where(kh=>kh.Idvitri== 1 && kh.Sudung == true && kh.Img == true)
+                            .OrderByDescending(kh => kh.Ghichu).ToList();
             ViewBag.GetPanelDoc     = dbc.QCtrangchus.Where(kh=>kh.Idvitri== 2 && kh.Sudung==true && kh.Img==true).ToList();
             return View();
         }

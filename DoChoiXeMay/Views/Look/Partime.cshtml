@@ -48,20 +48,26 @@
         
         <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-sx-12 col-12" style="">
             <div class="row">
-                <div class="col-lg-8 col-xl-8 col-md-8 col-sm-10 col-sx-10 col-10" style="">
-                    <h3 style="text-align:right;margin-bottom:20px">
-                        <a style="text-decoration: none">
-                            Bảng Thống Kê Tổng HợpTeK
-                        </a>
-                        @*Đồ thị*@
-                    </h3>
-                </div>
-                <div class="col-lg-2 col-xl-2 col-md-2 col-sm-2 col-sx-2 col-2" style="padding-top: 35px;text-align:center">
+                <h3 style="text-align:center;margin-bottom:20px">
+                    <a style="text-decoration: none">
+                        Bảng Thống Kê Tổng HợpTeK
+                    </a>
+                </h3>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-xl-3 col-md-3 col-sm-3 col-sx-2 col-2" style="padding-bottom: 20px; text-align: center"></div>
+                <div class="col-lg-2 col-xl-2 col-md-2 col-sm-2 col-sx-2 col-2" style="padding-bottom:20px;text-align:center">
                     <select class="form-control" id="YearXiNhan" name="YearXiNhan">
                         <option value="0">Chọn năm</option>
                         <option value="2025">2025</option>
                         <option value="2026">2026</option>
                         <option value="2027">2027</option>
+                    </select>
+                </div>
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-10 col-sx-10 col-10" style="padding-bottom: 20px; text-align: center">
+                    <select class="form-control" id="NameXiNhan" name="NameXiNhan">
+                        <option value="0">Wave TNT BLOCKX G2 ZEN 1</option>
+                        <option value="1">Wave TNT BLOCKX G2 _ Vibes</option>
                     </select>
                 </div>
             </div>
@@ -83,28 +89,57 @@
     </div>
     <h3 style="text-align:center;margin-bottom:20px"><a style="text-decoration: none">Danh Sách sản phẩm xuất/nhập TeK</a></h3>
     <h5 style="text-align:center;margin-bottom:20px"><a style="text-decoration: none">(Chỉ Xem - Muốn update thì vào admin)</a></h5>
-    <div class="row">
-        <div class="col-lg-4 col-xl-4 col-md-4 col-sm-6" style="margin-top: 10px">
-            <span style="margin-left:10px; color:brown">Tồn Kho 311 TNT BLOCKX G2 ZEN 1-Trong: @ViewBag.TrongTon311</span>
+    <div style="border:2px solid">
+        <div style="border-bottom:dotted;font-size:small">
+            <div class="row">
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-6" style="margin-top: 10px">
+                    <span style="margin-left:10px; color:brown">Tồn Kho 311 TNT BLOCKX G2 ZEN 1-Trong: @ViewBag.TrongTon311</span>
+                </div>
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-0" style="margin-top: 10px">
+                    <span style="margin-left:10px; color:blue">XiNhan G2 ZEN 1-Trong(Chưa Vô Hộp): @ViewBag.TrongTonChuaVoHop</span>
+                </div>
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-6" style="margin-top: 10px">
+                    <span style="margin-left: 10px; color: red ">Tồn Kho Hưng_HN TNT BLOCKX G2 ZEN 1-Trong: @ViewBag.TrongTonKho2</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-6" style="margin-top: 10px">
+                    <span style="margin-left: 10px; color: brown ">Tồn Kho 311 TNT BLOCKX G2 ZEN 1-Khói: @ViewBag.KhoiTon311</span>
+                </div>
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-0" style="margin-top: 10px">
+                    <span style="margin-left:10px; color:blue">XiNhan G2 ZEN 1-Khói(Chưa Vô Hộp): @ViewBag.KhoiTonChuaVoHop</span>
+                </div>
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-6" style="margin-top: 10px">
+                    <span style="margin-left: 10px; color: red ">Tồn Kho Hưng_HN TNT BLOCKX G2 ZEN 1-Khói: @ViewBag.KhoiTonKho2</span>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-4 col-xl-4 col-md-4 col-sm-0" style="margin-top: 10px">
-            <span style="margin-left:10px; color:blue">XiNhan G2 ZEN 1-Trong(Chưa Vô Hộp): @ViewBag.TrongTonChuaVoHop</span>
-        </div>
-        <div class="col-lg-4 col-xl-4 col-md-4 col-sm-6" style="margin-top: 10px">
-            <span style="margin-left: 10px; color: red ">Tồn Kho Hưng_HN TNT BLOCKX G2 ZEN 1-Trong: @ViewBag.TrongTonKho2</span>
+        <div style="">
+            <div class="row">
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-6" style="margin-top: 10px">
+                    <span style="margin-left:10px; color:brown">Tồn Kho 311 Viber-Trong: @ViewBag.TrongTon311Viber</span>
+                </div>
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-0" style="margin-top: 10px">
+                    <span style="margin-left:10px; color:blue">XiNhan Viber-Trong(Chưa Vô Hộp): @ViewBag.TrongTonChuaVoHopViber</span>
+                </div>
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-6" style="margin-top: 10px">
+                    <span style="margin-left: 10px; color: red ">Tồn Kho Hưng_HN Viber-Trong: 0</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-6" style="margin-top: 10px">
+                    <span style="margin-left: 10px; color: brown ">Tồn Kho 311 Viber-Khói: @ViewBag.KhoiTon311Viber</span>
+                </div>
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-0" style="margin-top: 10px;">
+                    <span style="margin-left:10px; color:blue">XiNhan Viber-Khói(Chưa Vô Hộp): @ViewBag.KhoiTonChuaVoHopViber</span>
+                </div>
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-6" style="margin-top: 10px">
+                    <span style="margin-left: 10px; color: red ">Tồn Kho Hưng_HN Viber-Khói: 0</span>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-4 col-xl-4 col-md-4 col-sm-6" style="margin-top: 10px">
-            <span style="margin-left: 10px; color: brown ">Tồn Kho 311 TNT BLOCKX G2 ZEN 1-Khói: @ViewBag.KhoiTon311</span>
-        </div>
-        <div class="col-lg-4 col-xl-4 col-md-4 col-sm-0" style="margin-top: 10px">
-            <span style="margin-left:10px; color:blue">XiNhan G2 ZEN 1-Khói(Chưa Vô Hộp): @ViewBag.KhoiTonChuaVoHop</span>
-        </div>
-        <div class="col-lg-4 col-xl-4 col-md-4 col-sm-6" style="margin-top: 10px">
-            <span style="margin-left: 10px; color: red ">Tồn Kho Hưng_HN TNT BLOCKX G2 ZEN 1-Khói: @ViewBag.KhoiTonKho2</span>
-        </div>
-    </div>
+    
     <div class="panel panel-default" style="margin-top:10px">
         <div class="panel-heading">
             <div class="row">
@@ -172,6 +207,8 @@
         TongSP = 0;
         var KeywordsTT = $('#KeywordsTT').val();
         var YearXiNhan = $('#YearXiNhan').val();
+        //12/08/2026
+        var NameXiNhan = $('#NameXiNhan').val();
         LoadLoaiKyXN()
         LoadSanTMDT()
         var UserId = 0;
@@ -180,7 +217,7 @@
         var IdDoiTra = $('#IdDoiTra').val();
         var tungay = $('#tungay').val();
         getTongSanPham(tungay, pageSize, pageNo, UserId, KeywordsTT, idLoaiHangXN, IdSan, IdDoiTra)
-        LoadPagedothi(YearXiNhan)
+        LoadPagedothi(YearXiNhan, NameXiNhan)
         $(".pager a:eq(0)").click(function () {
             if (pageNo > 0) {
                 pageNo = 0;
@@ -253,10 +290,10 @@
             }
         });
     };
-    function LoadPagedothi(YearXiNhan) {
+    function LoadPagedothi(YearXiNhan, NameXiNhan) {
         $.ajax({
             url: "/Look/DoThiThongKe",
-            data: { nam: YearXiNhan },
+            data: { nam: YearXiNhan, Xinhan: NameXiNhan },
             success: function (res) {
                 $(".DoThiTK").html(res);
             }
@@ -328,7 +365,13 @@
     ////
     $("#YearXiNhan").change(function () {
         var YearXiNhan = $('#YearXiNhan').val();
-        LoadPagedothi(YearXiNhan);
+        var NameXiNhan = $('#NameXiNhan').val();
+        LoadPagedothi(YearXiNhan, NameXiNhan);
+    });
+    $("#NameXiNhan").change(function () {
+        var YearXiNhan = $('#YearXiNhan').val();
+        var NameXiNhan = $('#NameXiNhan').val();
+        LoadPagedothi(YearXiNhan, NameXiNhan);
     });
     ////
     function TimKiemKyXN() {
