@@ -39,7 +39,7 @@
                     var hh = DateTime.Parse(Item.Ghichu);
                     var tang = Item.Ser_sp.HangTangKhongBan;
                     <tr class="canhgiua" style="border-bottom: 2px solid black !important">
-                        <td>@Item.NgayKichHoat</td>
+                        <td>@Html.FormatValue(Item.NgayKichHoat, "{0:dd/MM/yyyy}")</td>
                         <td>@Item.Ser_box.Serial</td>
                         <td>@Item.Ser_sp.SerialSP</td>
                         <td>

@@ -45,14 +45,14 @@
                                 <p>Lưu ý: @Item.LuuKho</p>
                             }
                         }
-                        <hr />
+
                         @if (Item.XuatNhap != false && Item.KhachLe != false)
                         {
 
                         }
                         else
                         {
-                            @*<p>(Ngày: @Html.FormatValue(Item.NgayXuatNhap, "{0:dd/MM/yyyy}"))</p>*@
+                            <hr />
                             <p>Ngày: @Item.NgayXuatNhap</p>
                         }
 
@@ -86,13 +86,14 @@
                         {
                             <p style="font-size: 15px"><span>Nhập Hàng</span></p>
                         }
-                        <hr />
+
                         @if (Item.XuatNhap != false && Item.KhachLe != false)
                         {
 
                         }
                         else
                         {
+                            <hr />
                             <p style="font-size:20px">Tổng: @Html.FormatValue(Item.TongTienAuto, "{0:#,###,###}")</p>
                         }
 
