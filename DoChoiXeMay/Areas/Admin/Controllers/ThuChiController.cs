@@ -30,6 +30,14 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
         {
             Session["requestUri"] = "/Admin/ThuChi/ListThuChiTeK";
             ViewBag.IdHT = new SelectList(dbc.HinhThucTCs.Where(kh=>kh.SuDung==true).ToList(), "Id", "TenHT");
+            // Lấy ngày hiện tại
+            DateTime date = DateTime.Now;
+            CultureInfo ci = CultureInfo.CurrentCulture; // Sử dụng hiện tại của hệ thống
+            Calendar cal = ci.Calendar;
+            CalendarWeekRule rule = ci.DateTimeFormat.CalendarWeekRule;
+            DayOfWeek firstDayOfWeek = ci.DateTimeFormat.FirstDayOfWeek;
+            int weekNumber = cal.GetWeekOfYear(date, rule, firstDayOfWeek);
+            ViewBag.TuanHT = weekNumber;
             return View();
         }
         public ActionResult GetListThuChiTek(string tu, string den,string TC,string TNO,string strk, int httc=0, int PageNo = 0, int PageSize = 8)

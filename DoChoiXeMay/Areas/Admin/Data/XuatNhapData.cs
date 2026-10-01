@@ -159,19 +159,10 @@ namespace DoChoiXeMay.Areas.Admin.Data
             {
                 tungay = DateTime.Parse(ngay);
             }
-            
-            var ctxnbySerial = db.ChitietXuatNhaps.FirstOrDefault(kh=>kh.SoLuong == 1 && (kh.SerialHop.ToLower() == strk || kh.SerialSP.ToLower() == strk));
-            
-            if (ctxnbySerial == null)//Không phải Serial thì dò theo tên
+            //30/09/2026
+            if(strk != "")
             {
-                model = db.KyXuatNhaps.Where(kh => kh.Id > 1 && kh.AdminXNPUSH == true
-                    && kh.UPush == true && kh.TenKy.ToLower().Contains(strk))
-                    .OrderBy(kh => kh.NgayAuto).ToList();
-            }
-            else if(ctxnbySerial !=null)
-            {
-                //lấy tất cả các dòng
-                var ctxnbySerialList = db.ChitietXuatNhaps.Where(kh => kh.SerialHop.ToLower() == strk || kh.SerialSP.ToLower() == strk).ToList();
+                var ctxnbySerialList = db.ChitietXuatNhaps.Where(kh => kh.SerialHop.ToLower().Contains(strk) || kh.SerialSP.ToLower().Contains(strk)).ToList();
                 for (int i = 0; i < ctxnbySerialList.Count; i++)
                 {
                     var id = ctxnbySerialList[i].IdKy;
@@ -179,8 +170,40 @@ namespace DoChoiXeMay.Areas.Admin.Data
                     && kh.UPush == true && kh.Id == id);
                     model.Add(getky);
                 }
-                
+                if (ctxnbySerialList.Count == 0)
+                {
+                    model = db.KyXuatNhaps.Where(kh => kh.Id > 1 && kh.AdminXNPUSH == true
+                    && kh.UPush == true && kh.TenKy.ToLower().Contains(strk))
+                    .OrderBy(kh => kh.NgayAuto).ToList();
+                }
             }
+            else
+            {
+                model = db.KyXuatNhaps.Where(kh => kh.Id > 1 && kh.AdminXNPUSH == true
+                && kh.UPush == true).OrderBy(kh => kh.NgayAuto).ToList();
+            }
+                
+            //var ctxnbySerial = db.ChitietXuatNhaps.FirstOrDefault(kh=>kh.SoLuong == 1 && (kh.SerialHop.ToLower() == strk || kh.SerialSP.ToLower() == strk));
+
+            //if (ctxnbySerial == null)//Không phải Serial thì dò theo tên
+            //{
+            //    model = db.KyXuatNhaps.Where(kh => kh.Id > 1 && kh.AdminXNPUSH == true
+            //        && kh.UPush == true && kh.TenKy.ToLower().Contains(strk))
+            //        .OrderBy(kh => kh.NgayAuto).ToList();
+            //}
+            //else if(ctxnbySerial !=null)
+            //{
+            //    //lấy tất cả các dòng
+            //    var ctxnbySerialList = db.ChitietXuatNhaps.Where(kh => kh.SerialHop.ToLower().Contains(strk) || kh.SerialSP.ToLower().Contains(strk)).ToList();
+            //    for (int i = 0; i < ctxnbySerialList.Count; i++)
+            //    {
+            //        var id = ctxnbySerialList[i].IdKy;
+            //        KyXuatNhap getky = db.KyXuatNhaps.FirstOrDefault(kh => kh.Id > 1 && kh.AdminXNPUSH == true
+            //        && kh.UPush == true && kh.Id == id);
+            //        model.Add(getky);
+            //    }
+
+            //}
             if (Iddoitra > 0)
             {
                 model = new List<KyXuatNhap>();

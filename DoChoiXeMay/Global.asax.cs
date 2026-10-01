@@ -49,6 +49,14 @@ namespace DoChoiXeMay
         }
         protected void Session_Start()
         {
+            //01/10/2026
+            string userAgent = Request.UserAgent?.ToLower() ?? "";
+            if (userAgent.Contains("bot") || userAgent.Contains("spider") || userAgent.Contains("crawler"))
+            {
+                // Bỏ qua không đếm nếu là Bot
+                return;
+            }
+            //01/10/2026
             Application.Lock();
             var visitors = (int)Application["Visitors"];
 
