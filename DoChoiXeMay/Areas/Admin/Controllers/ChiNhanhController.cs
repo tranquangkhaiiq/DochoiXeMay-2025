@@ -260,7 +260,8 @@ namespace DoChoiXeMay.Areas.Admin.Controllers
             else if (modelct == null && modelctKho != null)
             {
                 Session["ThongBaoLoiSN_ChiNhanh"] = "";
-                Session["ThongBaoXuatSN_ChiNhanh"] = "Số serial: " + Serial + " đang ở Kho :"+ modelctKho.Ser_XuatSN_CN.Ser_ChiNhanh.TenChiNhanh;
+                Session["ThongBaoXuatSN_ChiNhanh"] = "Số serial: " + Serial + " đang ở Kho :"+ modelctKho.Ser_XuatSN_CN.Ser_ChiNhanh.TenChiNhanh 
+                                    +" có Id=" + modelctKho.IdSN_CN + ".!!!";
             }
             else if(modelctxn !=null && modelct == null)
             {
