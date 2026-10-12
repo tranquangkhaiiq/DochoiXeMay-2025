@@ -5,92 +5,119 @@
     .tomau {
         background-color: darkkhaki;
     }
+    .anan {
+        display:none;
+    }
 </style>
 <div class="table-responsive">
     <table class="table">
         <thead>
-            <tr style="background-color: darkkhaki">
-                <th style="border-right: 1px solid black; text-align: center"></th>
-                <th colspan="3" style="border-right: 2px solid black; text-align: center">Thu 2</th>
-                <th colspan="3" style="border-right: 2px solid black; text-align: center">Thu 3</th>
-                <th colspan="3" style="border-right: 2px solid black; text-align: center">Thu 4</th>
-                <th colspan="3" style="border-right: 2px solid black; text-align: center">Thu 5</th>
-                <th colspan="3" style="border-right: 2px solid black; text-align: center">Thu 6</th>
-                <th colspan="3" style="border-right: 2px solid black; text-align: center">Thu 7</th>
-                <th colspan="3" style="border-right: 2px solid black; text-align: center">Chu Nhat</th>
-            </tr>
-            <tr style="background-color: #00bcd4; border-bottom: 2px solid black">
-                <th style="border-right: 1px solid black; border-bottom: 1px solid black; text-align: center">HoTen</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center ">S</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
-                <th style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">S</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
-                <th style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">S</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
-                <th style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">S</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
-                <th style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">S</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
-                <th style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">S</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
-                <th style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">S</th>
-                <th style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
-                <th style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
-            </tr>
-            @foreach (DoChoiXeMay.Models.NV_LichTuanParTime item in ViewBag.GetLichTuan)
+            @if (Model != null)
             {
-                var SangT2 = @item.SangT2 == true ? "X" : "";
-                var ChieuT2 = @item.ChieuT2 == true ? "X" : "";
-                var ToiT2 = @item.ToiT2 == true ? "X" : "";
-                var SangT3 = @item.SangT3 == true ? "X" : "";
-                var ChieuT3 = @item.ChieuT3 == true ? "X" : "";
-                var ToiT3 = @item.ToiT3 == true ? "X" : "";
-                var SangT4 = @item.SangT4 == true ? "X" : "";
-                var ChieuT4 = @item.ChieuT4 == true ? "X" : "";
-                var ToiT4 = @item.ToiT4 == true ? "X" : "";
-                var SangT5 = @item.SangT5 == true ? "X" : "";
-                var ChieuT5 = @item.ChieuT5 == true ? "X" : "";
-                var ToiT5 = @item.ToiT5 == true ? "X" : "";
-                var SangT6 = @item.SangT6 == true ? "X" : "";
-                var ChieuT6 = @item.ChieuT6 == true ? "X" : "";
-                var ToiT6 = @item.ToiT6 == true ? "X" : "";
-                var SangT7 = @item.SangT7 == true ? "X" : "";
-                var ChieuT7 = @item.ChieuT7 == true ? "X" : "";
-                var ToiT7 = @item.ToiT7 == true ? "X" : "";
-                var SangCN = @item.SangCN == true ? "X" : "";
-                var ChieuCN = @item.ChieuCN == true ? "X" : "";
-                var ToiCN = @item.ToiCN == true ? "X" : "";
+                var clT2 = ""; var clT3 = ""; var clT4 = ""; var clT5 = ""; var clT6 = ""; var clT7 = ""; var clCN = "";
+                var SangT2 = ""; var ChieuT2=""; var ToiT2=""; var SangT3 = ""; var ChieuT3=""; var ToiT3="";
+                var SangT4 = ""; var ChieuT4=""; var ToiT4=""; var SangT5 = ""; var ChieuT5=""; var ToiT5="";
+                var SangT6 = ""; var ChieuT6 = ""; var ToiT6 = ""; var SangT7 = ""; var ChieuT7 = ""; var ToiT7 = "";
+                var SangCN = ""; var ChieuCN = ""; var ToiCN = "";
+                foreach (DoChoiXeMay.Models.NV_LichTuanParTime item in ViewBag.GetLichTuan)
+                {
+                    SangT2 = @item.SangT2 == true ? "X" : "";
+                    ChieuT2 = @item.ChieuT2 == true ? "X" : "";
+                    ToiT2 = @item.ToiT2 == true ? "X" : "";
+                    SangT3 = @item.SangT3 == true ? "X" : "";
+                    ChieuT3 = @item.ChieuT3 == true ? "X" : "";
+                    ToiT3 = @item.ToiT3 == true ? "X" : "";
+                    SangT4 = @item.SangT4 == true ? "X" : "";
+                    ChieuT4 = @item.ChieuT4 == true ? "X" : "";
+                    ToiT4 = @item.ToiT4 == true ? "X" : "";
+                    SangT5 = @item.SangT5 == true ? "X" : "";
+                    ChieuT5 = @item.ChieuT5 == true ? "X" : "";
+                    ToiT5 = @item.ToiT5 == true ? "X" : "";
+                    SangT6 = @item.SangT6 == true ? "X" : "";
+                    ChieuT6 = @item.ChieuT6 == true ? "X" : "";
+                    ToiT6 = @item.ToiT6 == true ? "X" : "";
+                    SangT7 = @item.SangT7 == true ? "X" : "";
+                    ChieuT7 = @item.ChieuT7 == true ? "X" : "";
+                    ToiT7 = @item.ToiT7 == true ? "X" : "";
+                    SangCN = @item.SangCN == true ? "X" : "";
+                    ChieuCN = @item.ChieuCN == true ? "X" : "";
+                    ToiCN = @item.ToiCN == true ? "X" : "";
 
-                <tr class="">
-                    <td style="border-right: 1px solid black; text-align: center">@item.NV_NhanVienTek.HoTen</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@SangT2</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@ChieuT2</td>
-                    <td style="border-right: 2px solid black; text-align: center">@ToiT2</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@SangT3</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@ChieuT3</td>
-                    <td style="border-right: 2px solid black; text-align: center">@ToiT3</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@SangT4</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@ChieuT4</td>
-                    <td style="border-right: 2px solid black; text-align: center">@ToiT4</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@SangT5</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@ChieuT5</td>
-                    <td style="border-right: 2px solid black; text-align: center">@ToiT5</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@SangT6</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@ChieuT6</td>
-                    <td style="border-right: 2px solid black; text-align: center">@ToiT6</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@SangT7</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@ChieuT7</td>
-                    <td style="border-right: 2px solid black; text-align: center">@ToiT7</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@SangCN</td>
-                    <td style="border-right: 1px solid #b200ff; text-align: center">@ChieuCN</td>
-                    <td style="border-right: 2px solid black; text-align: center">@ToiCN</td>
+                    if (SangT2 == "" && ChieuT2 == "" && ToiT2 == "") clT2 = "anan";
+                    if (SangT3 == "" && ChieuT3 == "" && ToiT3 == "") clT3 = "anan";
+                    if (SangT4 == "" && ChieuT4 == "" && ToiT4 == "") clT4 = "anan";
+                    if (SangT5 == "" && ChieuT5 == "" && ToiT5 == "") clT5 = "anan";
+                    if (SangT6 == "" && ChieuT6 == "" && ToiT6 == "") clT6 = "anan";
+                    if (SangT7 == "" && ChieuT7 == "" && ToiT7 == "") clT7 = "anan";
+                    if (SangCN == "" && ChieuCN == "" && ToiCN == "") clCN = "anan";
+                }
+                <tr style="background-color: darkkhaki">
+                    <th class="" style="border-right: 1px solid black; text-align: center"></th>
+                    <th class="@clT2" colspan="3" style="border-right: 2px solid black; text-align: center">Thu 2</th>
+                    <th class="@clT3" colspan="3" style="border-right: 2px solid black; text-align: center">Thu 3</th>
+                    <th class="@clT4" colspan="3" style="border-right: 2px solid black; text-align: center">Thu 4</th>
+                    <th class="@clT5" colspan="3" style="border-right: 2px solid black; text-align: center">Thu 5</th>
+                    <th class="@clT6" colspan="3" style="border-right: 2px solid black; text-align: center">Thu 6</th>
+                    <th class="@clT7" colspan="3" style="border-right: 2px solid black; text-align: center">Thu 7</th>
+                    <th class="@clCN" colspan="3" style="border-right: 2px solid black; text-align: center">Chu Nhat</th>
                 </tr>
+                <tr style="background-color: #00bcd4; border-bottom: 2px solid black">
+                    <th class="" style="border-right: 1px solid black; border-bottom: 1px solid black; text-align: center">HoTen</th>
+                    <th class="@clT2" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center ">S</th>
+                    <th class="@clT2" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
+                    <th class="@clT2" style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
+                    <th class="@clT3" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">S</th>
+                    <th class="@clT3" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
+                    <th class="@clT3" style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
+                    <th class="@clT4" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">S</th>
+                    <th class="@clT4" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
+                    <th class="@clT4" style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
+                    <th class="@clT5" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">S</th>
+                    <th class="@clT5" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
+                    <th class="@clT5" style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
+                    <th class="@clT6" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">S</th>
+                    <th class="@clT6" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
+                    <th class="@clT6" style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
+                    <th class="@clT7" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">S</th>
+                    <th class="@clT7" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
+                    <th class="@clT7" style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
+                    <th class="@clCN" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">S</th>
+                    <th class="@clCN" style="border-right: 1px solid #b200ff; border-bottom: 1px solid black; text-align: center">C</th>
+                    <th class="@clCN" style="border-right: 2px solid black; border-bottom: 1px solid black; text-align: center">T</th>
+                </tr>
+                foreach (DoChoiXeMay.Models.NV_LichTuanParTime item in ViewBag.GetLichTuan)
+                {
+                    <tr class="">
+                        <td class="@clT2" style="border-right: 1px solid black; text-align: center">@item.NV_NhanVienTek.HoTen</td>
+                        <td class="@clT2" style="border-right: 1px solid #b200ff; text-align: center">@SangT2</td>
+                        <td class="@clT2" style="border-right: 1px solid #b200ff; text-align: center">@ChieuT2</td>
+                        <td class="@clT2" style="border-right: 2px solid black; text-align: center">@ToiT2</td>
+
+                        <td class="@clT3" style="border-right: 1px solid #b200ff; text-align: center">@SangT3</td>
+                        <td class="@clT3" style="border-right: 1px solid #b200ff; text-align: center">@ChieuT3</td>
+                        <td class="@clT3" style="border-right: 2px solid black; text-align: center">@ToiT3</td>
+
+                        <td class="@clT4" style="border-right: 1px solid #b200ff; text-align: center">@SangT4</td>
+                        <td class="@clT4" style="border-right: 1px solid #b200ff; text-align: center">@ChieuT4</td>
+                        <td class="@clT4" style="border-right: 2px solid black; text-align: center">@ToiT4</td>
+
+                        <td class="@clT5" style="border-right: 1px solid #b200ff; text-align: center">@SangT5</td>
+                        <td class="@clT5" style="border-right: 1px solid #b200ff; text-align: center">@ChieuT5</td>
+                        <td class="@clT5" style="border-right: 2px solid black; text-align: center">@ToiT5</td>
+
+                        <td class="@clT6" style="border-right: 1px solid #b200ff; text-align: center">@SangT6</td>
+                        <td class="@clT6" style="border-right: 1px solid #b200ff; text-align: center">@ChieuT6</td>
+                        <td class="@clT6" style="border-right: 2px solid black; text-align: center">@ToiT6</td>
+
+                        <td class="@clT7" style="border-right: 1px solid #b200ff; text-align: center">@SangT7</td>
+                        <td class="@clT7" style="border-right: 1px solid #b200ff; text-align: center">@ChieuT7</td>
+                        <td class="@clT7" style="border-right: 2px solid black; text-align: center">@ToiT7</td>
+
+                        <td class="@clCN" style="border-right: 1px solid #b200ff; text-align: center">@SangCN</td>
+                        <td class="@clCN" style="border-right: 1px solid #b200ff; text-align: center">@ChieuCN</td>
+                        <td class="@clCN" style="border-right: 2px solid black; text-align: center">@ToiCN</td>
+                    </tr>
+                }
             }
         </thead>
 

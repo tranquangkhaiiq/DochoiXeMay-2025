@@ -4,6 +4,9 @@
     .tomau {
         background-color: darkkhaki;
     }
+    .khohn {
+        background-color: darksalmon;
+    }
     .canhgiua {
         text-align: center !important;
     }
@@ -38,7 +41,7 @@
             <tbody style="border: 2px solid black !important">
                 @foreach (DoChoiXeMay.Models.Ser_XuatSN_CN Item in ViewBag.GetListSNchinhanh)
                 {
-                    var cl = "";
+                    var cl = ""; var khochua = "";
                     if (Item.ChuyenKho == true)
                     {
                         cl = "tomau";
@@ -46,6 +49,14 @@
                     else
                     {
                         cl = "";
+                    }
+                    if (Item.KyXuatNhap.IdKho == 2)
+                    {
+                        khochua = "khohn";
+                    }
+                    else
+                    {
+                        khochua = "";
                     }
                     var kho = Item.KyXuatNhap.Kho.TenKho;
                     UserTek User = new UserTek();
@@ -57,7 +68,7 @@
                     <tr class="canhgiua" style="border-bottom: 2px solid black !important">
                         <td>@Item.Id</td>
                         <td>@User.UserName</td>
-                        <td>@kho</td>
+                        <td class="@khochua">@kho</td>
                         <td class="@cl">@Item.ChuyenKho</td>
                         <td>
                             @Item.KyXuatNhap.TenKy
