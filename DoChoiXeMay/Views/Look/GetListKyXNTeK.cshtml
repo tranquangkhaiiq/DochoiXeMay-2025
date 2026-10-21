@@ -53,7 +53,18 @@
                         else
                         {
                             <hr />
-                            <p>Ngày: @Item.NgayXuatNhap</p>
+                            <p>
+                                (
+                                @if (Item.IdKho > 1)
+                                {
+                                    <span style="color:darkblue;font-weight:bold">@Item.Kho.TenKho</span>
+                                }
+                                else
+                                {
+                                    <span>@Item.Kho.TenKho</span>
+                                }
+                                : @Item.NgayXuatNhap)
+                            </p>
                         }
 
                     </td>

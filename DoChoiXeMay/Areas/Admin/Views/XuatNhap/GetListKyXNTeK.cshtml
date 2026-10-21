@@ -26,7 +26,7 @@
                 <th class="canhgiua">Soluong/Tên Hàng/ThôngSố/Hãng</th>
                 <th class="canhgiua">Giá</th>
                 <th class="canhgiua" style="max-width: 15px">H1</th>
-                
+
                 <th class="canhgiua" style="max-width: 15px">STT</th>
 
             </tr>
@@ -141,8 +141,23 @@
                         }
                         else
                         {
+
+
                             <hr />
-                            <p>(Ngày: @Html.FormatValue(Item.NgayXuatNhap, "{0:dd/MM/yyyy}"))</p>
+
+
+                            <p>
+                                (
+                                @if (Item.IdKho > 1)
+                                {
+                                    <span style="color: crimson; font-weight: bold">@Item.Kho.TenKho</span>
+                                }
+                                else
+                                {
+                                    <span>@Item.Kho.TenKho</span>
+                                }
+                                : @Html.FormatValue(Item.NgayXuatNhap, "{0:dd/MM/yyyy}"))
+                            </p>
                         }
 
                     </td>
@@ -304,7 +319,7 @@
                                         <span> <span>-</span>@ct.Color.TenColor</span>
                                     }
                                 }
-                                @if ( ct.IDMF !=5)
+                                @if (ct.IDMF != 5)
                                 {
                                     <span> <span>-</span>@ct.Manufacturer.Name</span>
                                 }
@@ -353,8 +368,6 @@
                         }
 
                     </td>
-                    
-                    
                     <td>
                         @foreach (DoChoiXeMay.Models.ChitietXuatNhap ct in Chitiet)
                         {
