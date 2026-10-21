@@ -59,14 +59,18 @@
                     </select>
                 </div>
                 <div class="col-lg-2 col-xl-2 col-md-2 col-sm-6" style="text-align:center">
+                    <div class="row" style="text-align: center; margin-bottom: 10px;margin-top:10px">
+                        <h5>Hiện tại là tuần @ViewBag.TuanHT năm 2026 </h5>
+                    </div>
                     @Html.DropDownList("IdHT", null, new { style = "width: 70%; height: 40px" })
+
                 </div>
 
 
-                <div class="col-lg-5 col-xl-5 col-md-5 col-sm-6" style="text-align:center">
-                    <input type="text" class="form-control input-sm" style="margin-top: 5px;font-size: medium; height: 40px; width: 95%" name="KeywordsTT" id="KeywordsTT" onchange="TimKiemsp()" placeholder="Enter Tìm Theo UserName - Nội Dung - Mã TC - Hình Thức TC - Kỳ Xuất Nhập." />
+                    <div class="col-lg-5 col-xl-5 col-md-5 col-sm-6" style="text-align:center">
+                        <input type="text" class="form-control input-sm" style="margin-top: 5px;font-size: medium; height: 40px; width: 95%" name="KeywordsTT" id="KeywordsTT" onchange="TimKiemsp()" placeholder="Enter Tìm Theo UserName - Nội Dung - Mã TC - Hình Thức TC - Kỳ Xuất Nhập." />
+                    </div>
                 </div>
-            </div>
         </div>
         <div class="panel-body">
             <img id="loading" hidden src="~/Areas/Admin/Content/img/loading.gif" />
