@@ -249,7 +249,13 @@ namespace DoChoiXeMay.Controllers
                         && kh.KyXuatNhap.NgayAuto.Year == namc && kh.KyXuatNhap.NgayAuto.Month == i).ToList();
                     Session["DaBantc" + i.ToString()] = dabanthangtc == null ? 0 : dabanthangtc.Sum(kh => kh.SoLuong);
                 }
-            
+            //28/10/2026 new
+            var namnew = DateTime.Now.Year;
+            for (int i = 2025; i < namnew; i++)
+            {
+                //tiếp tục
+            }
+            //28/10/2026 new
             return PartialView();
         }
         public ActionResult GetListKyXNTeK(string ngay = "", string strk = "", int idLHXN = 0, int IdSan = 0, int Iddoitra = 0, int PageNo = 0, int PageSize = 8, int UserId = 0)

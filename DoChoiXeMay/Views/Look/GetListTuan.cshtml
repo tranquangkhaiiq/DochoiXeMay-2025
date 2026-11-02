@@ -14,42 +14,39 @@
         <thead>
             @if (Model != null)
             {
-                var clT2 = ""; var clT3 = ""; var clT4 = ""; var clT5 = ""; var clT6 = ""; var clT7 = ""; var clCN = "";
+                var clT2 = "anan"; var clT3 = "anan"; var clT4 = "anan"; var clT5 = "anan"; var clT6 = "anan"; var clT7 = "anan"; var clCN = "anan";
                 var SangT2 = ""; var ChieuT2=""; var ToiT2=""; var SangT3 = ""; var ChieuT3=""; var ToiT3="";
                 var SangT4 = ""; var ChieuT4=""; var ToiT4=""; var SangT5 = ""; var ChieuT5=""; var ToiT5="";
                 var SangT6 = ""; var ChieuT6 = ""; var ToiT6 = ""; var SangT7 = ""; var ChieuT7 = ""; var ToiT7 = "";
                 var SangCN = ""; var ChieuCN = ""; var ToiCN = "";
                 foreach (DoChoiXeMay.Models.NV_LichTuanParTime item in ViewBag.GetLichTuan)
                 {
-                    SangT2 = @item.SangT2 == true ? "X" : "";
-                    ChieuT2 = @item.ChieuT2 == true ? "X" : "";
-                    ToiT2 = @item.ToiT2 == true ? "X" : "";
-                    SangT3 = @item.SangT3 == true ? "X" : "";
-                    ChieuT3 = @item.ChieuT3 == true ? "X" : "";
-                    ToiT3 = @item.ToiT3 == true ? "X" : "";
-                    SangT4 = @item.SangT4 == true ? "X" : "";
-                    ChieuT4 = @item.ChieuT4 == true ? "X" : "";
-                    ToiT4 = @item.ToiT4 == true ? "X" : "";
-                    SangT5 = @item.SangT5 == true ? "X" : "";
-                    ChieuT5 = @item.ChieuT5 == true ? "X" : "";
-                    ToiT5 = @item.ToiT5 == true ? "X" : "";
-                    SangT6 = @item.SangT6 == true ? "X" : "";
-                    ChieuT6 = @item.ChieuT6 == true ? "X" : "";
-                    ToiT6 = @item.ToiT6 == true ? "X" : "";
-                    SangT7 = @item.SangT7 == true ? "X" : "";
-                    ChieuT7 = @item.ChieuT7 == true ? "X" : "";
-                    ToiT7 = @item.ToiT7 == true ? "X" : "";
-                    SangCN = @item.SangCN == true ? "X" : "";
-                    ChieuCN = @item.ChieuCN == true ? "X" : "";
-                    ToiCN = @item.ToiCN == true ? "X" : "";
+                    if (@item.SangT2 == true || @item.ChieuT2 == true || @item.ToiT2 == true)
+                    {
+                        clT2 = "";
+                    }
 
-                    if (SangT2 == "" && ChieuT2 == "" && ToiT2 == "") clT2 = "anan";
-                    if (SangT3 == "" && ChieuT3 == "" && ToiT3 == "") clT3 = "anan";
-                    if (SangT4 == "" && ChieuT4 == "" && ToiT4 == "") clT4 = "anan";
-                    if (SangT5 == "" && ChieuT5 == "" && ToiT5 == "") clT5 = "anan";
-                    if (SangT6 == "" && ChieuT6 == "" && ToiT6 == "") clT6 = "anan";
-                    if (SangT7 == "" && ChieuT7 == "" && ToiT7 == "") clT7 = "anan";
-                    if (SangCN == "" && ChieuCN == "" && ToiCN == "") clCN = "anan";
+                    if (@item.SangT3 == true || @item.ChieuT3 == true || @item.ToiT3 == true)
+                    {
+                        clT3 = "";
+                    }
+                    if (@item.SangT4 == true || @item.ChieuT4 == true || @item.ToiT4 == true)
+                    {
+                        clT4 = "";
+                    }
+                    if (@item.SangT5 == true || @item.ChieuT5 == true || @item.ToiT5 == true)
+                    {
+                        clT5 = "";
+                    }
+                    if (@item.SangT6 == true || @item.ChieuT6 == true || @item.ToiT6 == true)
+                    {
+                        clT6 = "";
+                    }
+                    if (@item.SangT7 == true || @item.ChieuT7 == true || @item.ToiT7 == true)
+                    {
+                        clT7 = "";
+                    }
+                    if (@item.SangCN == true || @item.ChieuCN == true || @item.ToiCN == true) { clCN = ""; }
                 }
                 <tr style="background-color: darkkhaki">
                     <th class="" style="border-right: 1px solid black; text-align: center"></th>
@@ -87,6 +84,34 @@
                 </tr>
                 foreach (DoChoiXeMay.Models.NV_LichTuanParTime item in ViewBag.GetLichTuan)
                 {
+                    SangT2 = @item.SangT2 == true ? "X" : "";
+                    ChieuT2 = @item.ChieuT2 == true ? "X" : "";
+                    ToiT2 = @item.ToiT2 == true ? "X" : "";
+
+                    SangT3 = @item.SangT3 == true ? "X" : "";
+                    ChieuT3 = @item.ChieuT3 == true ? "X" : "";
+                    ToiT3 = @item.ToiT3 == true ? "X" : "";
+
+                    SangT4 = @item.SangT4 == true ? "X" : "";
+                    ChieuT4 = @item.ChieuT4 == true ? "X" : "";
+                    ToiT4 = @item.ToiT4 == true ? "X" : "";
+
+                    SangT5 = @item.SangT5 == true ? "X" : "";
+                    ChieuT5 = @item.ChieuT5 == true ? "X" : "";
+                    ToiT5 = @item.ToiT5 == true ? "X" : "";
+
+                    SangT6 = @item.SangT6 == true ? "X" : "";
+                    ChieuT6 = @item.ChieuT6 == true ? "X" : "";
+                    ToiT6 = @item.ToiT6 == true ? "X" : "";
+
+                    SangT7 = @item.SangT7 == true ? "X" : "";
+                    ChieuT7 = @item.ChieuT7 == true ? "X" : "";
+                    ToiT7 = @item.ToiT7 == true ? "X" : "";
+
+                    SangCN = @item.SangCN == true ? "X" : "";
+                    ChieuCN = @item.ChieuCN == true ? "X" : "";
+                    ToiCN = @item.ToiCN == true ? "X" : "";
+
                     <tr class="">
                         <td class="@clT2" style="border-right: 1px solid black; text-align: center">@item.NV_NhanVienTek.HoTen</td>
                         <td class="@clT2" style="border-right: 1px solid #b200ff; text-align: center">@SangT2</td>
